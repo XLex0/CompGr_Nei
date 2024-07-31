@@ -21,11 +21,11 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow* window);
 unsigned int loadTexture(char const* path);
 
-// Configuraci髇
+// Configuraci贸n
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-// C醡ara
+// C谩mara
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
@@ -46,7 +46,7 @@ bool diaKeyPressed = false;
 
 int main()
 {
-    // glfw: inicializaci髇 y configuraci髇
+    // glfw: inicializaci贸n y configuraci贸n
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -81,7 +81,7 @@ int main()
 
     stbi_set_flip_vertically_on_load(true);
     glEnable(GL_DEPTH_TEST);
-
+//Tomar en cuenta al guardar los shaders en sus respectivas carpetas
     // Shaders
     Shader modelShader("shaders/shader_exercise16_mloading.vs", "shaders/shader_exercise16_mloading.fs");
     Shader cupulaShader("shaders/shader_vertex_cupula.vs", "shaders/shader_fragment_cupula.fs");
@@ -89,7 +89,7 @@ int main()
 
     float vertices[] = {
             // positions          // normals           // texture coords
-            // atr醩
+            // atr谩s
             -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
              0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
              0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
@@ -151,7 +151,7 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, VBOn);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    // Atributos de posici髇
+    // Atributos de posici贸n
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     // Atributos de coordenadas de textura
@@ -174,7 +174,7 @@ int main()
     // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
     {
-        // L骻ica de tiempos por frame
+        // L贸gica de tiempos por frame
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
@@ -244,6 +244,7 @@ int main()
     return 0;
 }
 
+
 void processInput(GLFWwindow* window)
 {
     float rotacionR = glm::radians(rotacion);
@@ -274,7 +275,7 @@ void processInput(GLFWwindow* window)
         posicionZ += velocidad * 0.25f*sin(rotacionEnRadianes);
     }
 
-    // Rotaci髇
+    // Rotaci贸n el objeto en sentido de las agujas del reloj
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS&& glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
         rotacion += 30.0f * velocidad;
@@ -295,9 +296,11 @@ void processInput(GLFWwindow* window)
     }
 
 
-    // Actualiza la rotaci髇 en radianes
+    // Actualiza la rotaci贸n en radianes
     rotacionEnRadianes = glm::radians(rotacion);
 
+//Cambia entre el modo d铆a y noche cada vez que se presiona la tecla P
+    
     if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS && !diaKeyPressed)
     {
         dia = !dia;
