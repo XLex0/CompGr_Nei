@@ -1,0 +1,12 @@
+# Blender 4.2.0 MTL File: 'None'
+# www.blender.org
+
+newmtl 767c8b7b_1260_4325_b83f_f635800d9059_Standard00E280
+Ns 159.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.035810 0.035810 0.035810
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd 767c8b7b_1260_4325_b83f_f635800d9059_Standard00E280_baseColor.png
+map_Ke 767c8b7b_1260_4325_b83f_f635800d9059_Standard00E280_baseColor.png

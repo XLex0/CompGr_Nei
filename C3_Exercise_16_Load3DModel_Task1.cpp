@@ -35,6 +35,12 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+float velocidad = 0.002f;
+float posicionX = 0.0f;
+float posicionZ = 0.0f;
+float rotacion = 0.0f;
+
+
 bool dia = true;
 bool diaKeyPressed = false;
 
@@ -162,7 +168,8 @@ int main()
     cupulaShader.setInt("texture1", 0);
 
     // Cargar Modelo
-    Model ourModel("model/backpack/backpack.obj");
+    Model ourModel("model/tesla/tesla.obj");
+
 
     // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
@@ -178,43 +185,54 @@ int main()
         // Renderizar
         glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        // Transformaciones de vista/proyección
-        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 10000.0f);
+        
+        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.001f, 10000.0f);
         glm::mat4 view = camera.GetViewMatrix();
 
-        // Renderizar el modelo cargado
-        modelShader.use();
-        modelShader.setMat4("projection", projection);
-        modelShader.setMat4("view", view);
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(4.0f, 0.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-        modelShader.setMat4("model", model);
-        ourModel.Draw(modelShader);
+        cupulaShader.use();
 
-
-        // Matriz de modelo
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 4.8f, 0.0f));
-        model = glm::scale(model, glm::vec3(100.0f, 10.0f, 100.0f));
-        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-
-        cupulaShader.setMat4("model", model);
-        cupulaShader.setMat4("model", model);
-        cupulaShader.setFloat("textureWidth", 1.0f);
-        cupulaShader.setFloat("textureHeight", 1.0f);
-
+        cupulaShader.setMat4("projection", projection);
+        cupulaShader.setMat4("view", view);
         glActiveTexture(GL_TEXTURE0);
+
         if (dia) {
             glBindTexture(GL_TEXTURE_2D, cieloDia);
         }
         else {
             glBindTexture(GL_TEXTURE_2D, cieloNoche);
         }
-       
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0, 4.8f, 0.0));
+        model = glm::scale(model, glm::vec3(100.0f, 10.0f, 100.0f));
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+
+        cupulaShader.setMat4("model", model);
+        cupulaShader.setFloat("textureWidth", 1.0f);
+        cupulaShader.setFloat("textureHeight", 1.0f);
+
+
+
         glBindVertexArray(VAOn);
         glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        // Renderizar el modelo cargado
+   
+        modelShader.use();
+        modelShader.setMat4("projection", projection);
+        modelShader.setMat4("view", view);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(posicionX, 0.0f, posicionZ));
+        model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
+        modelShader.setMat4("model", model);
+        ourModel.Draw(modelShader);
+
+
+
+        // Matriz de modelo
+  
 
         // Intercambiar buffers y sondear eventos de IO
         glfwSwapBuffers(window);
@@ -228,6 +246,7 @@ int main()
 
 void processInput(GLFWwindow* window)
 {
+    float rotacionR = glm::radians(rotacion);
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
@@ -239,6 +258,45 @@ void processInput(GLFWwindow* window)
         camera.ProcessKeyboard(LEFT, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.ProcessKeyboard(RIGHT, deltaTime);
+
+    float rotacionEnRadianes = glm::radians(rotacion);
+
+    // Movimiento
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    {
+        posicionX += velocidad * cos(rotacionEnRadianes);
+        posicionZ += -velocidad * sin(rotacionEnRadianes);
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    {
+        posicionX -= velocidad * 0.25f*cos(rotacionEnRadianes);
+        posicionZ += velocidad * 0.25f*sin(rotacionEnRadianes);
+    }
+
+    // Rotación
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS&& glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    {
+        rotacion += 30.0f * velocidad;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS&& glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    {
+        rotacion -= 30.0f * velocidad;
+    }
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    {
+        rotacion += -30.0f *0.5f* velocidad;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    {
+        rotacion -= -30.0f *0.5f* velocidad;
+    }
+
+
+    // Actualiza la rotación en radianes
+    rotacionEnRadianes = glm::radians(rotacion);
 
     if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS && !diaKeyPressed)
     {
