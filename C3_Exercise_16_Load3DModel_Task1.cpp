@@ -43,6 +43,8 @@ float rotacion = 0.0f;
 
 bool dia = true;
 bool diaKeyPressed = false;
+bool primera = false;
+bool primeraKeyPressed = false;
 
 int main()
 {
@@ -186,8 +188,22 @@ int main()
         glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
+        if (primera) {
+            glm::vec3 modelPosition = glm::vec3(posicionX, 0.0f, posicionZ);
+            glm::vec3 offset = glm::vec3(0.0f, 0.75f, 0.0f);
+
+            camera.Position = modelPosition + offset;
+
+            glm::vec3 direction;
+            direction.x = cos(glm::radians(rotacion));
+            direction.z = -sin(glm::radians(rotacion));
+            direction.y = -0.10f; // Mantener la dirección en el plano horizontal
+            camera.Front = glm::normalize(direction);
+        }
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.001f, 10000.0f);
         glm::mat4 view = camera.GetViewMatrix();
+
+
 
         cupulaShader.use();
 
@@ -271,28 +287,33 @@ void processInput(GLFWwindow* window)
 
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-        posicionX -= velocidad * 0.25f*cos(rotacionEnRadianes);
-        posicionZ += velocidad * 0.25f*sin(rotacionEnRadianes);
+        posicionX -= velocidad * 0.25f * cos(rotacionEnRadianes);
+        posicionZ += velocidad * 0.25f * sin(rotacionEnRadianes);
     }
 
+<<<<<<< Updated upstream
     // RotaciÃ³n el objeto en sentido de las agujas del reloj
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS&& glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+=======
+    // Rotación
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+>>>>>>> Stashed changes
     {
         rotacion += 30.0f * velocidad;
     }
 
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS&& glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
         rotacion -= 30.0f * velocidad;
     }
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-        rotacion += -30.0f *0.5f* velocidad;
+        rotacion += -30.0f * 0.5f * velocidad;
     }
 
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-        rotacion -= -30.0f *0.5f* velocidad;
+        rotacion -= -30.0f * 0.5f * velocidad;
     }
 
 
@@ -310,6 +331,18 @@ void processInput(GLFWwindow* window)
     {
         diaKeyPressed = false;
     }
+
+
+// En el ciclo de renderizado
+if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS && !primeraKeyPressed)
+{
+    primera = !primera;
+    primeraKeyPressed = true;
+}
+if (glfwGetKey(window, GLFW_KEY_G) == GLFW_RELEASE)
+{
+    primeraKeyPressed = false;
+}
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
