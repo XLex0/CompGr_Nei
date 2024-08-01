@@ -21,11 +21,11 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow* window);
 unsigned int loadTexture(char const* path);
 
-// Configuración
+// Configuracion
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-// Cámara
+// Camara
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
@@ -46,7 +46,7 @@ bool diaKeyPressed = false;
 
 int main()
 {
-    // glfw: inicialización y configuración
+    // glfw: inicializacion y configuracion
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -81,66 +81,63 @@ int main()
 
     stbi_set_flip_vertically_on_load(true);
     glEnable(GL_DEPTH_TEST);
-//Tomar en cuenta al guardar los shaders en sus respectivas carpetas
-    // Shaders
+    //Tomar en cuenta al guardar los shaders en sus respectivas carpetas
+        // Shaders
     Shader modelShader("shaders/shader_exercise16_mloading.vs", "shaders/shader_exercise16_mloading.fs");
     Shader cupulaShader("shaders/shader_vertex_cupula.vs", "shaders/shader_fragment_cupula.fs");
 
 
     float vertices[] = {
-            // positions          // normals           // texture coords
-            // atrás
-            -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-             0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-             0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-             0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-            -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-            -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+        // positions          // normals           // texture coords
+        // atras
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
 
-            // delante
-            -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-             0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-             0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-             0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-            -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-            -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-           
- 
+        // delante
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
 
-            // superior
-            -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.03f,  0.0f,
-            -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.03f,  0.03f,
-            -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.03f,
-            -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.03f,
-            -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-            -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.03f,  0.0f,
+        // superior
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.03f,  0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.03f,  0.03f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.03f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.03f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.03f,  0.0f,
 
-            // inferior
-             0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.8f,
-             0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-             0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  1.0f,
-             0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  1.0f,
-             0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  0.8f,
-             0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.8f,
+        // inferior
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.8f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  0.8f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.8f,
 
-             // izquierda
-  -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-   0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-   0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-   0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-  -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-  -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+         // izquierda
+-0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+ 0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+ 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+ 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+-0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
 
-  // derecha
-  -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-   0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-   0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-   0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-  -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-  -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f
+// derecha
+-0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+ 0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+ 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+ 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+-0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f
 
-     
-         };
+    };
 
     unsigned int VBOn, VAOn;
     glGenVertexArrays(1, &VAOn);
@@ -151,7 +148,7 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, VBOn);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    // Atributos de posición
+    // Atributos de posicion
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     // Atributos de coordenadas de textura
@@ -174,7 +171,7 @@ int main()
     // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
     {
-        // Lógica de tiempos por frame
+        // Logica de tiempos por frame
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
@@ -185,7 +182,7 @@ int main()
         // Renderizar
         glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
+
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.001f, 10000.0f);
         glm::mat4 view = camera.GetViewMatrix();
 
@@ -217,7 +214,7 @@ int main()
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         // Renderizar el modelo cargado
-   
+
         modelShader.use();
         modelShader.setMat4("projection", projection);
         modelShader.setMat4("view", view);
@@ -229,10 +226,7 @@ int main()
         modelShader.setMat4("model", model);
         ourModel.Draw(modelShader);
 
-
-
         // Matriz de modelo
-  
 
         // Intercambiar buffers y sondear eventos de IO
         glfwSwapBuffers(window);
@@ -271,36 +265,36 @@ void processInput(GLFWwindow* window)
 
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-        posicionX -= velocidad * 0.25f*cos(rotacionEnRadianes);
-        posicionZ += velocidad * 0.25f*sin(rotacionEnRadianes);
+        posicionX -= velocidad * 0.25f * cos(rotacionEnRadianes);
+        posicionZ += velocidad * 0.25f * sin(rotacionEnRadianes);
     }
 
-    // Rotación el objeto en sentido de las agujas del reloj
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS&& glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    // Rotacion el objeto en sentido de las agujas del reloj
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
         rotacion += 30.0f * velocidad;
     }
 
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS&& glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
         rotacion -= 30.0f * velocidad;
     }
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-        rotacion += -30.0f *0.5f* velocidad;
+        rotacion += -30.0f * 0.5f * velocidad;
     }
 
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-        rotacion -= -30.0f *0.5f* velocidad;
+        rotacion -= -30.0f * 0.5f * velocidad;
     }
 
 
-    // Actualiza la rotación en radianes
+    // Actualiza la rotacion en radianes
     rotacionEnRadianes = glm::radians(rotacion);
 
-//Cambia entre el modo día y noche cada vez que se presiona la tecla P
-    
+    //Cambia entre el modo día y noche cada vez que se presiona la tecla P
+
     if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS && !diaKeyPressed)
     {
         dia = !dia;
