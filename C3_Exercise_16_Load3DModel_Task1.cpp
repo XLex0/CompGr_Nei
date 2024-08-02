@@ -102,6 +102,7 @@ int main()
 
     stbi_set_flip_vertically_on_load(true);
     float vertices[] = {
+
         // positions          // normals           // texture coords
 
         // atrás
@@ -129,28 +130,28 @@ int main()
         -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.03f, 0.0f,
 
         // inferior
-         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.8f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.9f,
          0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  0.8f,
-         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.8f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.9f,  1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.9f,  1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.9f,  0.9f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.9f,
 
          // izquierda
--0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
- 0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
- 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
- 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
--0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
--0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
 
-// derecha
--0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
- 0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
- 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
- 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
--0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
--0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f
+        // derecha
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f
     };
     glm::vec3 pointLightPositions[] = {
         glm::vec3(-2.0f,  2.0f, -5.0f),
@@ -189,8 +190,8 @@ int main()
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // Cargar Texturas
-    unsigned int cieloDia = loadTexture("textures/l.jpg");
-    unsigned int cieloNoche = loadTexture("textures/m.jpg");
+    unsigned int cieloDia = loadTexture("textures/dia.jpg");
+    unsigned int cieloNoche = loadTexture("textures/noche.jpg");
 
     cupulaShader.use();
     cupulaShader.setInt("texture1", 0);
@@ -203,6 +204,7 @@ int main()
     Model buildingModel("model/building/building.obj");
     Model building02("model/building02/building02.obj");
     Model casanick("model/casanick/casanick.obj");
+
     // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
     {
@@ -371,7 +373,7 @@ int main()
 
 
         /////////////////////
-            //dinomcqueen
+        //dinomcqueen
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0, 0.1f, 24.0f));
 
@@ -389,11 +391,19 @@ int main()
 
         //estructura 2
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(20.0f, 0.0f,  43.0f));
+        model = glm::translate(model, glm::vec3(20.0f, 0.0f, 43.0f));
 
         model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
         modelShader.setMat4("model", model);
         building02.Draw(modelShader);
+
+        /*for (int i = 0; i < 5; i++) {
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-30.0f + i * 15.0f, 0.0f, 43.0f));
+            model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
+            modelShader.setMat4("model", model);
+            building02.Draw(modelShader);
+        }*/
 
         //casanick
         model = glm::mat4(1.0f);
@@ -537,7 +547,7 @@ void processInput(GLFWwindow* window)
     rotacionEnRadianes = glm::radians(rotacion);
 
     //Cambia entre el modo día y noche cada vez que se presiona la tecla P
-    if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
     {
         if (!diaKeyPressed) // Solo cambia el estado si la tecla estaba previamente no presionada
         {
