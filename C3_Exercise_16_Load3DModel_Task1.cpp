@@ -194,11 +194,11 @@ int main()
 
     stbi_set_flip_vertically_on_load(false);
     // Cargar Modelo
-    Model ourModel("C:/Users/Emilio/OneDrive/Documentos/Visual Studio 2022/OpenGL/OpenGL/model/tesla/tesla.obj");
-    Model dinoModel("C:/Users/Emilio/OneDrive/Documentos/Visual Studio 2022/OpenGL/OpenGL/model/dinocomcqueen/dinocomcqueen.obj");
-    Model buildingModel("C:/Users/Emilio/OneDrive/Documentos/Visual Studio 2022/OpenGL/OpenGL/model/building/building.obj");
-    Model building02("C:/Users/Emilio/OneDrive/Documentos/Visual Studio 2022/OpenGL/OpenGL/model/building02/building02.obj");
-    Model casanick("C:/Users/Emilio/OneDrive/Documentos/Visual Studio 2022/OpenGL/OpenGL/model/casanick/casanick.obj");
+    Model ourModel("model/tesla/tesla.obj");
+    Model dinoModel("model/dinocomcqueen/dinocomcqueen.obj");
+    Model buildingModel("model/building/building.obj");
+    Model building02("model/building02/building02.obj");
+    Model casanick("model/casanick/casanick.obj");
     // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
     {
@@ -216,14 +216,14 @@ int main()
         
         if (primera) {
             glm::vec3 modelPosition = glm::vec3(posicionX, 0.0f, posicionZ);
-            glm::vec3 offset = glm::vec3(0.0f, 0.75f, 0.0f);
+            glm::vec3 offset = glm::vec3(0.0f, 0.8f, 0.0f);
 
             camera.Position = modelPosition + offset;
 
             glm::vec3 direction;
             direction.x = cos(glm::radians(rotacion));
             direction.z = -sin(glm::radians(rotacion));
-            direction.y = -0.10f; // Mantener la direcci�n en el plano horizontal
+            direction.y = -0.1f; // Mantener la direcci�n en el plano horizontal
             camera.Front = glm::normalize(direction);
         }
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.001f, 10000.0f);
@@ -355,13 +355,45 @@ int main()
 
         }
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(posicionX, 0.0f, posicionZ - 8.0f));
+        model = glm::translate(model, glm::vec3(posicionX, 0.0f, posicionZ ));
         model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 0.1f, 0.0f));
         model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
         modelShader.setMat4("model", model);
         ourModel.Draw(modelShader);
 
 
+        /////////////////////
+            //dinomcqueen
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0, 0.1f, 24.0f));
+
+        model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+        modelShader.setMat4("model", model);
+        dinoModel.Draw(modelShader);
+
+        //estructura 1
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3( 32.0f, 0.0f, 45.0f));
+
+        model = glm::scale(model, glm::vec3(45.0f, 45.0f, 45.0f));
+        modelShader.setMat4("model", model);
+        buildingModel.Draw(modelShader);
+
+        //estructura 2
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(20.0f, 0.0f,  43.0f));
+
+        model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
+        modelShader.setMat4("model", model);
+        building02.Draw(modelShader);
+
+        //casanick
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(45.0f, 0.0f, 45.0f));
+
+        model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+        modelShader.setMat4("model", model);
+        casanick.Draw(modelShader);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
         lightCubeShader.use();
