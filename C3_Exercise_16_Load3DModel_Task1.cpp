@@ -35,7 +35,7 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-float velocidad = 0.002f;
+float velocidad = 0.01f;
 float posicionX = 0.0f;
 float posicionZ = 0.0f;
 float rotacion = 0.0f;
@@ -47,6 +47,9 @@ bool primera = false;
 bool primeraKeyPressed = false;
 bool encendida = false;
 bool encendidaKeyPressed = false;
+bool show = false;
+bool Kshow=false;
+
 
 int main()
 {
@@ -184,7 +187,6 @@ int main()
     glEnableVertexAttribArray(0);
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // Cargar Texturas
     unsigned int cieloDia = loadTexture("textures/l.jpg");
     unsigned int cieloNoche = loadTexture("textures/m.jpg");
 
@@ -193,13 +195,15 @@ int main()
     ///////////////////////////////////////////////////////
 
     stbi_set_flip_vertically_on_load(false);
-    // Cargar Modelo
+
+    /////////////////////////////////////////////////////////////<<<<<<<<<<<<<<<
     Model ourModel("model/tesla/tesla.obj");
     Model dinoModel("model/dinocomcqueen/dinocomcqueen.obj");
     Model buildingModel("model/building/building.obj");
     Model building02("model/building02/building02.obj");
     Model casanick("model/casanick/casanick.obj");
-    // Ciclo de renderizado
+    /////////////////////////////////////////////////////////////>>>>>>>>>>>>>>>
+   
     while (!glfwWindowShouldClose(window))
     {
         // LOgica de tiempos por frame
@@ -213,7 +217,11 @@ int main()
         // Renderizar
         glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
+
+        if (show) {
+            std::cout << "X: " << posicionX << "   Z: " << posicionZ << std::endl;
+        }
+
         if (primera) {
             glm::vec3 modelPosition = glm::vec3(posicionX, 0.0f, posicionZ);
             glm::vec3 offset = glm::vec3(0.0f, 0.8f, 0.0f);
@@ -279,8 +287,8 @@ int main()
         modelShader.setVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
         modelShader.setVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
         modelShader.setFloat("pointLights[0].constant", 1.0f);
-        modelShader.setFloat("pointLights[0].linear", 0.14f);    // Valor ajustado
-        modelShader.setFloat("pointLights[0].quadratic", 0.07f); // Valor ajustado
+        modelShader.setFloat("pointLights[0].linear", 0.3f);    // Valor ajustado
+        modelShader.setFloat("pointLights[0].quadratic", 0.15f); // Valor ajustado
 
         // point light 2
         modelShader.setVec3("pointLights[1].position", pointLightPositions[1]);
@@ -288,8 +296,8 @@ int main()
         modelShader.setVec3("pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
         modelShader.setVec3("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
         modelShader.setFloat("pointLights[1].constant", 1.0f);
-        modelShader.setFloat("pointLights[1].linear", 0.14f);    // Valor ajustado
-        modelShader.setFloat("pointLights[1].quadratic", 0.07f); // Valor ajustado
+        modelShader.setFloat("pointLights[1].linear", 0.3f);    // Valor ajustado
+        modelShader.setFloat("pointLights[1].quadratic", 0.15f); // Valor ajustado
 
         // point light 3
         modelShader.setVec3("pointLights[2].position", pointLightPositions[2]);
@@ -297,8 +305,8 @@ int main()
         modelShader.setVec3("pointLights[2].diffuse", 0.8f, 0.8f, 0.8f);
         modelShader.setVec3("pointLights[2].specular", 1.0f, 1.0f, 1.0f);
         modelShader.setFloat("pointLights[2].constant", 1.0f);
-        modelShader.setFloat("pointLights[2].linear", 0.14f);    // Valor ajustado
-        modelShader.setFloat("pointLights[2].quadratic", 0.07f); // Valor ajustado
+        modelShader.setFloat("pointLights[2].linear", 0.3f);    // Valor ajustado
+        modelShader.setFloat("pointLights[2].quadratic", 0.15f); // Valor ajustado
 
         // point light 4
         modelShader.setVec3("pointLights[3].position", pointLightPositions[3]);
@@ -306,8 +314,8 @@ int main()
         modelShader.setVec3("pointLights[3].diffuse", 0.8f, 0.8f, 0.8f);
         modelShader.setVec3("pointLights[3].specular", 1.0f, 1.0f, 1.0f);
         modelShader.setFloat("pointLights[3].constant", 1.0f);
-        modelShader.setFloat("pointLights[3].linear", 0.14f);    // Valor ajustado
-        modelShader.setFloat("pointLights[3].quadratic", 0.07f); // Valor ajustado
+        modelShader.setFloat("pointLights[3].linear", 0.3f);    // Valor ajustado
+        modelShader.setFloat("pointLights[3].quadratic", 0.15f); // Valor ajustado
 
         // point light 5
         modelShader.setVec3("pointLights[4].position", pointLightPositions[4]);
@@ -315,8 +323,8 @@ int main()
         modelShader.setVec3("pointLights[4].diffuse", 0.8f, 0.8f, 0.8f);
         modelShader.setVec3("pointLights[4].specular", 1.0f, 1.0f, 1.0f);
         modelShader.setFloat("pointLights[4].constant", 1.0f);
-        modelShader.setFloat("pointLights[4].linear", 0.14f);    // Valor ajustado
-        modelShader.setFloat("pointLights[4].quadratic", 0.07f); // Valor ajustado
+        modelShader.setFloat("pointLights[4].linear", 0.3f);    // Valor ajustado
+        modelShader.setFloat("pointLights[4].quadratic", 0.15f); // Valor ajustado
 
         // point light 6
         modelShader.setVec3("pointLights[5].position", pointLightPositions[5]);
@@ -324,27 +332,27 @@ int main()
         modelShader.setVec3("pointLights[5].diffuse", 0.8f, 0.8f, 0.8f);
         modelShader.setVec3("pointLights[5].specular", 1.0f, 1.0f, 1.0f);
         modelShader.setFloat("pointLights[5].constant", 1.0f);
-        modelShader.setFloat("pointLights[5].linear", 0.14f);    // Valor ajustado
-        modelShader.setFloat("pointLights[5].quadratic", 0.07f); // Valor ajustado
+        modelShader.setFloat("pointLights[5].linear", 0.3f);    // Valor ajustado
+        modelShader.setFloat("pointLights[5].quadratic", 0.15f); // Valor ajustado
 
 
 
-        if (encendida) {
+        if (!dia) {
             modelShader.setVec3("spotLight.position", camera.Position);
             modelShader.setVec3("spotLight.direction", camera.Front);
             modelShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
             modelShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
             modelShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
             modelShader.setFloat("spotLight.constant", 1.0f);
-            modelShader.setFloat("spotLight.linear", 0.09);
-            modelShader.setFloat("spotLight.quadratic", 0.032);
-            modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+            modelShader.setFloat("spotLight.linear", 0.02);
+            modelShader.setFloat("spotLight.quadratic", 0.02);
+            modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(14.0f)));
             modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
         }
         else {
             modelShader.setVec3("spotLight.position", camera.Position); // No es necesario si solo desactivas la luz
             modelShader.setVec3("spotLight.direction", camera.Front); // No es necesario si solo desactivas la luz
-            modelShader.setVec3("spotLight.ambient", glm::vec3(0.0f));
+            modelShader.setVec3("spotLight.ambient", glm::vec3(0.1f));
             modelShader.setVec3("spotLight.diffuse", glm::vec3(1.0f));
             modelShader.setVec3("spotLight.specular", glm::vec3(1.0f));
             modelShader.setFloat("spotLight.constant", 1.0f);
@@ -425,6 +433,14 @@ int main()
     return 0;
 }
 
+bool colision(float x, float y) {
+    bool colision = true;
+    if (x >= -1.63f && x <= 1.19f && y >= 23.3f && y <= 27.16f) {
+        colision = false;
+    }
+    return colision;
+}
+
 
 void processInput(GLFWwindow* window)
 {
@@ -444,75 +460,127 @@ void processInput(GLFWwindow* window)
     float rotacionEnRadianes = glm::radians(rotacion);
 
     // Movimiento
-    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS )
     {
+        float posX = posicionX;
+        float posZ = posicionZ;
+
         posicionX += velocidad * cos(rotacionEnRadianes);
         posicionZ += -velocidad * sin(rotacionEnRadianes);
+        if (!colision(posicionX, posicionZ)) {
+            posicionX = posX;
+            posicionZ = posZ;
+        }
     }
 
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
+      
+        float posX = posicionX;
+        float posZ = posicionZ;
+
         posicionX -= velocidad * 0.25f * cos(rotacionEnRadianes);
         posicionZ += velocidad * 0.25f * sin(rotacionEnRadianes);
+
+        if (!colision(posicionX, posicionZ)) {
+            posicionX = posX;
+            posicionZ = posZ;
+        }
     }
 
 
-    // Rotación el objeto en sentido de las agujas del reloj
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS&& glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
 
-    // Rotaci�n
+
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-
     {
-        rotacion += 30.0f * velocidad;
+        float newX = posicionX + velocidad * cos(rotacionEnRadianes);
+        float newZ = posicionZ - velocidad * sin(rotacionEnRadianes);
+
+        if (colision(newX, newZ)) {
+            rotacion += 30.0f * velocidad;
+        }
     }
 
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
-        rotacion -= 30.0f * velocidad;
+        float newX = posicionX + velocidad * cos(rotacionEnRadianes);
+        float newZ = posicionZ - velocidad * sin(rotacionEnRadianes);
+
+        if (colision(newX, newZ)) {
+            rotacion -= 30.0f * velocidad;
+        }
     }
+
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-        rotacion += -30.0f * 0.5f * velocidad;
+        float newX = posicionX - velocidad * 0.5f * cos(rotacionEnRadianes);
+        float newZ = posicionZ + velocidad * 0.5f * sin(rotacionEnRadianes);
+
+        if (colision(newX, newZ)) {
+            rotacion += 30.0f * 0.5f * velocidad;
+        }
     }
 
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-        rotacion -= -30.0f * 0.5f * velocidad;
+        float newX = posicionX - velocidad * 0.5f * cos(rotacionEnRadianes);
+        float newZ = posicionZ + velocidad * 0.5f * sin(rotacionEnRadianes);
+
+        if (colision(newX, newZ)) {
+            rotacion -= 30.0f * 0.5f * velocidad;
+        }
     }
+
 
 
     // Actualiza la rotación en radianes
     rotacionEnRadianes = glm::radians(rotacion);
 
-//Cambia entre el modo día y noche cada vez que se presiona la tecla P
+    //Cambia entre el modo día y noche cada vez que se presiona la tecla P
     if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
     {
-        if (!encendidaKeyPressed) // Solo cambia el estado si la tecla estaba previamente no presionada
+        if (!diaKeyPressed) // Solo cambia el estado si la tecla estaba previamente no presionada
         {
-            encendida = !encendida;
-            encendidaKeyPressed = true;
+            dia = !dia;
+            diaKeyPressed = true;
         }
     }
     else
     {
-        encendidaKeyPressed = false; // Resetea el estado cuando la tecla es liberada
+        diaKeyPressed = false; // Resetea el estado cuando la tecla es liberada
     }
 
-// En el ciclo de renderizado
-if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS && !primeraKeyPressed)
-{
-    primera = !primera;
-    primeraKeyPressed = true;
-}
-if (glfwGetKey(window, GLFW_KEY_G) == GLFW_RELEASE)
-{
-    primeraKeyPressed = false;
+    // En el ciclo de renderizado
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS && !primeraKeyPressed)
+    {
+        show = !show;
+        Kshow = true;
+    }
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_RELEASE)
+    {
+        Kshow = false;
+    }
+
+
+
+
+
+    if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS && !primeraKeyPressed)
+    {
+        primera = !primera;
+        primeraKeyPressed = true;
+    }
+    if (glfwGetKey(window, GLFW_KEY_G) == GLFW_RELEASE)
+    {
+        primeraKeyPressed = false;
+    }
+
+ 
 }
 
 
 
-}
+
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -578,3 +646,4 @@ unsigned int loadTexture(char const* path)
 
     return textureID;
 }
+
