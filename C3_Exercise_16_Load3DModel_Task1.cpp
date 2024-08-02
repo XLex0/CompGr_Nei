@@ -99,6 +99,7 @@ int main()
 
     stbi_set_flip_vertically_on_load(true);
     float vertices[] = {
+
         // positions          // normals           // texture coords
 
         // atrás
@@ -126,30 +127,28 @@ int main()
         -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.03f, 0.0f,
 
         // inferior
-         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.8f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.9f,
          0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  0.8f,
-         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.8f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.9f,  1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.9f,  1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.9f,  0.9f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.9f,
 
          // izquierda
--0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
- 0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
- 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
- 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
--0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
--0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
 
-// derecha
--0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
- 0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
- 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
- 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
--0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
--0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f
-
-
+        // derecha
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f
     };
 
     glm::vec3 pointLightPositions[] = {
@@ -189,8 +188,8 @@ int main()
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // Cargar Texturas
-    unsigned int cieloDia = loadTexture("textures/l.jpg");
-    unsigned int cieloNoche = loadTexture("textures/m.jpg");
+    unsigned int cieloDia = loadTexture("textures/dia.jpg");
+    unsigned int cieloNoche = loadTexture("textures/noche.jpg");
 
     cupulaShader.use();
     cupulaShader.setInt("texture1", 0);
@@ -498,17 +497,17 @@ void processInput(GLFWwindow* window)
     rotacionEnRadianes = glm::radians(rotacion);
 
     //Cambia entre el modo día y noche cada vez que se presiona la tecla P
-    if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
     {
-        if (!encendidaKeyPressed) // Solo cambia el estado si la tecla estaba previamente no presionada
+        if (!diaKeyPressed) // Solo cambia el estado si la tecla estaba previamente no presionada
         {
-            encendida = !encendida;
-            encendidaKeyPressed = true;
+            dia = !dia;
+            diaKeyPressed = true;
         }
     }
     else
     {
-        encendidaKeyPressed = false; // Resetea el estado cuando la tecla es liberada
+        diaKeyPressed = false; // Resetea el estado cuando la tecla es liberada
     }
 
     // En el ciclo de renderizado
