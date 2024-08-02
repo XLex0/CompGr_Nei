@@ -151,7 +151,7 @@ int main()
  0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
 -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
 -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f
-
+    };
     glm::vec3 pointLightPositions[] = {
         glm::vec3(-2.0f,  2.0f, -5.0f),
         glm::vec3(-1.0f,  2.0f, -5.0f),
