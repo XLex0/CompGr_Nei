@@ -81,66 +81,66 @@ int main()
 
     stbi_set_flip_vertically_on_load(true);
     glEnable(GL_DEPTH_TEST);
-//Tomar en cuenta al guardar los shaders en sus respectivas carpetas
-    // Shaders
+    //Tomar en cuenta al guardar los shaders en sus respectivas carpetas
+        // Shaders
     Shader modelShader("shaders/shader_exercise16_mloading.vs", "shaders/shader_exercise16_mloading.fs");
     Shader cupulaShader("shaders/shader_vertex_cupula.vs", "shaders/shader_fragment_cupula.fs");
 
 
     float vertices[] = {
-            // positions          // normals           // texture coords
-            // atrás
-            -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-             0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-             0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-             0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-            -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-            -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+        // positions          // normals           // texture coords
 
-            // delante
-            -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-             0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-             0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-             0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-            -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-            -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-           
- 
+        // atrás
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
 
-            // superior
-            -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.03f,  0.0f,
-            -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.03f,  0.03f,
-            -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.03f,
-            -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.03f,
-            -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-            -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.03f,  0.0f,
+        // delante
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
 
-            // inferior
-             0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.8f,
-             0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-             0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  1.0f,
-             0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  1.0f,
-             0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  0.8f,
-             0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.8f,
+        // superior
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.03f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.03f, 0.03f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.03f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.03f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.03f, 0.0f,
 
-             // izquierda
-  -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-   0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-   0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-   0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-  -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-  -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+        // inferior
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.8f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  0.8f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.8f,
 
-  // derecha
-  -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-   0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-   0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-   0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-  -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-  -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f
+         // izquierda
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
 
-     
-         };
+        // derecha
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f
+    };
+
+
+
 
     unsigned int VBOn, VAOn;
     glGenVertexArrays(1, &VAOn);
@@ -167,10 +167,13 @@ int main()
     cupulaShader.use();
     cupulaShader.setInt("texture1", 0);
 
+    stbi_set_flip_vertically_on_load(false);
     // Cargar Modelo
-    Model ourModel("model/tesla/tesla.obj");
-
-
+    Model ourModel("C:/Users/Emilio/OneDrive/Documentos/Visual Studio 2022/OpenGL/OpenGL/model/tesla/tesla.obj");
+    Model dinoModel("C:/Users/Emilio/OneDrive/Documentos/Visual Studio 2022/OpenGL/OpenGL/model/dinocomcqueen/dinocomcqueen.obj");
+    Model buildingModel("C:/Users/Emilio/OneDrive/Documentos/Visual Studio 2022/OpenGL/OpenGL/model/building/building.obj");
+    Model building02("C:/Users/Emilio/OneDrive/Documentos/Visual Studio 2022/OpenGL/OpenGL/model/building02/building02.obj");
+    Model casanick("C:/Users/Emilio/OneDrive/Documentos/Visual Studio 2022/OpenGL/OpenGL/model/casanick/casanick.obj");
     // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
     {
@@ -185,7 +188,7 @@ int main()
         // Renderizar
         glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
+
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.001f, 10000.0f);
         glm::mat4 view = camera.GetViewMatrix();
 
@@ -217,22 +220,55 @@ int main()
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         // Renderizar el modelo cargado
-   
+
         modelShader.use();
         modelShader.setMat4("projection", projection);
         modelShader.setMat4("view", view);
 
+        //tesla
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(posicionX, 0.0f, posicionZ));
-        model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::translate(model, glm::vec3(posicionX, 0.0f, posicionZ - 8.0f));
+        model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 0.1f, 0.0f));
         model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
         modelShader.setMat4("model", model);
         ourModel.Draw(modelShader);
 
+        //dinomcqueen
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(posicionX, 0.1f, posicionZ - 24.0f));
+        model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+        modelShader.setMat4("model", model);
+        dinoModel.Draw(modelShader);
+
+        //estructura 1
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(posicionX + 32.0f, 0.0f, posicionZ + 45.0f));
+        model = glm::rotate(model, glm::radians(rotacion), glm::vec3(1.0f, 1.0f, 1.0f));
+        model = glm::scale(model, glm::vec3(45.0f, 45.0f, 45.0f));
+        modelShader.setMat4("model", model);
+        buildingModel.Draw(modelShader);
+
+        //estructura 2
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(posicionX + 20.0f, 0.0f, posicionZ + 43.0f));
+        model = glm::rotate(model, glm::radians(rotacion), glm::vec3(1.0f, 1.0f, 1.0f));
+        model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
+        modelShader.setMat4("model", model);
+        building02.Draw(modelShader);
+
+        //casanick
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(posicionX + 45.0f, 0.0f, posicionZ + 45.0f));
+        model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+        modelShader.setMat4("model", model);
+        casanick.Draw(modelShader);
+
 
 
         // Matriz de modelo
-  
+
 
         // Intercambiar buffers y sondear eventos de IO
         glfwSwapBuffers(window);
@@ -271,36 +307,36 @@ void processInput(GLFWwindow* window)
 
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-        posicionX -= velocidad * 0.25f*cos(rotacionEnRadianes);
-        posicionZ += velocidad * 0.25f*sin(rotacionEnRadianes);
+        posicionX -= velocidad * 0.25f * cos(rotacionEnRadianes);
+        posicionZ += velocidad * 0.25f * sin(rotacionEnRadianes);
     }
 
     // Rotación el objeto en sentido de las agujas del reloj
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS&& glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
         rotacion += 30.0f * velocidad;
     }
 
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS&& glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
         rotacion -= 30.0f * velocidad;
     }
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-        rotacion += -30.0f *0.5f* velocidad;
+        rotacion += -30.0f * 0.5f * velocidad;
     }
 
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-        rotacion -= -30.0f *0.5f* velocidad;
+        rotacion -= -30.0f * 0.5f * velocidad;
     }
 
 
     // Actualiza la rotación en radianes
     rotacionEnRadianes = glm::radians(rotacion);
 
-//Cambia entre el modo día y noche cada vez que se presiona la tecla P
-    
+    //Cambia entre el modo día y noche cada vez que se presiona la tecla P
+
     if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS && !diaKeyPressed)
     {
         dia = !dia;
