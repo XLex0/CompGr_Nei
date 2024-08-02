@@ -45,6 +45,8 @@ bool dia = true;
 bool diaKeyPressed = false;
 bool primera = false;
 bool primeraKeyPressed = false;
+bool encendida = false;
+bool encendidaKeyPressed = false;
 
 int main()
 {
@@ -81,14 +83,17 @@ int main()
         return -1;
     }
 
-    stbi_set_flip_vertically_on_load(true);
+
     glEnable(GL_DEPTH_TEST);
-//Tomar en cuenta al guardar los shaders en sus respectivas carpetas
+//////////////////////Tomar en cuenta al guardar los shaders en sus respectivas carpetas
     // Shaders
-    Shader modelShader("shaders/shader_exercise16_mloading.vs", "shaders/shader_exercise16_mloading.fs");
+    Shader modelShader("shaders/shader_exercise15t5_casters.vs", "shaders/shader_exercise15t5_casters.fs");
+
     Shader cupulaShader("shaders/shader_vertex_cupula.vs", "shaders/shader_fragment_cupula.fs");
+    Shader lightCubeShader("shaders/shader_exercise15_lightcube.vs", "shaders/shader_exercise15_lightcube.fs");
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    stbi_set_flip_vertically_on_load(true);
     float vertices[] = {
             // positions          // normals           // texture coords
             // atrás
@@ -125,34 +130,43 @@ int main()
              0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  0.8f,
              0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.8f,
 
-             // izquierda
-  -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-   0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-   0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-   0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-  -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-  -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+                         // izquierda
+              -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+               0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+               0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+               0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+              -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+              -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
 
-  // derecha
-  -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-   0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-   0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-   0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-  -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-  -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f
+              // derecha
+              -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+               0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+               0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+               0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+              -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+              -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f
 
      
          };
 
-    unsigned int VBOn, VAOn;
-    glGenVertexArrays(1, &VAOn);
-    glGenBuffers(1, &VBOn);
+    glm::vec3 pointLightPositions[] = {
+        glm::vec3(-2.0f,  2.0f, -5.0f),
+        glm::vec3(-1.0f,  2.0f, -5.0f),
+        glm::vec3(0.0f,   2.0f, -5.0f),
+        glm::vec3(1.0f,   2.0f, -5.0f),
+        glm::vec3(2.0f,   2.0f, -5.0f),
+        glm::vec3(3.0f,   2.0f, -5.0f)
+    };
 
-    glBindVertexArray(VAOn);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    unsigned int VBO, cubeVAO;
+    glGenVertexArrays(1, &cubeVAO);
+    glGenBuffers(1, &VBO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBOn);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
+    glBindVertexArray(cubeVAO);
     // Atributos de posición
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
@@ -162,21 +176,31 @@ int main()
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
+    unsigned int lightCubeVAO;
+    glGenVertexArrays(1, &lightCubeVAO);
+    glBindVertexArray(lightCubeVAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
     // Cargar Texturas
     unsigned int cieloDia = loadTexture("textures/l.jpg");
     unsigned int cieloNoche = loadTexture("textures/m.jpg");
 
     cupulaShader.use();
     cupulaShader.setInt("texture1", 0);
+    ///////////////////////////////////////////////////////
 
-    // Cargar Modelo
+    stbi_set_flip_vertically_on_load(false);
     Model ourModel("model/tesla/tesla.obj");
 
 
     // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
     {
-        // Lógica de tiempos por frame
+        // LOgica de tiempos por frame
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
@@ -229,15 +253,85 @@ int main()
 
 
 
-        glBindVertexArray(VAOn);
+        glBindVertexArray(cubeVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         // Renderizar el modelo cargado
    
         modelShader.use();
+
+        modelShader.setVec3("viewPos", camera.Position);
+        modelShader.setFloat("material.shininess", 32.0f);
         modelShader.setMat4("projection", projection);
         modelShader.setMat4("view", view);
 
+
+        modelShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
+        modelShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
+        modelShader.setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
+        modelShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+
+        // point light 1
+        modelShader.setVec3("pointLights[0].position", pointLightPositions[0]);
+        modelShader.setVec3("pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
+        modelShader.setVec3("pointLights[0].diffuse", 1.2f, 1.2f, 1.2f);
+        modelShader.setVec3("pointLights[0].specular", 1.5f, 1.5f, 1.5f);
+
+        modelShader.setFloat("pointLights[0].constant", 1.0f);
+        modelShader.setFloat("pointLights[0].linear", 0.01f);
+        modelShader.setFloat("pointLights[0].quadratic", 0.032f);
+        // point light 2
+        modelShader.setVec3("pointLights[1].position", pointLightPositions[1]);
+        modelShader.setVec3("pointLights[1].ambient", 0.05f, 0.05f, 0.05f);
+   
+        modelShader.setVec3("pointLights[1].diffuse", 1.2f, 1.2f, 1.2f);
+        modelShader.setVec3("pointLights[1].specular", 1.5f, 1.5f, 1.5f);
+
+        modelShader.setFloat("pointLights[1].constant", 1.0f);
+        modelShader.setFloat("pointLights[1].linear", 0.01f);
+        modelShader.setFloat("pointLights[1].quadratic", 0.032f);
+        // point light 3
+        modelShader.setVec3("pointLights[2].position", pointLightPositions[2]);
+        modelShader.setVec3("pointLights[2].ambient", 0.05f, 0.05f, 0.05f);
+        modelShader.setVec3("pointLights[2].diffuse", 0.8f, 0.8f, 0.8f);
+        modelShader.setVec3("pointLights[2].specular", 1.0f, 1.0f, 1.0f);
+        modelShader.setFloat("pointLights[2].constant", 1.0f);
+        modelShader.setFloat("pointLights[2].linear", 0.01f);
+        modelShader.setFloat("pointLights[2].quadratic", 0.032f);
+        // point light 4
+        modelShader.setVec3("pointLights[3].position", pointLightPositions[3]);
+        modelShader.setVec3("pointLights[3].ambient", 0.05f, 0.05f, 0.05f);
+        modelShader.setVec3("pointLights[3].diffuse", 0.8f, 0.8f, 0.8f);
+        modelShader.setVec3("pointLights[3].specular", 1.0f, 1.0f, 1.0f);
+        modelShader.setFloat("pointLights[3].constant", 1.0f);
+        modelShader.setFloat("pointLights[3].linear", 0.01f);
+        modelShader.setFloat("pointLights[3].quadratic", 0.032f);
+
+        if (encendida) {
+            modelShader.setVec3("spotLight.position", camera.Position);
+            modelShader.setVec3("spotLight.direction", camera.Front);
+            modelShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+            modelShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+            modelShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
+            modelShader.setFloat("spotLight.constant", 1.0f);
+            modelShader.setFloat("spotLight.linear", 0.09);
+            modelShader.setFloat("spotLight.quadratic", 0.032);
+            modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+        }
+        else {
+            modelShader.setVec3("spotLight.position", camera.Position); // No es necesario si solo desactivas la luz
+            modelShader.setVec3("spotLight.direction", camera.Front); // No es necesario si solo desactivas la luz
+            modelShader.setVec3("spotLight.ambient", glm::vec3(0.0f));
+            modelShader.setVec3("spotLight.diffuse", glm::vec3(1.0f));
+            modelShader.setVec3("spotLight.specular", glm::vec3(1.0f));
+            modelShader.setFloat("spotLight.constant", 1.0f);
+            modelShader.setFloat("spotLight.linear", 0.09f);
+            modelShader.setFloat("spotLight.quadratic", 0.0f);
+            modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(180.0f))); // Angulo m�ximo posible
+            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(180.0f))); // Angulo m�ximo posible
+
+        }
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(posicionX, 0.0f, posicionZ));
         model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -247,6 +341,22 @@ int main()
 
 
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        lightCubeShader.use();
+        lightCubeShader.setMat4("projection", projection);
+        lightCubeShader.setMat4("view", view);
+
+        // we now draw as many light bulbs as we have point lights.
+        glBindVertexArray(lightCubeVAO);
+        for (unsigned int i = 0; i < 6; i++)
+        {
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, pointLightPositions[i]);
+            model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+
         // Matriz de modelo
   
 
@@ -254,8 +364,9 @@ int main()
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-
-    // Terminar GLFW
+    glDeleteVertexArrays(1, &cubeVAO);
+    glDeleteVertexArrays(1, &lightCubeVAO);
+    glDeleteBuffers(1, &VBO);
     glfwTerminate();
     return 0;
 }
@@ -291,13 +402,13 @@ void processInput(GLFWwindow* window)
         posicionZ += velocidad * 0.25f * sin(rotacionEnRadianes);
     }
 
-<<<<<<< Updated upstream
+
     // Rotación el objeto en sentido de las agujas del reloj
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS&& glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-=======
+
     // Rotaci�n
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
->>>>>>> Stashed changes
+
     {
         rotacion += 30.0f * velocidad;
     }
@@ -321,17 +432,18 @@ void processInput(GLFWwindow* window)
     rotacionEnRadianes = glm::radians(rotacion);
 
 //Cambia entre el modo día y noche cada vez que se presiona la tecla P
-    
-    if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS && !diaKeyPressed)
+    if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
     {
-        dia = !dia;
-        diaKeyPressed = true;
+        if (!encendidaKeyPressed) // Solo cambia el estado si la tecla estaba previamente no presionada
+        {
+            encendida = !encendida;
+            encendidaKeyPressed = true;
+        }
     }
-    if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE)
+    else
     {
-        diaKeyPressed = false;
+        encendidaKeyPressed = false; // Resetea el estado cuando la tecla es liberada
     }
-
 
 // En el ciclo de renderizado
 if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS && !primeraKeyPressed)
@@ -343,6 +455,9 @@ if (glfwGetKey(window, GLFW_KEY_G) == GLFW_RELEASE)
 {
     primeraKeyPressed = false;
 }
+
+
+
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
