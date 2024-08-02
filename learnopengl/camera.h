@@ -89,27 +89,26 @@ public:
 
         if (direction == FORWARD) {
             newPosition += Front * velocity;
-            if (newPosition.y > 0.0f && newPosition.y < 9.5f && newPosition.x > -45.0f && newPosition.x < 45.0f && newPosition.z > -45.0f && newPosition.z < 45.0f) {
-                Position = newPosition;
-            }
         }
         if (direction == BACKWARD) {
             newPosition -= Front * velocity;
-            if (newPosition.y > 0.0f && newPosition.y < 9.5f && newPosition.x > -45.0f && newPosition.x < 45.0f && newPosition.z > -45.0f && newPosition.z < 45.0f) {
-                Position = newPosition;
-            }
         }
         if (direction == LEFT) {
             newPosition -= Right * velocity;
-            if (newPosition.y > 0.0f && newPosition.y < 9.5f && newPosition.x > -45.0f && newPosition.x < 45.0f && newPosition.z > -45.0f && newPosition.z < 45.0f) {
-                Position = newPosition;
-            }
         }
         if (direction == RIGHT) {
             newPosition += Right * velocity;
-            if (newPosition.y > 0.0f && newPosition.y < 9.5f && newPosition.x > -45.0f && newPosition.x < 45.0f && newPosition.z > -45.0f && newPosition.z < 45.0f) {
-                Position = newPosition;
-            }
+        }
+
+        // Validación de límites
+        if (newPosition.y > 0.0f && newPosition.y < 9.5f) {
+            Position.y = newPosition.y;
+        }
+        if (newPosition.x > -45.0f && newPosition.x < 45.0f) {
+            Position.x = newPosition.x;
+        }
+        if (newPosition.z > -45.0f && newPosition.z < 45.0f) {
+            Position.z = newPosition.z;
         }
     }
 

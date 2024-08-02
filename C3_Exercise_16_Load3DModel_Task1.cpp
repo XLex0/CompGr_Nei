@@ -43,6 +43,10 @@ float rotacion = 0.0f;
 
 bool dia = true;
 bool diaKeyPressed = false;
+bool primera = false;
+bool primeraKeyPressed = false;
+bool encendida = false;
+bool encendidaKeyPressed = false;
 
 int main()
 {
@@ -79,14 +83,17 @@ int main()
         return -1;
     }
 
-    stbi_set_flip_vertically_on_load(true);
+
     glEnable(GL_DEPTH_TEST);
-    //Tomar en cuenta al guardar los shaders en sus respectivas carpetas
-        // Shaders
-    Shader modelShader("shaders/shader_exercise16_mloading.vs", "shaders/shader_exercise16_mloading.fs");
+//////////////////////Tomar en cuenta al guardar los shaders en sus respectivas carpetas
+    // Shaders
+    Shader modelShader("shaders/shader_exercise15t5_casters.vs", "shaders/shader_exercise15t5_casters.fs");
+
     Shader cupulaShader("shaders/shader_vertex_cupula.vs", "shaders/shader_fragment_cupula.fs");
+    Shader lightCubeShader("shaders/shader_exercise15_lightcube.vs", "shaders/shader_exercise15_lightcube.fs");
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    stbi_set_flip_vertically_on_load(true);
     float vertices[] = {
         // positions          // normals           // texture coords
 
@@ -122,35 +129,43 @@ int main()
          0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  0.8f,
          0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.8f,
 
-         // izquierda
-        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-         0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+                         // izquierda
+              -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+               0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+               0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+               0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+              -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+              -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
 
-        // derecha
-        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-         0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f
+              // derecha
+              -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+               0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+               0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+               0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+              -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+              -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f
+
+     
+         };
+
+    glm::vec3 pointLightPositions[] = {
+        glm::vec3(-2.0f,  2.0f, -5.0f),
+        glm::vec3(-1.0f,  2.0f, -5.0f),
+        glm::vec3(0.0f,   2.0f, -5.0f),
+        glm::vec3(1.0f,   2.0f, -5.0f),
+        glm::vec3(2.0f,   2.0f, -5.0f),
+        glm::vec3(3.0f,   2.0f, -5.0f)
     };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    unsigned int VBO, cubeVAO;
+    glGenVertexArrays(1, &cubeVAO);
+    glGenBuffers(1, &VBO);
 
 
-
-    unsigned int VBOn, VAOn;
-    glGenVertexArrays(1, &VAOn);
-    glGenBuffers(1, &VBOn);
-
-    glBindVertexArray(VAOn);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBOn);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
+    glBindVertexArray(cubeVAO);
     // Atributos de posición
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
@@ -160,12 +175,22 @@ int main()
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
+    unsigned int lightCubeVAO;
+    glGenVertexArrays(1, &lightCubeVAO);
+    glBindVertexArray(lightCubeVAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
     // Cargar Texturas
     unsigned int cieloDia = loadTexture("textures/l.jpg");
     unsigned int cieloNoche = loadTexture("textures/m.jpg");
 
     cupulaShader.use();
     cupulaShader.setInt("texture1", 0);
+    ///////////////////////////////////////////////////////
 
     stbi_set_flip_vertically_on_load(false);
     // Cargar Modelo
@@ -177,7 +202,7 @@ int main()
     // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
     {
-        // Lógica de tiempos por frame
+        // LOgica de tiempos por frame
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
@@ -188,9 +213,23 @@ int main()
         // Renderizar
         glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        if (primera) {
+            glm::vec3 modelPosition = glm::vec3(posicionX, 0.0f, posicionZ);
+            glm::vec3 offset = glm::vec3(0.0f, 0.75f, 0.0f);
 
+            camera.Position = modelPosition + offset;
+
+            glm::vec3 direction;
+            direction.x = cos(glm::radians(rotacion));
+            direction.z = -sin(glm::radians(rotacion));
+            direction.y = -0.10f; // Mantener la direcci�n en el plano horizontal
+            camera.Front = glm::normalize(direction);
+        }
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.001f, 10000.0f);
         glm::mat4 view = camera.GetViewMatrix();
+
+
 
         cupulaShader.use();
 
@@ -216,16 +255,105 @@ int main()
 
 
 
-        glBindVertexArray(VAOn);
+        glBindVertexArray(cubeVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         // Renderizar el modelo cargado
 
         modelShader.use();
+
+        modelShader.setVec3("viewPos", camera.Position);
+        modelShader.setFloat("material.shininess", 32.0f);
         modelShader.setMat4("projection", projection);
         modelShader.setMat4("view", view);
 
-        //tesla
+
+        modelShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
+        modelShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
+        modelShader.setVec3("dirLight.diffuse", 0.01f, 0.01f, 0.01f);
+        modelShader.setVec3("dirLight.specular", 0.05f, 0.05f, 0.05f);
+
+        // point light 1
+        modelShader.setVec3("pointLights[0].position", pointLightPositions[0]);
+        modelShader.setVec3("pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
+        modelShader.setVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
+        modelShader.setVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
+        modelShader.setFloat("pointLights[0].constant", 1.0f);
+        modelShader.setFloat("pointLights[0].linear", 0.14f);    // Valor ajustado
+        modelShader.setFloat("pointLights[0].quadratic", 0.07f); // Valor ajustado
+
+        // point light 2
+        modelShader.setVec3("pointLights[1].position", pointLightPositions[1]);
+        modelShader.setVec3("pointLights[1].ambient", 0.05f, 0.05f, 0.05f);
+        modelShader.setVec3("pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
+        modelShader.setVec3("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
+        modelShader.setFloat("pointLights[1].constant", 1.0f);
+        modelShader.setFloat("pointLights[1].linear", 0.14f);    // Valor ajustado
+        modelShader.setFloat("pointLights[1].quadratic", 0.07f); // Valor ajustado
+
+        // point light 3
+        modelShader.setVec3("pointLights[2].position", pointLightPositions[2]);
+        modelShader.setVec3("pointLights[2].ambient", 0.05f, 0.05f, 0.05f);
+        modelShader.setVec3("pointLights[2].diffuse", 0.8f, 0.8f, 0.8f);
+        modelShader.setVec3("pointLights[2].specular", 1.0f, 1.0f, 1.0f);
+        modelShader.setFloat("pointLights[2].constant", 1.0f);
+        modelShader.setFloat("pointLights[2].linear", 0.14f);    // Valor ajustado
+        modelShader.setFloat("pointLights[2].quadratic", 0.07f); // Valor ajustado
+
+        // point light 4
+        modelShader.setVec3("pointLights[3].position", pointLightPositions[3]);
+        modelShader.setVec3("pointLights[3].ambient", 0.05f, 0.05f, 0.05f);
+        modelShader.setVec3("pointLights[3].diffuse", 0.8f, 0.8f, 0.8f);
+        modelShader.setVec3("pointLights[3].specular", 1.0f, 1.0f, 1.0f);
+        modelShader.setFloat("pointLights[3].constant", 1.0f);
+        modelShader.setFloat("pointLights[3].linear", 0.14f);    // Valor ajustado
+        modelShader.setFloat("pointLights[3].quadratic", 0.07f); // Valor ajustado
+
+        // point light 5
+        modelShader.setVec3("pointLights[4].position", pointLightPositions[4]);
+        modelShader.setVec3("pointLights[4].ambient", 0.05f, 0.05f, 0.05f);
+        modelShader.setVec3("pointLights[4].diffuse", 0.8f, 0.8f, 0.8f);
+        modelShader.setVec3("pointLights[4].specular", 1.0f, 1.0f, 1.0f);
+        modelShader.setFloat("pointLights[4].constant", 1.0f);
+        modelShader.setFloat("pointLights[4].linear", 0.14f);    // Valor ajustado
+        modelShader.setFloat("pointLights[4].quadratic", 0.07f); // Valor ajustado
+
+        // point light 6
+        modelShader.setVec3("pointLights[5].position", pointLightPositions[5]);
+        modelShader.setVec3("pointLights[5].ambient", 0.05f, 0.05f, 0.05f);
+        modelShader.setVec3("pointLights[5].diffuse", 0.8f, 0.8f, 0.8f);
+        modelShader.setVec3("pointLights[5].specular", 1.0f, 1.0f, 1.0f);
+        modelShader.setFloat("pointLights[5].constant", 1.0f);
+        modelShader.setFloat("pointLights[5].linear", 0.14f);    // Valor ajustado
+        modelShader.setFloat("pointLights[5].quadratic", 0.07f); // Valor ajustado
+
+
+
+        if (encendida) {
+            modelShader.setVec3("spotLight.position", camera.Position);
+            modelShader.setVec3("spotLight.direction", camera.Front);
+            modelShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+            modelShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+            modelShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
+            modelShader.setFloat("spotLight.constant", 1.0f);
+            modelShader.setFloat("spotLight.linear", 0.09);
+            modelShader.setFloat("spotLight.quadratic", 0.032);
+            modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+        }
+        else {
+            modelShader.setVec3("spotLight.position", camera.Position); // No es necesario si solo desactivas la luz
+            modelShader.setVec3("spotLight.direction", camera.Front); // No es necesario si solo desactivas la luz
+            modelShader.setVec3("spotLight.ambient", glm::vec3(0.0f));
+            modelShader.setVec3("spotLight.diffuse", glm::vec3(1.0f));
+            modelShader.setVec3("spotLight.specular", glm::vec3(1.0f));
+            modelShader.setFloat("spotLight.constant", 1.0f);
+            modelShader.setFloat("spotLight.linear", 0.09f);
+            modelShader.setFloat("spotLight.quadratic", 0.0f);
+            modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(180.0f))); // Angulo m�ximo posible
+            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(180.0f))); // Angulo m�ximo posible
+
+        }
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(posicionX, 0.0f, posicionZ - 8.0f));
         model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 0.1f, 0.0f));
@@ -233,39 +361,23 @@ int main()
         modelShader.setMat4("model", model);
         ourModel.Draw(modelShader);
 
-        //dinomcqueen
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(posicionX, 0.1f, posicionZ - 24.0f));
-        model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-        modelShader.setMat4("model", model);
-        dinoModel.Draw(modelShader);
-
-        //estructura 1
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(posicionX + 32.0f, 0.0f, posicionZ + 45.0f));
-        model = glm::rotate(model, glm::radians(rotacion), glm::vec3(1.0f, 1.0f, 1.0f));
-        model = glm::scale(model, glm::vec3(45.0f, 45.0f, 45.0f));
-        modelShader.setMat4("model", model);
-        buildingModel.Draw(modelShader);
-
-        //estructura 2
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(posicionX + 20.0f, 0.0f, posicionZ + 43.0f));
-        model = glm::rotate(model, glm::radians(rotacion), glm::vec3(1.0f, 1.0f, 1.0f));
-        model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
-        modelShader.setMat4("model", model);
-        building02.Draw(modelShader);
-
-        //casanick
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(posicionX + 45.0f, 0.0f, posicionZ + 45.0f));
-        model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-        modelShader.setMat4("model", model);
-        casanick.Draw(modelShader);
 
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        lightCubeShader.use();
+        lightCubeShader.setMat4("projection", projection);
+        lightCubeShader.setMat4("view", view);
+
+        // we now draw as many light bulbs as we have point lights.
+        glBindVertexArray(lightCubeVAO);
+        for (unsigned int i = 0; i < 6; i++)
+        {
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, pointLightPositions[i]);
+            model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
 
         // Matriz de modelo
 
@@ -274,8 +386,9 @@ int main()
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-
-    // Terminar GLFW
+    glDeleteVertexArrays(1, &cubeVAO);
+    glDeleteVertexArrays(1, &lightCubeVAO);
+    glDeleteBuffers(1, &VBO);
     glfwTerminate();
     return 0;
 }
@@ -311,8 +424,13 @@ void processInput(GLFWwindow* window)
         posicionZ += velocidad * 0.25f * sin(rotacionEnRadianes);
     }
 
+
     // Rotación el objeto en sentido de las agujas del reloj
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS&& glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+
+    // Rotaci�n
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+
     {
         rotacion += 30.0f * velocidad;
     }
@@ -335,17 +453,33 @@ void processInput(GLFWwindow* window)
     // Actualiza la rotación en radianes
     rotacionEnRadianes = glm::radians(rotacion);
 
-    //Cambia entre el modo día y noche cada vez que se presiona la tecla P
+//Cambia entre el modo día y noche cada vez que se presiona la tecla P
+    if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
+    {
+        if (!encendidaKeyPressed) // Solo cambia el estado si la tecla estaba previamente no presionada
+        {
+            encendida = !encendida;
+            encendidaKeyPressed = true;
+        }
+    }
+    else
+    {
+        encendidaKeyPressed = false; // Resetea el estado cuando la tecla es liberada
+    }
 
-    if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS && !diaKeyPressed)
-    {
-        dia = !dia;
-        diaKeyPressed = true;
-    }
-    if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE)
-    {
-        diaKeyPressed = false;
-    }
+// En el ciclo de renderizado
+if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS && !primeraKeyPressed)
+{
+    primera = !primera;
+    primeraKeyPressed = true;
+}
+if (glfwGetKey(window, GLFW_KEY_G) == GLFW_RELEASE)
+{
+    primeraKeyPressed = false;
+}
+
+
+
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
