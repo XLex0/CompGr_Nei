@@ -35,11 +35,15 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+//Velocidad-> cambiar este valor en caso de querer mover el auto mas rapido
 float velocidad = 0.01f;
 float posicionX = 0.0f;
 float posicionZ = 0.0f;
 float rotacion = 0.0f;
 
+
+// Velocidad de la cámara
+float cameraSpeed = 5.0f; // Aumentar la velocidad de la cámara
 
 bool dia = true;
 bool diaKeyPressed = false;
@@ -64,7 +68,7 @@ int main()
 #endif
 
     // Crear ventana GLFW
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Exercise 16 Task 1", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "PROYECTO jeje", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -88,13 +92,13 @@ int main()
 
 
     glEnable(GL_DEPTH_TEST);
-//////////////////////Tomar en cuenta al guardar los shaders en sus respectivas carpetas
-    // Shaders
+    //////////////////////Tomar en cuenta al guardar los shaders en sus respectivas carpetas
+        // Shaders
     Shader modelShader("shaders/shader_exercise15t5_casters.vs", "shaders/shader_exercise15t5_casters.fs");
 
     Shader cupulaShader("shaders/shader_vertex_cupula.vs", "shaders/shader_fragment_cupula.fs");
     Shader lightCubeShader("shaders/shader_exercise15_lightcube.vs", "shaders/shader_exercise15_lightcube.fs");
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
 
     stbi_set_flip_vertically_on_load(true);
     float vertices[] = {
@@ -132,24 +136,21 @@ int main()
          0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.8f,  0.8f,
          0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.8f,
 
-                         // izquierda
-              -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-               0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-               0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-               0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-              -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-              -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+         // izquierda
+-0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+ 0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+ 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+ 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+-0.5f, -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
 
-              // derecha
-              -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-               0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-               0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-               0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-              -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-              -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f
-
-     
-         };
+// derecha
+-0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+ 0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+ 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+ 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+-0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f
 
     glm::vec3 pointLightPositions[] = {
         glm::vec3(-2.0f,  2.0f, -5.0f),
@@ -187,6 +188,7 @@ int main()
     glEnableVertexAttribArray(0);
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    // Cargar Texturas
     unsigned int cieloDia = loadTexture("textures/l.jpg");
     unsigned int cieloNoche = loadTexture("textures/m.jpg");
 
@@ -195,15 +197,13 @@ int main()
     ///////////////////////////////////////////////////////
 
     stbi_set_flip_vertically_on_load(false);
-
-    /////////////////////////////////////////////////////////////<<<<<<<<<<<<<<<
+    // Cargar Modelo
     Model ourModel("model/tesla/tesla.obj");
     Model dinoModel("model/dinocomcqueen/dinocomcqueen.obj");
     Model buildingModel("model/building/building.obj");
     Model building02("model/building02/building02.obj");
     Model casanick("model/casanick/casanick.obj");
-    /////////////////////////////////////////////////////////////>>>>>>>>>>>>>>>
-   
+    // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
     {
         // LOgica de tiempos por frame
@@ -228,7 +228,7 @@ int main()
 
             camera.Position = modelPosition + offset;
 
-            glm::vec3 direction;
+            glm::vec3 direction(0.0f, 0.0f, 0.0f);
             direction.x = cos(glm::radians(rotacion));
             direction.z = -sin(glm::radians(rotacion));
             direction.y = -0.1f; // Mantener la direcci�n en el plano horizontal
@@ -381,7 +381,7 @@ int main()
 
         //estructura 1
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3( 32.0f, 0.0f, 45.0f));
+        model = glm::translate(model, glm::vec3(32.0f, 0.0f, 45.0f));
 
         model = glm::scale(model, glm::vec3(45.0f, 45.0f, 45.0f));
         modelShader.setMat4("model", model);
@@ -449,13 +449,13 @@ void processInput(GLFWwindow* window)
         glfwSetWindowShouldClose(window, true);
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        camera.ProcessKeyboard(FORWARD, deltaTime);
+        camera.ProcessKeyboard(FORWARD, deltaTime * cameraSpeed);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        camera.ProcessKeyboard(BACKWARD, deltaTime);
+        camera.ProcessKeyboard(BACKWARD, deltaTime * cameraSpeed);
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        camera.ProcessKeyboard(LEFT, deltaTime);
+        camera.ProcessKeyboard(LEFT, deltaTime * cameraSpeed);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        camera.ProcessKeyboard(RIGHT, deltaTime);
+        camera.ProcessKeyboard(RIGHT, deltaTime * cameraSpeed);
 
     float rotacionEnRadianes = glm::radians(rotacion);
 
