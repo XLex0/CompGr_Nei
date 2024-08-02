@@ -202,6 +202,7 @@ int main()
     Model buildingModel("model/building/building.obj");
     Model building02("model/building02/building02.obj");
     Model casanick("model/casanick/casanick.obj");
+
     // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
     {
@@ -366,7 +367,7 @@ int main()
 
 
         /////////////////////
-            //dinomcqueen
+        //dinomcqueen
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0, 0.1f, 24.0f));
 
@@ -382,29 +383,29 @@ int main()
         modelShader.setMat4("model", model);
         buildingModel.Draw(modelShader);
 
-        ////estructura 2
-        //model = glm::mat4(1.0f);
-        //model = glm::translate(model, glm::vec3(20.0f, 0.0f, 43.0f));
+        //estructura 2
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(20.0f, 0.0f, 43.0f));
 
-        //model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
-        //modelShader.setMat4("model", model);
-        //building02.Draw(modelShader);
+        model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
+        modelShader.setMat4("model", model);
+        building02.Draw(modelShader);
 
-        for (int i = 0; i < 5; i++) {
+        /*for (int i = 0; i < 5; i++) {
             model = glm::mat4(1.0f);
             model = glm::translate(model, glm::vec3(-30.0f + i * 15.0f, 0.0f, 43.0f));
             model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
             modelShader.setMat4("model", model);
             building02.Draw(modelShader);
-        }
+        }*/
 
-        ////casanick
-        //model = glm::mat4(1.0f);
-        //model = glm::translate(model, glm::vec3(45.0f, 0.0f, 45.0f));
+        //casanick
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(45.0f, 0.0f, 45.0f));
 
-        //model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-        //modelShader.setMat4("model", model);
-        //casanick.Draw(modelShader);
+        model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+        modelShader.setMat4("model", model);
+        casanick.Draw(modelShader);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
         lightCubeShader.use();
@@ -578,14 +579,3 @@ unsigned int loadTexture(char const* path)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        stbi_image_free(data);
-    }
-    else
-    {
-        std::cout << "Failed to load texture: " << path << std::endl;
-        stbi_image_free(data);
-    }
-
-    return textureID;
-}
