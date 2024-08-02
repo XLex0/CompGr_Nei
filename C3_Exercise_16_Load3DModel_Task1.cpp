@@ -194,8 +194,18 @@ int main()
     ///////////////////////////////////////////////////////
 
     stbi_set_flip_vertically_on_load(false);
+<<<<<<< Updated upstream
     Model ourModel("model/tesla/tesla.obj");
 
+=======
+    // Cargar Modelo
+    Model ourModel("model/tesla/tesla.obj");
+    /*Model dinoModel("model/dinocomcqueen/dinocomcqueen.obj");
+    Model buildingModel("model/building/building.obj");
+    Model building02("model/building02/building02.obj");
+    Model casanick("model/casanick/casanick.obj");*/
+    Model cancha("model/cancha/cancha.obj");
+>>>>>>> Stashed changes
 
     // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
@@ -333,12 +343,18 @@ int main()
 
         }
         model = glm::mat4(1.0f);
+<<<<<<< Updated upstream
         model = glm::translate(model, glm::vec3(posicionX, 0.0f, posicionZ));
         model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 1.0f, 0.0f));
+=======
+        model = glm::translate(model, glm::vec3(posicionX, 0.03f, posicionZ - 8.0f));
+        model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 0.1f, 0.0f));
+>>>>>>> Stashed changes
         model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
         modelShader.setMat4("model", model);
         ourModel.Draw(modelShader);
 
+<<<<<<< Updated upstream
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -356,6 +372,47 @@ int main()
             lightCubeShader.setMat4("model", model);
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
+=======
+        ////dinomcqueen
+        //model = glm::mat4(1.0f);
+        //model = glm::translate(model, glm::vec3(posicionX, 0.1f, posicionZ - 24.0f));
+        //model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 1.0f, 0.0f));
+        //model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+        //modelShader.setMat4("model", model);
+        //dinoModel.Draw(modelShader);
+
+        ////estructura 1
+        //model = glm::mat4(1.0f);
+        //model = glm::translate(model, glm::vec3(posicionX + 32.0f, 0.0f, posicionZ + 45.0f));
+        //model = glm::rotate(model, glm::radians(rotacion), glm::vec3(1.0f, 1.0f, 1.0f));
+        //model = glm::scale(model, glm::vec3(45.0f, 45.0f, 45.0f));
+        //modelShader.setMat4("model", model);
+        //buildingModel.Draw(modelShader);
+
+        ////estructura 2
+        //model = glm::mat4(1.0f);
+        //model = glm::translate(model, glm::vec3(posicionX + 20.0f, 0.0f, posicionZ + 43.0f));
+        //model = glm::rotate(model, glm::radians(rotacion), glm::vec3(1.0f, 1.0f, 1.0f));
+        //model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
+        //modelShader.setMat4("model", model);
+        //building02.Draw(modelShader);
+
+        ////casanick
+        //model = glm::mat4(1.0f);
+        //model = glm::translate(model, glm::vec3(posicionX + 45.0f, 0.0f, posicionZ + 45.0f));
+        //model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 1.0f, 0.0f));
+        //model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+        //modelShader.setMat4("model", model);
+        //casanick.Draw(modelShader);
+
+        //cancha
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(posicionX, -0.1f, posicionZ - 12.0f));
+        model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+        modelShader.setMat4("model", model);
+        cancha.Draw(modelShader);
+>>>>>>> Stashed changes
 
         // Matriz de modelo
   
