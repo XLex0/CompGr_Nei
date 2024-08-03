@@ -505,8 +505,8 @@ int main()
         // **BLOQUE 5 ** -> PARQUE CENTRO 
 
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -5.0f));
-        model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.5f));
+        model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.85f));
         // Rotación 90 grados en el eje X (y) -> a la izquierda
         model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
@@ -537,13 +537,36 @@ int main()
         //**********************CALLES****************************
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(3.0f, 0.0f, -25.0f));
-        model = glm::scale(model, glm::vec3(0.3f, 0.1f, 0.3f));
+        model = glm::scale(model, glm::vec3(0.3f, 0.1f, 0.6f));
         // Rotación 90 grados en el eje X (y) -> a la izquierda
         model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         recta.Draw(modelShader);
         
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-33.0f, 0.0f, -25.0f));
+        model = glm::scale(model, glm::vec3(0.3f, 0.1f, 0.6f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        recta.Draw(modelShader);
 
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.015f, -1.0f));
+        model = glm::scale(model, glm::vec3(0.6f, 0.1f, 0.4f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        recta.Draw(modelShader);
+
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.015f, 38.5f));
+        model = glm::scale(model, glm::vec3(0.6f, 0.1f, 0.4f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        recta.Draw(modelShader);
 
         // -----------------------------------------------------
 
