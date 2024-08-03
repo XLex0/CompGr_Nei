@@ -1,0 +1,24 @@
+# Blender 4.2.0 MTL File: 'None'
+# www.blender.org
+
+newmtl JejungwonHospital_Etc
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd JejungwonHospital_Etc_baseColor.jpeg
+map_Bump JejungwonHospital_Etc_normal.jpeg
+
+newmtl JejungwonHospital_WallRoof
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd JejungwonHospital_WallRoof_baseColor.jpeg
+map_Bump JejungwonHospital_WallRoof_normal.jpeg

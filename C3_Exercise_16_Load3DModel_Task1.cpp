@@ -52,7 +52,7 @@ bool primeraKeyPressed = false;
 bool encendida = false;
 bool encendidaKeyPressed = false;
 bool show = false;
-bool Kshow=false;
+bool Kshow = false;
 
 
 int main()
@@ -162,7 +162,7 @@ int main()
         glm::vec3(3.0f,   2.0f, -5.0f)
     };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     unsigned int VBO, cubeVAO;
     glGenVertexArrays(1, &cubeVAO);
     glGenBuffers(1, &VBO);
@@ -200,10 +200,14 @@ int main()
     stbi_set_flip_vertically_on_load(false);
     // Cargar Modelo
     Model ourModel("model/tesla/tesla.obj");
-    Model dinoModel("model/dinocomcqueen/dinocomcqueen.obj");
-    Model buildingModel("model/building/building.obj");
-    Model building02("model/building02/building02.obj");
-    Model casanick("model/casanick/casanick.obj");
+
+    ///////////////////////////////////////////////////////
+    // CRISTIAN
+    Model edificio_dos_torres("model/edificio_dos_torres/edificio_dos_torres.obj");
+    Model hospital("model/hospital/hospital.obj");
+
+    ///////////////////////////////////////////////////////
+
 
     // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
@@ -364,54 +368,104 @@ int main()
             modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(180.0f))); // Angulo m�ximo posible
 
         }
+        // tesla
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(posicionX, 0.0f, posicionZ ));
+        model = glm::translate(model, glm::vec3(posicionX, 0.0f, posicionZ));
         model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 0.1f, 0.0f));
         model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
         modelShader.setMat4("model", model);
         ourModel.Draw(modelShader);
 
-
         /////////////////////
-        //dinomcqueen
+        ////dinomcqueen
+        //model = glm::mat4(1.0f);
+        //model = glm::translate(model, glm::vec3(0.0, 0.1f, 24.0f));
+
+        //model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+        //modelShader.setMat4("model", model);
+        //dinoModel.Draw(modelShader);
+
+        ////estructura 1
+        //model = glm::mat4(1.0f);
+        //model = glm::translate(model, glm::vec3(32.0f, 0.0f, 45.0f));
+
+        //model = glm::scale(model, glm::vec3(45.0f, 45.0f, 45.0f));
+        //modelShader.setMat4("model", model);
+        //buildingModel.Draw(modelShader);
+
+        ////estructura 2
+        //model = glm::mat4(1.0f);
+        //model = glm::translate(model, glm::vec3(20.0f, 0.0f, 43.0f));
+
+        //model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
+        //modelShader.setMat4("model", model);
+        //building02.Draw(modelShader);
+
+        ///*for (int i = 0; i < 5; i++) {
+        //    model = glm::mat4(1.0f);
+        //    model = glm::translate(model, glm::vec3(-30.0f + i * 15.0f, 0.0f, 43.0f));
+        //    model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
+        //    modelShader.setMat4("model", model);
+        //    building02.Draw(modelShader);
+        //}*/
+
+        ////casanick
+        //model = glm::mat4(1.0f);
+        //model = glm::translate(model, glm::vec3(45.0f, 0.0f, 45.0f));
+
+        //model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+        //modelShader.setMat4("model", model);
+        //casanick.Draw(modelShader);
+
+        // ----------------CRISTIAN-----------------------------
+        //**EDIFICIOS** = BLOQUE 1
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0, 0.1f, 24.0f));
-
-        model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+        model = glm::translate(model, glm::vec3(34.0f, 0.0f, -31.0f));
+        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
-        dinoModel.Draw(modelShader);
+        edificio_dos_torres.Draw(modelShader);
 
-        //estructura 1
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(32.0f, 0.0f, 45.0f));
-
-        model = glm::scale(model, glm::vec3(45.0f, 45.0f, 45.0f));
+        model = glm::translate(model, glm::vec3(21.8f, 0.0f, -45.0f));
+        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
-        buildingModel.Draw(modelShader);
+        edificio_dos_torres.Draw(modelShader);
 
-        //estructura 2
+
+        // **HOSPITAL** = BLOQUE 2
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(20.0f, 0.0f, 43.0f));
-
-        model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
+        model = glm::translate(model, glm::vec3(9.0f, 0.0f, -42.0f));
+        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
-        building02.Draw(modelShader);
+        hospital.Draw(modelShader);
 
-        /*for (int i = 0; i < 5; i++) {
-            model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(-30.0f + i * 15.0f, 0.0f, 43.0f));
-            model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
-            modelShader.setMat4("model", model);
-            building02.Draw(modelShader);
-        }*/
-
-        //casanick
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(45.0f, 0.0f, 45.0f));
-
-        model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+        model = glm::translate(model, glm::vec3(4.0f, 0.0f, -33.0f));
+        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
-        casanick.Draw(modelShader);
+        hospital.Draw(modelShader);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -42.0f));
+        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        hospital.Draw(modelShader);
+
+
+        
+
+        
+
+        
+
+
+        // -----------------------------------------------------
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
         lightCubeShader.use();
@@ -470,7 +524,7 @@ void processInput(GLFWwindow* window)
     float rotacionEnRadianes = glm::radians(rotacion);
 
     // Movimiento
-    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS )
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
         float posX = posicionX;
         float posZ = posicionZ;
@@ -485,7 +539,7 @@ void processInput(GLFWwindow* window)
 
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-      
+
         float posX = posicionX;
         float posZ = posicionZ;
 
@@ -585,7 +639,7 @@ void processInput(GLFWwindow* window)
         primeraKeyPressed = false;
     }
 
- 
+
 }
 
 
