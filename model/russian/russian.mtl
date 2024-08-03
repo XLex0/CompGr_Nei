@@ -1,0 +1,123 @@
+# Blender 4.2.0 MTL File: 'None'
+# www.blender.org
+
+newmtl Balkon_01
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 2
+map_Kd Balkon_01_baseColor.png
+map_d Balkon_01_baseColor.png
+map_Bump -bm 1.000000 Balkon_01_normal.jpeg
+
+newmtl Balkon_02
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Balkon_02_baseColor.jpeg
+map_Bump -bm 1.000000 Balkon_02_normal.jpeg
+
+newmtl Balkon_03
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 2
+map_Kd Balkon_03_baseColor.png
+map_d Balkon_03_baseColor.png
+map_Bump -bm 1.000000 Balkon_03_normal.jpeg
+
+newmtl Entrance_01
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Entrance_01_baseColor.jpeg
+map_Ke Entrance_01_emissive.jpeg
+map_Bump -bm 1.000000 C:/Entrance_01_normal.jpeg
+
+newmtl Entrance_02
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Entrance_02_baseColor.jpeg
+map_Bump -bm 1.000000 Entrance_02_normal.jpeg
+
+newmtl Fasad_01
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Fasad_01_baseColor.jpeg
+map_Bump -bm 1.000000 Fasad_01_normal.jpeg
+
+newmtl Fasad_02
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Fasad_02_baseColor.jpeg
+map_Bump -bm 1.000000 Fasad_02_normal.jpeg
+
+newmtl Fasad_03
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Fasad_03_baseColor.jpeg
+map_Bump -bm 1.000000 Fasad_03_normal.jpeg
+
+newmtl Roof_01
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Roof_01_baseColor.jpeg
+map_Bump -bm 1.000000 Roof_01_normal.jpeg
+
+newmtl Wall_down
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Wall_down_baseColor.jpeg
+map_Bump -bm 1.000000 Wall_down_normal.jpeg
+
+newmtl Wall_top
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Wall_top_baseColor.jpeg
+map_Bump -bm 1.000000 Wall_top_normal.jpeg

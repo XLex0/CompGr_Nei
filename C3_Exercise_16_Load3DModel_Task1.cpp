@@ -403,25 +403,25 @@ int main()
         //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         edificio_rojo.Draw(modelShader);
-
+        
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(40.0f, 0.0f, 30.0f));
         //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         edificio_rojo.Draw(modelShader);
-
+        
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(28.0f, 0.0f, 42.0f));
         //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         edificio_rojo.Draw(modelShader);
-
+        
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(40.0f, 0.0f, 42.0f));
         //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         edificio_rojo.Draw(modelShader);
-
+       
         //Edificio russian
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 45.0f));
@@ -458,7 +458,7 @@ int main()
         model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         edificio_dos_torres.Draw(modelShader);
-
+        
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(39.8f, 0.0f, -40.0f));
         model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
@@ -466,7 +466,7 @@ int main()
         model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         edificio_dos_torres.Draw(modelShader);
-
+        
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(32.8f, 0.0f, -40.0f));
         model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
@@ -485,13 +485,13 @@ int main()
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         hospital.Draw(modelShader);
-
+        
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(2.0f, 0.0f, -33.0f));
         model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         hospital.Draw(modelShader);
-
+        
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(-4.0f, 0.0f, -42.0f));
         model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
@@ -574,7 +574,7 @@ int main()
         model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
         modelShader.setMat4("model", model);
         dinocomcqueen.Draw(modelShader);
-
+        
         // PRIMER BLOQUE EMILIO
 
         model = glm::mat4(1.0f);
@@ -594,7 +594,7 @@ int main()
         model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         building.Draw(modelShader);
-
+        
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(-40.0f, 0.0f, -10.0f));
         model = glm::scale(model, glm::vec3(85.0f, 85.0f, 85.0f));
@@ -602,7 +602,7 @@ int main()
         model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         building.Draw(modelShader);
-
+        
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(-25.0f, 0.0f, -5.0f));
         model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
@@ -610,7 +610,7 @@ int main()
         model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         casanick.Draw(modelShader);
-
+        
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(-25.0f, 0.0f, 10.0f));
         model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
@@ -627,7 +627,7 @@ int main()
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         hall.Draw(modelShader);
-
+        
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(-38.0f, 0.0f, 34.0f));
         model = glm::scale(model, glm::vec3(0.45f, 0.45f, 0.45f));
