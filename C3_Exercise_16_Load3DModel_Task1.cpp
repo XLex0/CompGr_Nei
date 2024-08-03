@@ -200,12 +200,12 @@ int main()
 
     stbi_set_flip_vertically_on_load(false);
     // Cargar Modelo
-    Model ourModel("model/tesla/tesla.obj");
+    Model ourModel("C:/model/tesla/tesla.obj");
 
     ///////////////////////////////////////////////////////
     // CRISTIAN
-    Model edificio_dos_torres("model/edificio_dos_torres/edificio_dos_torres.obj");
-    Model hospital("model/hospital/hospital.obj");
+    Model edificio_dos_torres("C:/model/edificio_dos_torres/edificio_dos_torres.obj");
+    Model hospital("C:/model/hospital/hospital.obj");
 
     ///////////////////////////////////////////////////////
 
@@ -460,7 +460,7 @@ int main()
 
 
         
-
+        // ----------------CRISTIAN-----------------------------
         
 
         
