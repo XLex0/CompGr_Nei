@@ -14,6 +14,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <learnopengl/stb_image.h>
 
+//comentario
 // Prototipos de funciones
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
