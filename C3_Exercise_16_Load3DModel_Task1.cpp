@@ -204,16 +204,20 @@ int main()
 
     ///////////////////////////////////////////////////////
     // CRISTIAN
-    Model edificio_dos_torres("C:/model/edificio_dos_torres/edificio_dos_torres.obj");
-    Model hospital("C:/model/hospital/hospital.obj");
+    Model edificio_dos_torres("model/edificio_dos_torres/edificio_dos_torres.obj");
+    Model hospital("model/hospital/hospital.obj");
+    Model parque("model/parque/parque.obj");
+    Model edificios("model/edificios/edificios.obj");
+    Model edificio_chino("model/edificio_chino/edificio_chino.obj");
+    Model recta("model/calle/recta.obj");
 
     ///////////////////////////////////////////////////////
     // NICK
 
-	Model edificio_rojo("C:/model/edificio_rojo/edificio_rojo.obj");
-    Model shield("C:/model/shield/shieldok.obj");
-	Model russian("C:/model/russian/russian.obj");
-	Model BMW("C:/model/BMW/BMW.obj");
+	Model edificio_rojo("model/edificio_rojo/edificio_rojo.obj");
+    Model shield("model/shield/shieldok.obj");
+	Model russian("model/russian/russian.obj");
+	Model BMW("model/BMW/BMW.obj");
 
 
     // Ciclo de renderizado
@@ -377,7 +381,7 @@ int main()
         }
         // tesla
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(posicionX, 0.0f, posicionZ));
+        model = glm::translate(model, glm::vec3(-40.0f, 0.0f, -40.0f));
         model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 0.1f, 0.0f));
         model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
         modelShader.setMat4("model", model);
@@ -444,59 +448,39 @@ int main()
         //model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
         //modelShader.setMat4("model", model);
         //dinoModel.Draw(modelShader);
-
-        ////estructura 1
-        //model = glm::mat4(1.0f);
-        //model = glm::translate(model, glm::vec3(32.0f, 0.0f, 45.0f));
-
-        //model = glm::scale(model, glm::vec3(45.0f, 45.0f, 45.0f));
-        //modelShader.setMat4("model", model);
-        //buildingModel.Draw(modelShader);
-
-        ////estructura 2
-        //model = glm::mat4(1.0f);
-        //model = glm::translate(model, glm::vec3(20.0f, 0.0f, 43.0f));
-
-        //model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
-        //modelShader.setMat4("model", model);
-        //building02.Draw(modelShader);
-
-        ///*for (int i = 0; i < 5; i++) {
-        //    model = glm::mat4(1.0f);
-        //    model = glm::translate(model, glm::vec3(-30.0f + i * 15.0f, 0.0f, 43.0f));
-        //    model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
-        //    modelShader.setMat4("model", model);
-        //    building02.Draw(modelShader);
-        //}*/
-
-        ////casanick
-        //model = glm::mat4(1.0f);
-        //model = glm::translate(model, glm::vec3(45.0f, 0.0f, 45.0f));
-
-        //model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-        //modelShader.setMat4("model", model);
-        //casanick.Draw(modelShader);
+        
 
         // ----------------CRISTIAN-----------------------------
         //**EDIFICIOS** = BLOQUE 1
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(34.0f, 0.0f, -31.0f));
-        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+        model = glm::translate(model, glm::vec3(46.8f, 0.0f, -40.0f));
+        model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         edificio_dos_torres.Draw(modelShader);
-
+        
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(21.8f, 0.0f, -45.0f));
-        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+        model = glm::translate(model, glm::vec3(39.8f, 0.0f, -40.0f));
+        model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
         // Rotación 90 grados en el eje X (y) -> a la izquierda
         model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         edificio_dos_torres.Draw(modelShader);
 
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(32.8f, 0.0f, -40.0f));
+        model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        edificio_dos_torres.Draw(modelShader);
+
+        //--------------------------------------------------------
 
         // **HOSPITAL** = BLOQUE 2
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(9.0f, 0.0f, -42.0f));
+        model = glm::translate(model, glm::vec3(7.0f, 0.0f, -42.0f));
         model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         // Rotación 90 grados en el eje X (y) -> a la izquierda
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -504,24 +488,60 @@ int main()
         hospital.Draw(modelShader);
 
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(4.0f, 0.0f, -33.0f));
+        model = glm::translate(model, glm::vec3(2.0f, 0.0f, -33.0f));
         model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         hospital.Draw(modelShader);
 
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -42.0f));
+        model = glm::translate(model, glm::vec3(-3.0f, 0.0f, -42.0f));
         model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         // Rotación 90 grados en el eje X (y) -> a la izquierda
         model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         hospital.Draw(modelShader);
 
+        //-------------------------------------------------
+        // **BLOQUE 5 ** -> PARQUE CENTRO 
 
-        
-        // ----------------CRISTIAN-----------------------------
-        
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -5.0f));
+        model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        parque.Draw(modelShader);
 
+        // --------------------------------------------------
+
+        //**BLOQUE 4** -> EDFIICIOS
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(48.0f, 0.0f, -4.0f));
+        model = glm::scale(model, glm::vec3(3.5f, 3.0f, 3.5f));
+        modelShader.setMat4("model", model);
+        edificios.Draw(modelShader);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(40.0f, 0.0f, -4.0f));
+        model = glm::scale(model, glm::vec3(3.5f, 3.0f, 3.5f));
+        modelShader.setMat4("model", model);
+        edificios.Draw(modelShader);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(41.0f, 0.0f, 3.0f));
+        model = glm::scale(model, glm::vec3(0.09f, 0.075f, 0.09f));
+        modelShader.setMat4("model", model);
+        edificio_chino.Draw(modelShader);
+
+        //--------------------------------------------------------
+        //**********************CALLES****************************
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(3.0f, 0.0f, -25.0f));
+        model = glm::scale(model, glm::vec3(0.3f, 0.1f, 0.3f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        recta.Draw(modelShader);
         
 
 
@@ -770,4 +790,3 @@ unsigned int loadTexture(char const* path)
 
     return textureID;
 }
-
