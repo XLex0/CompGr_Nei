@@ -421,7 +421,7 @@ int main()
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         russian.Draw(modelShader);
-
+        //
 
 		//BMW
         model = glm::mat4(1.0f);
