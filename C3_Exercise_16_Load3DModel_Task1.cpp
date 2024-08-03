@@ -213,7 +213,7 @@ int main()
 	Model edificio_rojo("C:/model/edificio_rojo/edificio_rojo.obj");
     Model shield("C:/model/shield/shieldok.obj");
 	Model russian("C:/model/russian/russian.obj");
-
+	Model BMW("C:/model/BMW/BMW.obj");
 
 
     // Ciclo de renderizado
@@ -247,7 +247,7 @@ int main()
             direction.y = -0.1f; // Mantener la direcci�n en el plano horizontal
             camera.Front = glm::normalize(direction);
         }
-        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.001f, 10000.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.001f, 10000000.0f);
         glm::mat4 view = camera.GetViewMatrix();
 
 
@@ -410,17 +410,27 @@ int main()
 		//shield
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(10.0f, 0.0f, 30.0f));
-        model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+        model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
         modelShader.setMat4("model", model);
         shield.Draw(modelShader);
 
-
+        //russian
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(-20.0f, 0.0f, 30.0f));
-        model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3));
+        model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         russian.Draw(modelShader);
+
+
+		//BMW
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(10.0f, 0.0f, 25.0f));
+       //model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4));
+                modelShader.setMat4("model", model);
+        BMW.Draw(modelShader);
+
+
 		//-------------NICK-------------------
 
        
