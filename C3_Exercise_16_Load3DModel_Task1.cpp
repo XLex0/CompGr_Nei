@@ -37,10 +37,11 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 //Velocidad-> cambiar este valor en caso de querer mover el auto mas rapido
-float velocidad = 0.01f;
+float velocidad = 0.0f;
 float posicionX = 0.0f;
 float posicionZ = 0.0f;
 float rotacion = 0.0f;
+float aceleracion = 0.00005;
 
 
 // Velocidad de la cámara
@@ -381,7 +382,7 @@ int main()
         }
         // tesla
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(-40.0f, 0.0f, -40.0f));
+        model = glm::translate(model, glm::vec3(posicionX, 0.0f, posicionZ));
         model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 0.1f, 0.0f));
         model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
         modelShader.setMat4("model", model);
@@ -634,11 +635,16 @@ void processInput(GLFWwindow* window)
 
         posicionX += velocidad * cos(rotacionEnRadianes);
         posicionZ += -velocidad * sin(rotacionEnRadianes);
+        if (velocidad < 0.05f) {
+            velocidad += aceleracion;
+        }
         if (!colision(posicionX, posicionZ)) {
             posicionX = posX;
             posicionZ = posZ;
+            velocidad = 0.0;
         }
     }
+
 
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
@@ -646,55 +652,84 @@ void processInput(GLFWwindow* window)
         float posX = posicionX;
         float posZ = posicionZ;
 
-        posicionX -= velocidad * 0.25f * cos(rotacionEnRadianes);
-        posicionZ += velocidad * 0.25f * sin(rotacionEnRadianes);
-
+        posicionX += velocidad * cos(rotacionEnRadianes);
+        posicionZ += -velocidad * sin(rotacionEnRadianes);
+        if (velocidad > -0.015f) {
+            velocidad -= aceleracion*4;
+        }
         if (!colision(posicionX, posicionZ)) {
             posicionX = posX;
             posicionZ = posZ;
+            velocidad = 0.0;
+        }
+
+    }
+    if (glfwGetKey(window, GLFW_KEY_UP) != GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) != GLFW_PRESS)
+    {
+        float posX = posicionX;
+        float posZ = posicionZ;
+     
+        posicionX += velocidad * cos(rotacionEnRadianes);
+        posicionZ += -velocidad * sin(rotacionEnRadianes);
+
+        if (velocidad > 0.0f) {
+            velocidad -= aceleracion / 5.0f;
+            if (velocidad < 0.0f) velocidad = 0.0f;
+        }
+        else if (velocidad < 0.0f) {
+            velocidad += aceleracion ;
+            if (velocidad > 0.0f) velocidad = 0.0f;
+        }
+
+        // Verificación de colisión y ajuste de posición
+        if (!colision(posicionX, posicionZ)) {
+            posicionX = posX;
+            posicionZ = posZ;
+            velocidad = 0.0;
         }
     }
 
 
 
 
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && velocidad >0.01)
     {
         float newX = posicionX + velocidad * cos(rotacionEnRadianes);
         float newZ = posicionZ - velocidad * sin(rotacionEnRadianes);
 
         if (colision(newX, newZ)) {
-            rotacion += 30.0f * velocidad;
+            rotacion += 5.0f * velocidad;
         }
     }
 
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && velocidad >0.01)
     {
         float newX = posicionX + velocidad * cos(rotacionEnRadianes);
         float newZ = posicionZ - velocidad * sin(rotacionEnRadianes);
 
         if (colision(newX, newZ)) {
-            rotacion -= 30.0f * velocidad;
+            rotacion -= 5.0f * velocidad;
         }
     }
 
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && velocidad<0)
     {
         float newX = posicionX - velocidad * 0.5f * cos(rotacionEnRadianes);
         float newZ = posicionZ + velocidad * 0.5f * sin(rotacionEnRadianes);
 
         if (colision(newX, newZ)) {
-            rotacion += 30.0f * 0.5f * velocidad;
+            rotacion += 10.0f * 0.5f * velocidad;
         }
     }
 
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && velocidad<0)
     {
         float newX = posicionX - velocidad * 0.5f * cos(rotacionEnRadianes);
         float newZ = posicionZ + velocidad * 0.5f * sin(rotacionEnRadianes);
 
         if (colision(newX, newZ)) {
-            rotacion -= 30.0f * 0.5f * velocidad;
+            rotacion -= 10.0f * 0.5f * velocidad;
         }
     }
 
