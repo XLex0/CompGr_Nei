@@ -69,7 +69,7 @@ int main()
 #endif
 
     // Crear ventana GLFW
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "PROYECTO jeje", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "PROYECTO", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -208,6 +208,12 @@ int main()
     Model hospital("C:/model/hospital/hospital.obj");
 
     ///////////////////////////////////////////////////////
+    // NICK
+
+	Model edificio_rojo("C:/model/edificio_rojo/edificio_rojo.obj");
+    Model shield("C:/model/shield/shieldok.obj");
+	Model russian("C:/model/russian/russian.obj");
+
 
 
     // Ciclo de renderizado
@@ -376,6 +382,49 @@ int main()
         model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
         modelShader.setMat4("model", model);
         ourModel.Draw(modelShader);
+
+
+
+		//-------------NICK-------------------
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(30.0f, 0.0f, 30.0f));
+        //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+        modelShader.setMat4("model", model);
+        edificio_rojo.Draw(modelShader);
+
+        //calle 2
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(30.0f, 0.0f, 10.0f));
+        //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+        modelShader.setMat4("model", model);
+        edificio_rojo.Draw(modelShader);
+
+        //calle 2
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(20.0f, 0.0f, 10.0f));
+        //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+        modelShader.setMat4("model", model);
+        edificio_rojo.Draw(modelShader);
+
+		//shield
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(10.0f, 0.0f, 30.0f));
+        model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+        modelShader.setMat4("model", model);
+        shield.Draw(modelShader);
+
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-20.0f, 0.0f, 30.0f));
+        model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        russian.Draw(modelShader);
+		//-------------NICK-------------------
+
+       
+
 
         /////////////////////
         ////dinomcqueen
