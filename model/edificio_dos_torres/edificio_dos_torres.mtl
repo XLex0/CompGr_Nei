@@ -1,0 +1,79 @@
+# Blender 4.2.0 MTL File: 'None'
+# www.blender.org
+
+newmtl Highrise_Facade.002
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Highrise_Facade.002_baseColor.jpeg
+map_Bump Highrise_Facade.002_normal.png
+
+newmtl Material.003
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Material.003_baseColor.jpeg
+map_Bump Material.003_normal.png
+
+newmtl Material.004
+Ns 674.229126
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Material.004_baseColor.jpeg
+map_Bump Material.004_normal.png
+
+newmtl concrete_tiles.002
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd concrete_tiles.002_baseColor.jpeg
+map_Bump concrete_tiles.002_normal.jpeg
+
+newmtl glass_panel.002
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 2
+map_Kd glass_panel.002_baseColor.png
+map_d glass_panel.002_baseColor.png
+map_Bump glass_panel.002_normal.jpeg
+
+newmtl window1-4
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd window1-4_baseColor.jpeg
+map_Ke window1-4_emissive.jpeg
+map_Bump window1-4_normal.jpeg
+
+newmtl window2-3.002
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.500000
+illum 2
+map_Kd window2-3.002_baseColor.png
+map_Ke window2-3.002_emissive.jpeg
+map_d window2-3.002_baseColor.png
+map_Bump window2-3.002_normal.jpeg
