@@ -390,7 +390,7 @@ int main()
         //model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
         model = glm::translate(model, glm::vec3(posicionX, 0.0f, posicionZ));
         model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 0.1f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.03f, 0.03f, 0.03f));
+        model = glm::scale(model, glm::vec3(0.015f, 0.015f, 0.015f));
         modelShader.setMat4("model", model);
         ourModel.Draw(modelShader);
 
