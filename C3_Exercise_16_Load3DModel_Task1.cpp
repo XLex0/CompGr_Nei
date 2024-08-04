@@ -202,31 +202,31 @@ int main()
 
     stbi_set_flip_vertically_on_load(false);
     // Cargar Modelo
-    Model ourModel("model/tesla/tesla.obj");
+    Model ourModel("C:/model/tesla/tesla.obj");
 
     ///////////////////////////////////////////////////////
     // CRISTIAN
-    Model edificio_dos_torres("model/edificio_dos_torres/edificio_dos_torres.obj");
-    Model hospital("model/hospital/hospital.obj");
-    Model parque("model/parque/parque.obj");
-    Model edificios("model/edificios/edificios.obj");
-    Model edificio_chino("model/edificio_chino/edificio_chino.obj");
-    Model recta("model/calle/recta.obj");
+    Model edificio_dos_torres("C:/model/edificio_dos_torres/edificio_dos_torres.obj");
+    Model hospital("C:/model/hospital/hospital.obj");
+    Model parque("C:/model/parque/parque.obj");
+    Model edificios("C:/model/edificios/edificios.obj");
+    Model edificio_chino("C:/model/edificio_chino/edificio_chino.obj");
+    Model recta("C:/model/calle/recta.obj");
 
     ///////////////////////////////////////////////////////
     // NICK
 
-    Model edificio_rojo("model/edificio_rojo/edificio_rojo.obj");
-    Model shield("model/shield/shieldok.obj");
-    Model russian("model/russian/russian.obj");
-    Model BMW("model/BMW/BMW.obj");
+    Model edificio_rojo("C:/model/edificio_rojo/edificio_rojo.obj");
+    Model shield("C:/model/shield/shieldok.obj");
+    Model russian("C:/model/russian/russian.obj");
+    Model BMW("C:/model/BMW/BMW.obj");
 
     // EMILIO
-    Model building("model/building/building.obj");
-    Model building02("model/building02/building02.obj");
-    Model casanick("model/casanick/casanick.obj");
-    Model hall("model/speer_hall/speer_hall.obj");
-    Model dinocomcqueen("model/dinocomcqueen/dinocomcqueen.obj");
+    Model building("C:/model/building/building.obj");
+    Model building02("C:/model/building02/building02.obj");
+    Model casanick("C:/model/casanick/casanick.obj");
+    Model hall("C:/model/speer_hall/speer_hall.obj");
+    Model dinocomcqueen("C:/model/dinocomcqueen/dinocomcqueen.obj");
 
     // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
@@ -744,6 +744,7 @@ float velocidadaxima = 0.0f;
 float tiempo = 0.0f;
 float frenado = 0.0f;
 float fuerzaDeSalida = 0.0f;
+bool retrocediendo = false;
 // Funcion para procesar con físicas la velocidad de marcha
 void processInput(GLFWwindow* window)
 {
@@ -787,10 +788,15 @@ void processInput(GLFWwindow* window)
         velocidadaxima = 0.25;
 		fuerzaDeSalida = 0.0f;
     }
+    if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS) {
+        marcha = 6;
+        velocidadaxima = 0.30;
+        fuerzaDeSalida = 1.0f;
+    }
 
 	aceleracion = controlVelocidad(marcha);
 
-	//std::cout << "velocidad: " << velocidad << std::endl;
+	std::cout << "velocidad: " << velocidad << std::endl;
     //
 
 
@@ -798,6 +804,7 @@ void processInput(GLFWwindow* window)
 
     
     // Movimiento
+ // Movimiento
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
         tiempo = 0.0f;
@@ -809,126 +816,125 @@ void processInput(GLFWwindow* window)
 
         float posX = posicionX;
         float posZ = posicionZ;
-
         posicionX += velocidad * cos(rotacionEnRadianes);
         posicionZ += -velocidad * sin(rotacionEnRadianes);
-        if (velocidad < 0.05f) {
-            velocidad += aceleracion;
-        }
         if (!colision(posicionX, posicionZ)) {
             posicionX = posX;
             posicionZ = posZ;
-            velocidad = 0.0;
         }
     }
     else {
-		aceleracion = 0.0f;
-		float fuerzaRozamiento = 0.002f + frenado;
-        if (velocidad > 0)
+        aceleracion = 0.0f;
+        float fuerzaRozamiento = 0.002f + frenado;
+        if (!retrocediendo)
         {
-            velocidad = velocidad - fuerzaRozamiento;
+            if (velocidad > 0)
+            {
+                velocidad = velocidad - fuerzaRozamiento;
+            }
+            else
+            {
+				if (velocidad < ( - fuerzaRozamiento))
+                {
+                    velocidad = velocidad + fuerzaRozamiento;
+                }
+                else
+                {
+                    velocidad = 0.0f;
+                }
+               
+            }
+            posicionX += velocidad * cos(rotacionEnRadianes);
+            posicionZ += -velocidad * sin(rotacionEnRadianes);
         }
         else
         {
-			velocidad = 0.0f;
+            if (velocidad>-0.1f)
+            {
+                velocidad = velocidad - fuerzaRozamiento;
+				//velocidad = velocidad * (- 1.0f);
+			}
+			else
+			{
+				velocidad = -0.1f;
+			}
+            posicionX += velocidad * cos(rotacionEnRadianes);
+            posicionZ += -velocidad * sin(rotacionEnRadianes);
         }
-		
         
-        posicionX += velocidad * cos(rotacionEnRadianes);
-        posicionZ += -velocidad * sin(rotacionEnRadianes);
+
+
+
     }
 
 
+    //FRENO
+    if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS) {
+        frenado = 0.002f;
+	}
+	else {
+		frenado = 0.0f;
+	}
+
+	//Retroceder
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-		frenado = 0.002f;
+        retrocediendo = true;
+        tiempo = 0.0f;
+        velocidadaxima = 0.1f;
+        aceleracion = 0.1f;
+        //velocidad = fisicasVelocidad(velocidad, tiempo, velocidadaxima, aceleracion);
+        
+		
+
         float posX = posicionX;
         float posZ = posicionZ;
 
-        posicionX += velocidad * cos(rotacionEnRadianes);
-        posicionZ += -velocidad * sin(rotacionEnRadianes);
-        if (velocidad > -0.015f) {
-            velocidad -= aceleracion*4;
-        }
+        //posicionX -= velocidad  * cos(rotacionEnRadianes);
+        //posicionZ += velocidad  * sin(rotacionEnRadianes);
         if (!colision(posicionX, posicionZ)) {
             posicionX = posX;
             posicionZ = posZ;
-            velocidad = 0.0;
-        }
-
-    }
-    if (glfwGetKey(window, GLFW_KEY_UP) != GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) != GLFW_PRESS)
-    {
-        float posX = posicionX;
-        float posZ = posicionZ;
-     
-        posicionX += velocidad * cos(rotacionEnRadianes);
-        posicionZ += -velocidad * sin(rotacionEnRadianes);
-
-        if (velocidad > 0.0f) {
-            velocidad -= aceleracion / 5.0f;
-            if (velocidad < 0.0f) velocidad = 0.0f;
-        }
-        else if (velocidad < 0.0f) {
-            velocidad += aceleracion ;
-            if (velocidad > 0.0f) velocidad = 0.0f;
-        }
-
-        // Verificación de colisión y ajuste de posición
-        if (!colision(posicionX, posicionZ)) {
-            posicionX = posX;
-            posicionZ = posZ;
-            velocidad = 0.0;
         }
 	}
-    else {
-		frenado = 0.0f;
-    }
+	else {
+		retrocediendo = false;
+	}
+    
 
 
-
-
-
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && velocidad >0.01)
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
         float newX = posicionX + velocidad * cos(rotacionEnRadianes);
         float newZ = posicionZ - velocidad * sin(rotacionEnRadianes);
-
         if (colision(newX, newZ)) {
-            rotacion += 5.0f * velocidad;
+            rotacion += 30.0f * velocidad;
         }
     }
-
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && velocidad >0.01)
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
         float newX = posicionX + velocidad * cos(rotacionEnRadianes);
         float newZ = posicionZ - velocidad * sin(rotacionEnRadianes);
-
         if (colision(newX, newZ)) {
-            rotacion -= 5.0f * velocidad;
+            rotacion -= 30.0f * velocidad;
         }
     }
-
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && velocidad<0)
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
         float newX = posicionX - velocidad * 0.5f * cos(rotacionEnRadianes);
         float newZ = posicionZ + velocidad * 0.5f * sin(rotacionEnRadianes);
-
         if (colision(newX, newZ)) {
-            rotacion += 10.0f * 0.5f * velocidad;
+            rotacion += 30.0f * 0.5f * velocidad;
         }
     }
-
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && velocidad<0)
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
         float newX = posicionX - velocidad * 0.5f * cos(rotacionEnRadianes);
         float newZ = posicionZ + velocidad * 0.5f * sin(rotacionEnRadianes);
-
         if (colision(newX, newZ)) {
-            rotacion -= 10.0f * 0.5f * velocidad;
+            rotacion -= 30.0f * 0.5f * velocidad;
         }
     }
-
 
 
     // Actualiza la rotación en radianes
