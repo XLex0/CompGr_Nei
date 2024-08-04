@@ -228,6 +228,14 @@ int main()
     Model hall("model/speer_hall/speer_hall.obj");
     Model dinocomcqueen("model/dinocomcqueen/dinocomcqueen.obj");
 
+    //Alejandro
+    Model poste("model/poste/poste.obj");
+    //Model audi("model/audi/audi.obj");
+    Model porsche("model/porsche/porsche.obj");
+   Model mercedes("model/mercedes/mercedes.obj");
+    Model toyota("model/toyota/toyota.obj");
+
+
     // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
     {
@@ -361,7 +369,7 @@ int main()
 
 
 
-        if (!dia && encendida) {
+        if (!dia && encendida && primera) {
             modelShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
             modelShader.setVec3("spotLight.position", camera.Position);
             modelShader.setVec3("spotLight.direction", camera.Front);
@@ -374,7 +382,7 @@ int main()
             modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(14.0f)));
             modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(22.0f)));
         }
-        else if (!encendida && !dia ){
+        else if ( !dia ){
             modelShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
             modelShader.setVec3("spotLight.position", camera.Position); // No es necesario si solo desactivas la luz
             modelShader.setVec3("spotLight.direction", camera.Front); // No es necesario si solo desactivas la luz
@@ -466,6 +474,142 @@ int main()
 
 
         //------------------------------------------------------
+
+        //ALEJANDRO
+        //
+        // FUENTES DE LUZ
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+        //POSTES
+        for (int i = 0; i < 4; ++i) {
+
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f, 1.777f, -14.0f + i * 8.6f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f, 0.0f, -14.0f + i * 8.6f));
+            model = glm::scale(model, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model);
+            poste.Draw(modelShader);
+        }
+
+        for (int i = 1; i < 4; ++i) {
+
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f + i * 8.6, 1.777f, -14.0f + 3 * 8.6f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f + i * 8.6, 0.0f, -14.0f + 3 * 8.6f));
+            model = glm::scale(model, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model);
+            poste.Draw(modelShader);
+        }
+
+        for (int i = 1; i < 4; ++i) {
+
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f + 3 * 8.6, 1.777f, -14.0f + i * 8.6f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f + 3 * 8.6, 0.0f, -14.0f + i * 8.6f));
+            model = glm::scale(model, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model);
+            poste.Draw(modelShader);
+        }
+
+        for (int i = 1; i < 4; ++i) {
+
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f + i * 8.6, 1.777f, -14.0f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f + i * 8.6, 0.0f, -14.0f));
+            model = glm::scale(model, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model);
+            poste.Draw(modelShader);
+        }
+
+
+
+
+
+        //PORSCHE
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(15.0f, 0.235f, 0.0f));
+        model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+        modelShader.setMat4("model", model);
+       porsche.Draw(modelShader);
+
+
+
+        //MERCEDES
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(17.0f, 0.4f, 0.0f));
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        mercedes.Draw(modelShader);
+       /*
+        //AUDI
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(25.0f, 0.6f, -19.5f));
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+        modelShader.setMat4("model", model);
+        audi.Draw(modelShader);
+
+*/
+        //toyota
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(19.0f, 0.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+        modelShader.setMat4("model", model);
+       toyota.Draw(modelShader);
+
+
+
+
 
 
         // ----------------CRISTIAN-----------------------------
