@@ -38,8 +38,8 @@ float lastFrame = 0.0f;
 
 //Velocidad-> cambiar este valor en caso de querer mover el auto mas rapido
 float velocidad = 0.0f;
-float posicionX = 0.0f;
-float posicionZ = 0.0f;
+float posicionX = 25.0f;
+float posicionZ = 16.0f;
 float rotacion = 0.0f;
 float aceleracion = 0.00005;
 
@@ -295,9 +295,8 @@ int main()
 
 
         modelShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-        modelShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
-        modelShader.setVec3("dirLight.diffuse", 0.01f, 0.01f, 0.01f);
-        modelShader.setVec3("dirLight.specular", 0.05f, 0.05f, 0.05f);
+        modelShader.setVec3("dirLight.diffuse", 0.1f, 0.1f, 0.1f);
+        modelShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
 
         // point light 1
         modelShader.setVec3("pointLights[0].position", pointLightPositions[0]);
@@ -355,29 +354,45 @@ int main()
 
 
 
-        if (!dia) {
+        if (!dia && encendida) {
+            modelShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
             modelShader.setVec3("spotLight.position", camera.Position);
             modelShader.setVec3("spotLight.direction", camera.Front);
             modelShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
             modelShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
             modelShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
             modelShader.setFloat("spotLight.constant", 1.0f);
-            modelShader.setFloat("spotLight.linear", 0.02);
-            modelShader.setFloat("spotLight.quadratic", 0.02);
+            modelShader.setFloat("spotLight.linear", 0.09);
+            modelShader.setFloat("spotLight.quadratic", 0.032);
             modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(14.0f)));
-            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(22.0f)));
         }
-        else {
+        else if (!encendida && !dia ){
+            modelShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
             modelShader.setVec3("spotLight.position", camera.Position); // No es necesario si solo desactivas la luz
             modelShader.setVec3("spotLight.direction", camera.Front); // No es necesario si solo desactivas la luz
-            modelShader.setVec3("spotLight.ambient", glm::vec3(0.1f));
+            modelShader.setVec3("spotLight.ambient", glm::vec3(0.0f));
             modelShader.setVec3("spotLight.diffuse", glm::vec3(1.0f));
             modelShader.setVec3("spotLight.specular", glm::vec3(1.0f));
             modelShader.setFloat("spotLight.constant", 1.0f);
-            modelShader.setFloat("spotLight.linear", 0.09f);
+            modelShader.setFloat("spotLight.linear", 1.0f);
+            modelShader.setFloat("spotLight.quadratic", 1.0f);
+            modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(360.0f))); // Angulo m�ximo posible
+            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(360.0f))); // Angulo m�ximo posible
+
+        }
+        else {
+            modelShader.setVec3("dirLight.ambient", 0.4f, 0.4f, 0.4f);
+            modelShader.setVec3("spotLight.position", camera.Position); // No es necesario si solo desactivas la luz
+            modelShader.setVec3("spotLight.direction", camera.Front); // No es necesario si solo desactivas la luz
+            modelShader.setVec3("spotLight.ambient", glm::vec3(0.0f));
+            modelShader.setVec3("spotLight.diffuse", glm::vec3(1.0f));
+            modelShader.setVec3("spotLight.specular", glm::vec3(1.0f));
+            modelShader.setFloat("spotLight.constant", 0.8f);
+            modelShader.setFloat("spotLight.linear", 0.0f);
             modelShader.setFloat("spotLight.quadratic", 0.0f);
-            modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(180.0f))); // Angulo m�ximo posible
-            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(180.0f))); // Angulo m�ximo posible
+            modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(360.0f))); // Angulo m�ximo posible
+            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(360.0f))); // Angulo m�ximo posible
 
         }
         // tesla
@@ -601,9 +616,9 @@ int main()
     return 0;
 }
 
-bool colision(float x, float y) {
+bool colision(float x, float z) {
     bool colision = true;
-    if (x >= -1.63f && x <= 1.19f && y >= 23.3f && y <= 27.16f) {
+    if (x >= 49.5f || x <= -49.5f || z >= 49.5f || z <= -49.5f) {
         colision = false;
     }
     return colision;
@@ -753,17 +768,33 @@ void processInput(GLFWwindow* window)
     }
 
     // En el ciclo de renderizado
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS && !primeraKeyPressed)
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
     {
-        show = !show;
-        Kshow = true;
+        if (!Kshow) // Solo cambia el estado si la tecla estaba previamente no presionada
+        {
+            show = !show;
+            Kshow = true;
+        }
     }
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_RELEASE)
+    else
     {
-        Kshow = false;
+        Kshow = false; // Resetea el estado cuando la tecla es liberada
     }
 
 
+
+    if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
+    {
+        if (!encendidaKeyPressed) // Solo cambia el estado si la tecla estaba previamente no presionada
+        {
+            encendida = !encendida;
+            encendidaKeyPressed = true;
+        }
+    }
+    else
+    {
+        encendidaKeyPressed = false; // Resetea el estado cuando la tecla es liberada
+    }
 
 
 
