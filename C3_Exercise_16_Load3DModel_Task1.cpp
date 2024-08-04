@@ -675,10 +675,55 @@ bool colision(float x, float y) {
     return colision;
 }
 
+// Funcion control de marchas
+float controlVelocidad(int marcha) {
+        
+    float velocidad = 0.0f;
+        
+        switch (marcha) {
+            case 1:
+				velocidad = 0.1f;
+                break;
+            case 2:
+				velocidad = 0.2f;
+                break;
+            case 3:
+				velocidad = 0.3f;
+                break;
+            case 4:
+                velocidad = 0.4f;
+                break;
+            case 5:
+                velocidad = 0.5f;
+                break;
+            default:
+                velocidad = 0.0f;
+                break;
+        }
+		return velocidad;
+    }
 
 
+// Funcion para procesar con físicas la velocidad de marcha
+float fisicasVelocidad(float velocidadInicial, float tiempo, float velocidadMaxima, float aceleracion) {
+	float velocidadFinal = 0.0f;
+	velocidadFinal = velocidadInicial + (aceleracion * tiempo); //fórmula de la velocidad final
 
+	// Si la velocidad final es mayor a la velocidad máxima, se asigna la velocidad máxima
+	if (velocidadFinal > velocidadMaxima) {
+		velocidadFinal = velocidadMaxima;
+	}
 
+	return velocidadFinal;
+}
+
+//variables
+int marcha = 0;
+float velocidad = 0.0f;
+float aceleracion = 0.0f;
+float velocidadaxima = 0.0f;
+float tiempo = 0.0f;
+// Funcion para procesar con físicas la velocidad de marcha
 void processInput(GLFWwindow* window)
 {
     float rotacionR = glm::radians(rotacion);
@@ -694,11 +739,40 @@ void processInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.ProcessKeyboard(RIGHT, deltaTime * cameraSpeed);
 
+
+    //MARCHAS
+	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
+		marcha = 1;
+		velocidadaxima = 1.0f;
+	}
+    if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
+        marcha = 2;
+        velocidadaxima = 2.0f;
+    }
+    if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
+        marcha = 3;
+        velocidadaxima = 3.0f;
+    }
+    if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
+        marcha = 4;
+        velocidadaxima = 4.0f;
+    }
+    if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
+        marcha = 5;
+        velocidadaxima = 5.0f;
+    }
+
+	aceleracion = controlVelocidad(marcha);
+	
+    //
+
+
     float rotacionEnRadianes = glm::radians(rotacion);
 
     // Movimiento
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
+        tiempo = 0.0f;
         float posX = posicionX;
         float posZ = posicionZ;
 
