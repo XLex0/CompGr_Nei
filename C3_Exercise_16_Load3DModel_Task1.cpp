@@ -37,7 +37,7 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 //Velocidad-> cambiar este valor en caso de querer mover el auto mas rapido
-float velocidad = 0.1f;
+//float velocidad = 0.1f;
 float posicionX = 0.0f;
 float posicionZ = 0.0f;
 float rotacion = 0.0f;
@@ -682,19 +682,19 @@ float controlVelocidad(int marcha) {
         
         switch (marcha) {
             case 1:
-				velocidad = 0.1f;
+				velocidad = 0.05f;
                 break;
             case 2:
-				velocidad = 0.2f;
+				velocidad = 0.1f;
                 break;
             case 3:
-				velocidad = 0.3f;
+				velocidad = 0.15f;
                 break;
             case 4:
-                velocidad = 0.4f;
+                velocidad = 0.20f;
                 break;
             case 5:
-                velocidad = 0.5f;
+                velocidad = 0.25f;
                 break;
             default:
                 velocidad = 0.0f;
@@ -707,6 +707,7 @@ float controlVelocidad(int marcha) {
 // Funcion para procesar con físicas la velocidad de marcha
 float fisicasVelocidad(float velocidadInicial, float tiempo, float velocidadMaxima, float aceleracion) {
 	float velocidadFinal = 0.0f;
+    tiempo += deltaTime; // deltaTime es el tiempo transcurrido desde el último fotograma
 	velocidadFinal = velocidadInicial + (aceleracion * tiempo); //fórmula de la velocidad final
 
 	// Si la velocidad final es mayor a la velocidad máxima, se asigna la velocidad máxima
@@ -743,36 +744,40 @@ void processInput(GLFWwindow* window)
     //MARCHAS
 	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
 		marcha = 1;
-		velocidadaxima = 1.0f;
+		velocidadaxima = 0.05f;
 	}
     if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
         marcha = 2;
-        velocidadaxima = 2.0f;
+        velocidadaxima = 0.1f;
     }
     if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
         marcha = 3;
-        velocidadaxima = 3.0f;
+        velocidadaxima = 0.15f;
     }
     if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
         marcha = 4;
-        velocidadaxima = 4.0f;
+        velocidadaxima = 0.20f;
     }
     if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
         marcha = 5;
-        velocidadaxima = 5.0f;
+        velocidadaxima = 0.25;
     }
 
 	aceleracion = controlVelocidad(marcha);
-	
+
+	std::cout << "velocidad: " << velocidad << std::endl;
     //
 
 
     float rotacionEnRadianes = glm::radians(rotacion);
 
+    
     // Movimiento
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
         tiempo = 0.0f;
+        velocidad = fisicasVelocidad(velocidad, tiempo, velocidadaxima, aceleracion);
+
         float posX = posicionX;
         float posZ = posicionZ;
 
@@ -782,6 +787,9 @@ void processInput(GLFWwindow* window)
             posicionX = posX;
             posicionZ = posZ;
         }
+    }
+    else {
+		
     }
 
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
