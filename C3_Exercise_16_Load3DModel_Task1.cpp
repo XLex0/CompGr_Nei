@@ -37,11 +37,12 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 //Velocidad-> cambiar este valor en caso de querer mover el auto mas rapido
+
 float velocidad = 0.0f;
 float posicionX = 25.0f;
 float posicionZ = 16.0f;
 float rotacion = 0.0f;
-float aceleracion = 0.00005;
+//float aceleracion = 0.00005;
 
 
 // Velocidad de la cámara
@@ -205,27 +206,27 @@ int main()
 
     ///////////////////////////////////////////////////////
     // CRISTIAN
-    Model edificio_dos_torres("C:/model/edificio_dos_torres/edificio_dos_torres.obj");
-    Model hospital("C:/model/hospital/hospital.obj");
-    Model parque("C:/model/parque/parque.obj");
-    Model edificios("C:/model/edificios/edificios.obj");
-    Model edificio_chino("C:/model/edificio_chino/edificio_chino.obj");
-    Model recta("C:/model/calle/recta.obj");
+    Model edificio_dos_torres("model/edificio_dos_torres/edificio_dos_torres.obj");
+    Model hospital("model/hospital/hospital.obj");
+    Model parque("model/parque/parque.obj");
+    Model edificios("model/edificios/edificios.obj");
+    Model edificio_chino("model/edificio_chino/edificio_chino.obj");
+    Model recta("model/calle/recta.obj");
 
     ///////////////////////////////////////////////////////
     // NICK
 
-    Model edificio_rojo("C:/model/edificio_rojo/edificio_rojo.obj");
-    Model shield("C:/model/shield/shieldok.obj");
-    Model russian("C:/model/russian/russian.obj");
-    Model BMW("C:/model/BMW/BMW.obj");
+    Model edificio_rojo("model/edificio_rojo/edificio_rojo.obj");
+    Model shield("model/shield/shieldok.obj");
+    Model russian("model/russian/russian.obj");
+    Model BMW("model/BMW/BMW.obj");
 
     // EMILIO
-    Model building("C:/model/building/building.obj");
-    Model building02("C:/model/building02/building02.obj");
-    Model casanick("C:/model/casanick/casanick.obj");
-    Model hall("C:/model/speer_hall/speer_hall.obj");
-    Model dinocomcqueen("C:/model/dinocomcqueen/dinocomcqueen.obj");
+    Model building("model/building/building.obj");
+    Model building02("model/building02/building02.obj");
+    Model casanick("model/casanick/casanick.obj");
+    Model hall("model/speer_hall/speer_hall.obj");
+    Model dinocomcqueen("model/dinocomcqueen/dinocomcqueen.obj");
 
     // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
@@ -247,12 +248,12 @@ int main()
         }
 
         if (primera) {
-            glm::vec3 modelPosition = glm::vec3(posicionX, 0.0f, posicionZ);
+            glm::vec3 modelPosition = glm::vec3(posicionX, 0.2f, posicionZ);
             glm::vec3 offset = glm::vec3(0.0f, 0.8f, 0.0f);
 
             camera.Position = modelPosition + offset;
 
-            glm::vec3 direction(0.0f, 0.0f, 0.0f);
+            glm::vec3 direction(0.0f, -0.1f, 0.0f);
             direction.x = cos(glm::radians(rotacion));
             direction.z = -sin(glm::radians(rotacion));
             direction.y = -0.1f; // Mantener la direccion en el plano horizontal
@@ -403,6 +404,8 @@ int main()
         }
         // tesla
         model = glm::mat4(1.0f);
+
+
         model = glm::translate(model, glm::vec3(posicionX, 0.0f, posicionZ));
         model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 0.1f, 0.0f));
         model = glm::scale(model, glm::vec3(0.015f, 0.015f, 0.015f));
@@ -735,7 +738,7 @@ float fisicasVelocidad(float velocidadInicial, float tiempo, float velocidadMaxi
 
 //variables
 int marcha = 0;
-float velocidad = 0.0f;
+
 float aceleracion = 0.0f;
 float velocidadaxima = 0.0f;
 float tiempo = 0.0f;
@@ -787,7 +790,7 @@ void processInput(GLFWwindow* window)
 
 	aceleracion = controlVelocidad(marcha);
 
-	std::cout << "velocidad: " << velocidad << std::endl;
+	//std::cout << "velocidad: " << velocidad << std::endl;
     //
 
 
