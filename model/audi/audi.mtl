@@ -1,0 +1,200 @@
+# Blender 4.2.0 MTL File: 'None'
+# www.blender.org
+
+newmtl AudiLogo
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd AudiLogo_baseColor.jpeg
+map_Bump -bm 1.000000 AudiLogo_normal.png
+
+newmtl BlackPaint
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd BlackPaint_baseColor.jpeg
+map_Bump -bm 1.000000 BlackPaint_normal.png
+
+newmtl Chair
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Chair_baseColor.jpeg
+map_Bump -bm 1.000000 Chair_normal.png
+
+newmtl Exhaust
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Exhaust_baseColor.jpeg
+map_Bump -bm 1.000000 Exhaust_normal.png
+
+newmtl Glass
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 2
+map_Kd Glass_baseColor.png
+map_d Glass_baseColor.png
+map_Bump -bm 1.000000 Glass_normal.png
+
+newmtl Inside_Metal
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Inside_Metal_baseColor.jpeg
+map_Bump -bm 1.000000 Inside_Metal_normal.png
+
+newmtl Metal
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Metal_baseColor.jpeg
+map_Bump -bm 1.000000 Metal_normal.png
+
+newmtl Orange
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Orange_baseColor.jpeg
+map_Ke Orange_emissive.jpeg
+map_Bump -bm 1.000000 Orange_normal.png
+
+newmtl Plastic
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Plastic_baseColor.jpeg
+map_Bump -bm 1.000000 Plastic_normal.png
+
+newmtl RedPaint
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd RedPaint_baseColor.jpeg
+map_Bump -bm 1.000000 RedPaint_normal.png
+
+newmtl Rims
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Rims_baseColor.jpeg
+map_Bump -bm 1.000000 Rims_normal.png
+
+newmtl Rubber
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Rubber_baseColor.jpeg
+map_Bump -bm 1.000000 Rubber_normal.png
+
+newmtl SilverPaint
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd SilverPaint_baseColor.jpeg
+map_Bump -bm 1.000000 SilverPaint_normal.png
+
+newmtl Under
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Under_baseColor.jpeg
+map_Bump -bm 1.000000 Under_normal.png
+
+newmtl lambert1
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd lambert1_baseColor.jpeg
+map_Bump -bm 1.000000 lambert1_normal.png
+
+newmtl lambert4
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd lambert4_baseColor.jpeg
+map_Ke lambert4_emissive.jpeg
+map_Bump -bm 1.000000 lambert4_normal.png
+
+newmtl lambert5
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd lambert5_baseColor.jpeg
+map_Bump -bm 1.000000 lambert5_normal.png
+
+newmtl material.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd material_baseColor.jpeg
+map_Ke material_emissive.jpeg
+map_Bump -bm 1.000000 RedPaint_normal.png
