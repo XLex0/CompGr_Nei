@@ -724,6 +724,8 @@ float velocidad = 0.0f;
 float aceleracion = 0.0f;
 float velocidadaxima = 0.0f;
 float tiempo = 0.0f;
+float frenado = 0.0f;
+float fuerzaDeSalida = 0.0f;
 // Funcion para procesar con físicas la velocidad de marcha
 void processInput(GLFWwindow* window)
 {
@@ -745,22 +747,27 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
 		marcha = 1;
 		velocidadaxima = 0.05f;
+		fuerzaDeSalida = 1.0f;
 	}
     if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
         marcha = 2;
         velocidadaxima = 0.1f;
+		fuerzaDeSalida = 0.5f;
     }
     if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
         marcha = 3;
         velocidadaxima = 0.15f;
+		fuerzaDeSalida = 0.001f;
     }
     if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
         marcha = 4;
         velocidadaxima = 0.20f;
+		fuerzaDeSalida = 0.0f;
     }
     if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
         marcha = 5;
         velocidadaxima = 0.25;
+		fuerzaDeSalida = 0.0f;
     }
 
 	aceleracion = controlVelocidad(marcha);
@@ -777,6 +784,10 @@ void processInput(GLFWwindow* window)
     {
         tiempo = 0.0f;
         velocidad = fisicasVelocidad(velocidad, tiempo, velocidadaxima, aceleracion);
+        if (velocidad < 0.05f)
+        {
+            velocidad = velocidad * fuerzaDeSalida;
+        }
 
         float posX = posicionX;
         float posZ = posicionZ;
@@ -789,12 +800,25 @@ void processInput(GLFWwindow* window)
         }
     }
     else {
+		aceleracion = 0.0f;
+		float fuerzaRozamiento = 0.002f + frenado;
+        if (velocidad > 0)
+        {
+            velocidad = velocidad - fuerzaRozamiento;
+        }
+        else
+        {
+			velocidad = 0.0f;
+        }
 		
+        
+        posicionX += velocidad * cos(rotacionEnRadianes);
+        posicionZ += -velocidad * sin(rotacionEnRadianes);
     }
 
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-
+		frenado = 0.002f;
         float posX = posicionX;
         float posZ = posicionZ;
 
@@ -805,6 +829,9 @@ void processInput(GLFWwindow* window)
             posicionX = posX;
             posicionZ = posZ;
         }
+	}
+    else {
+		frenado = 0.0f;
     }
 
 
