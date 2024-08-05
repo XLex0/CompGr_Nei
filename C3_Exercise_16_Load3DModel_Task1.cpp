@@ -690,33 +690,35 @@ bool colision(float x, float z) {
     if (x >= 49.5f || x <= -49.5f || z >= 49.5f || z <= -49.5f) {
         colision = false;
     }
-
+    
     //cuadra 1
-    if (x >= 35.11f || x <= 41.38f || z >= 37.19f || z <= 43.39f) {
+    if (x >= 35.11f && x <= 41.38f && z >= 37.19f && z <= 43.39f) {
         colision = false;
     }
-    if (x >= 23.10 || x <= 29.35 || z >= 37.19f || z <= 43.39f ) {
+    if (x >= 23.10 && x <= 29.35 && z >= 37.19f && z <= 43.39f ) {
         colision = false;
     }
-    if (x >= 35.11f || x <= 41.38f || z >= 25.23f || z <= 31.36f) {
+    if (x >= 35.11f && x <= 41.38f && z >= 25.23f && z <= 31.36f) {
         colision = false;
     }
-    if (x >= 29.35f || x <= 23.19f || z >= 25.17f || z <= 31.36f) {
+    if (x >= 23.19f && x <= 29.35  && z >= 25.17f && z <= 31.36f) {
         colision = false;
     }
 
 	//cuadra 2
-    if (x >= 10.88f || x <= 2.14f || z >= 25.89f || z <= 31.87f) {
+    if (x >= 2.14f && x <= 10.88f && z >= 25.89f && z <= 31.87f) {
         colision = false;
     }
-    if (x >= -0.83f || x <= -7.26f || z >= 25.89f || z <= 31.87f) {
-        colision = false;
-    }
-
-    if (x >= 14.15f || x <= -10.33f || z >= 40.23f || z <= 45.92f) {
+    if (x >= -7.26f && x <= -0.86f && z >= 25.89f && z <= 31.87f) {
         colision = false;
     }
 
+    if (x >= -10.33f && x <= 14.15f  && z >= 40.23f && z <= 45.92f) {
+        colision = false;
+    }
+    if (x >= 5.8612f && x <= 10.9836 && z >= 20.7951 && z <= 22.7744) {
+        colision = false;
+    }
 
     return colision;
 }
@@ -840,6 +842,7 @@ void processInput(GLFWwindow* window)
 
         float posX = posicionX;
         float posZ = posicionZ;
+        
         posicionX += velocidad * cos(rotacionEnRadianes);
         posicionZ += -velocidad * sin(rotacionEnRadianes);
         if (!colision(posicionX, posicionZ)) {
@@ -848,6 +851,11 @@ void processInput(GLFWwindow* window)
         }
     }
     else {
+
+        float posX = posicionX;
+        float posZ = posicionZ;
+        
+
         aceleracion = 0.0f;
         float fuerzaRozamiento = 0.002f + frenado;
         if (!retrocediendo)
@@ -868,8 +876,14 @@ void processInput(GLFWwindow* window)
                 }
                
             }
+            
+
             posicionX += velocidad * cos(rotacionEnRadianes);
             posicionZ += -velocidad * sin(rotacionEnRadianes);
+            if (!colision(posicionX, posicionZ)) {
+                posicionX = posX;
+                posicionZ = posZ;
+            }
         }
         else
         {
@@ -885,6 +899,7 @@ void processInput(GLFWwindow* window)
             posicionX += velocidad * cos(rotacionEnRadianes);
             posicionZ += -velocidad * sin(rotacionEnRadianes);
         }
+
         
 
 
