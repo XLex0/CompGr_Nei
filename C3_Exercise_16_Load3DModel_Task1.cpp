@@ -37,12 +37,16 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 //Velocidad-> cambiar este valor en caso de querer mover el auto mas rapido
-
-float velocidad = 0.0f;
-float posicionX = 25.0f;
-float posicionZ = 16.0f;
+float velocidad = 0.05f;
+float posicionX = 0.0f;
+float posicionZ = 0.0f;
 float rotacion = 0.0f;
-//float aceleracion = 0.00005;
+
+
+// Segundo punto
+float posicionX2 = 0.0f;
+float posicionZ2 = 0.0f;
+float rotacion2 = 0.0f;
 
 
 // Velocidad de la cámara
@@ -50,8 +54,15 @@ float cameraSpeed = 5.0f; // Aumentar la velocidad de la cámara
 
 bool dia = true;
 bool diaKeyPressed = false;
+
 bool primera = false;
 bool primeraKeyPressed = false;
+
+bool segunda = false;
+bool segundaKeyPressed= false;
+
+bool desactivarKeyPressed = false;
+
 bool encendida = false;
 bool encendidaKeyPressed = false;
 bool show = false;
@@ -157,12 +168,27 @@ int main()
         -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f
     };
     glm::vec3 pointLightPositions[] = {
-        glm::vec3(-2.0f,  2.0f, -5.0f),
-        glm::vec3(-1.0f,  2.0f, -5.0f),
-        glm::vec3(0.0f,   2.0f, -5.0f),
-        glm::vec3(1.0f,   2.0f, -5.0f),
-        glm::vec3(2.0f,   2.0f, -5.0f),
-        glm::vec3(3.0f,   2.0f, -5.0f)
+        glm::vec3(12.79f, 2.0f, 3.25f),
+        glm::vec3(12.79f,  2.0f, 11.92f),
+        glm::vec3(12.79f,   2.0f, -5.51f),
+        glm::vec3(12.79f,   2.0f, -13.99f),
+
+        glm::vec3(4.15f,   2.0f, -14.0f),
+        glm::vec3(-4.46f,   2.0f, -14.0f),
+        glm::vec3(-12.98f,   2.0f, -14.0f),
+        glm::vec3(-13.0f,   2.0f, -5.38f),
+
+         glm::vec3(-13.0f,   2.0f, 3.28f),
+          glm::vec3(-13.0f,   2.0f, 11.8f),
+           glm::vec3(-4.35f,   2.0f, 11.8f),
+           glm::vec3(4.27f,   2.0f, 11.8f),
+
+              glm::vec3(2.58f,   2.0f, -3.53f),
+           glm::vec3(1.5f,   2.0f, -4.9f),
+             glm::vec3(-2.98f,   2.0f, 0.53f),
+           glm::vec3(-1.38f,   2.0f, 2.26f),
+           //16
+
     };
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -201,32 +227,38 @@ int main()
     ///////////////////////////////////////////////////////
 
     stbi_set_flip_vertically_on_load(false);
-    // Cargar Modelo
-    Model ourModel("C:/model/tesla/tesla.obj");
+// Cargar Modelo
+Model ourModel("model/tesla/tesla.obj");
 
-    ///////////////////////////////////////////////////////
-    // CRISTIAN
-    Model edificio_dos_torres("C:/model/edificio_dos_torres/edificio_dos_torres.obj");
-    Model hospital("C:/model/hospital/hospital.obj");
-    Model parque("C:/model/parque/parque.obj");
-    Model edificios("C:/model/edificios/edificios.obj");
-    Model edificio_chino("C:/model/edificio_chino/edificio_chino.obj");
-    Model recta("C:/model/calle/recta.obj");
+/////////////////////////////////////////////////////
+// CRISTIAN
+Model edificio_dos_torres("model/edificio_dos_torres/edificio_dos_torres.obj");
+Model hospital("model/hospital/hospital.obj");
+Model parque("model/parque/parque.obj");
+Model edificios("model/edificios/edificios.obj");
+Model edificio_chino("model/edificio_chino/edificio_chino.obj");
+Model recta("model/calle/recta.obj");
 
-    ///////////////////////////////////////////////////////
-    // NICK
+/////////////////////////////////////////////////////
+// NICK
+Model edificio_rojo("model/edificio_rojo/edificio_rojo.obj");
+Model shield("model/shield/shieldok.obj");
+Model russian("model/russian/russian.obj");
+Model BMW("model/BMW/BMW.obj");
 
-    Model edificio_rojo("C:/model/edificio_rojo/edificio_rojo.obj");
-    Model shield("C:/model/shield/shieldok.obj");
-    Model russian("C:/model/russian/russian.obj");
-    Model BMW("C:/model/BMW/BMW.obj");
+// EMILIO
+Model building("model/building/building.obj");
+Model building02("model/building02/building02.obj");
+Model casanick("model/casanick/casanick.obj");
+Model hall("model/speer_hall/speer_hall.obj");
+Model dinocomcqueen("model/dinocomcqueen/dinocomcqueen.obj");
 
-    // EMILIO
-    Model building("C:/model/building/building.obj");
-    Model building02("C:/model/building02/building02.obj");
-    Model casanick("C:/model/casanick/casanick.obj");
-    Model hall("C:/model/speer_hall/speer_hall.obj");
-    Model dinocomcqueen("C:/model/dinocomcqueen/dinocomcqueen.obj");
+// ALEJANDRO
+Model poste("model/poste/poste.obj");
+Model porsche("model/porsche/porsche.obj");
+Model mercedes("model/mercedes/mercedes.obj");
+Model toyota("model/toyota/toyota.obj");
+
 
     // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
@@ -249,14 +281,26 @@ int main()
 
         if (primera) {
             glm::vec3 modelPosition = glm::vec3(posicionX, 0.2f, posicionZ);
-            glm::vec3 offset = glm::vec3(0.0f, 0.8f, 0.0f);
+            glm::vec3 offset = glm::vec3(0.0f, 0.6f, 0.0f);
 
             camera.Position = modelPosition + offset;
 
-            glm::vec3 direction(0.0f, -0.1f, 0.0f);
+            glm::vec3 direction(0.0f, -0.2f, 0.0f);
             direction.x = cos(glm::radians(rotacion));
             direction.z = -sin(glm::radians(rotacion));
-            direction.y = -0.1f; // Mantener la direccion en el plano horizontal
+            direction.y = -0.1f; // Mantener la direcci�n en el plano horizontal
+            camera.Front = glm::normalize(direction);
+        }
+        else if (segunda) {
+            glm::vec3 modelPosition = glm::vec3(posicionX2, 0.2f, posicionZ2);
+            glm::vec3 offset = glm::vec3(0.0f, 0.7f, 0.0f);
+
+            camera.Position = modelPosition + offset;
+
+            glm::vec3 direction(0.0f, -0.2f, 0.0f);
+            direction.x = cos(glm::radians(rotacion2));
+            direction.z = -sin(glm::radians(rotacion2));
+            direction.y = -0.1f; // Mantener la direcci�n en el plano horizontal
             camera.Front = glm::normalize(direction);
         }
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.001f, 10000000.0f);
@@ -302,66 +346,23 @@ int main()
 
 
         modelShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-        modelShader.setVec3("dirLight.diffuse", 0.1f, 0.1f, 0.1f);
-        modelShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+        modelShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
+        modelShader.setVec3("dirLight.diffuse", 0.01f, 0.01f, 0.01f);
+        modelShader.setVec3("dirLight.specular", 0.05f, 0.05f, 0.05f);
 
-        // point light 1
-        modelShader.setVec3("pointLights[0].position", pointLightPositions[0]);
-        modelShader.setVec3("pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
-        modelShader.setVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
-        modelShader.setVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
-        modelShader.setFloat("pointLights[0].constant", 1.0f);
-        modelShader.setFloat("pointLights[0].linear", 0.3f);    // Valor ajustado
-        modelShader.setFloat("pointLights[0].quadratic", 0.15f); // Valor ajustado
-
-        // point light 2
-        modelShader.setVec3("pointLights[1].position", pointLightPositions[1]);
-        modelShader.setVec3("pointLights[1].ambient", 0.05f, 0.05f, 0.05f);
-        modelShader.setVec3("pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
-        modelShader.setVec3("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
-        modelShader.setFloat("pointLights[1].constant", 1.0f);
-        modelShader.setFloat("pointLights[1].linear", 0.3f);    // Valor ajustado
-        modelShader.setFloat("pointLights[1].quadratic", 0.15f); // Valor ajustado
-
-        // point light 3
-        modelShader.setVec3("pointLights[2].position", pointLightPositions[2]);
-        modelShader.setVec3("pointLights[2].ambient", 0.05f, 0.05f, 0.05f);
-        modelShader.setVec3("pointLights[2].diffuse", 0.8f, 0.8f, 0.8f);
-        modelShader.setVec3("pointLights[2].specular", 1.0f, 1.0f, 1.0f);
-        modelShader.setFloat("pointLights[2].constant", 1.0f);
-        modelShader.setFloat("pointLights[2].linear", 0.3f);    // Valor ajustado
-        modelShader.setFloat("pointLights[2].quadratic", 0.15f); // Valor ajustado
-
-        // point light 4
-        modelShader.setVec3("pointLights[3].position", pointLightPositions[3]);
-        modelShader.setVec3("pointLights[3].ambient", 0.05f, 0.05f, 0.05f);
-        modelShader.setVec3("pointLights[3].diffuse", 0.8f, 0.8f, 0.8f);
-        modelShader.setVec3("pointLights[3].specular", 1.0f, 1.0f, 1.0f);
-        modelShader.setFloat("pointLights[3].constant", 1.0f);
-        modelShader.setFloat("pointLights[3].linear", 0.3f);    // Valor ajustado
-        modelShader.setFloat("pointLights[3].quadratic", 0.15f); // Valor ajustado
-
-        // point light 5
-        modelShader.setVec3("pointLights[4].position", pointLightPositions[4]);
-        modelShader.setVec3("pointLights[4].ambient", 0.05f, 0.05f, 0.05f);
-        modelShader.setVec3("pointLights[4].diffuse", 0.8f, 0.8f, 0.8f);
-        modelShader.setVec3("pointLights[4].specular", 1.0f, 1.0f, 1.0f);
-        modelShader.setFloat("pointLights[4].constant", 1.0f);
-        modelShader.setFloat("pointLights[4].linear", 0.3f);    // Valor ajustado
-        modelShader.setFloat("pointLights[4].quadratic", 0.15f); // Valor ajustado
-
-        // point light 6
-        modelShader.setVec3("pointLights[5].position", pointLightPositions[5]);
-        modelShader.setVec3("pointLights[5].ambient", 0.05f, 0.05f, 0.05f);
-        modelShader.setVec3("pointLights[5].diffuse", 0.8f, 0.8f, 0.8f);
-        modelShader.setVec3("pointLights[5].specular", 1.0f, 1.0f, 1.0f);
-        modelShader.setFloat("pointLights[5].constant", 1.0f);
-        modelShader.setFloat("pointLights[5].linear", 0.3f);    // Valor ajustado
-        modelShader.setFloat("pointLights[5].quadratic", 0.15f); // Valor ajustado
+        // Configuración de luces puntuales usando un bucle
+        for (int i = 0; i < 16; i++) {
+            modelShader.setVec3("pointLights[" + std::to_string(i) + "].position", pointLightPositions[i]);
+            modelShader.setVec3("pointLights[" + std::to_string(i) + "].ambient", 0.05f, 0.05f, 0.05f);
+            modelShader.setVec3("pointLights[" + std::to_string(i) + "].diffuse", 0.8f, 0.8f, 0.8f);
+            modelShader.setVec3("pointLights[" + std::to_string(i) + "].specular", 1.0f, 1.0f, 1.0f);
+            modelShader.setFloat("pointLights[" + std::to_string(i) + "].constant", 1.0f);
+            modelShader.setFloat("pointLights[" + std::to_string(i) + "].linear", 0.3f);
+            modelShader.setFloat("pointLights[" + std::to_string(i) + "].quadratic", 0.15f);
+        }
 
 
-
-        if (!dia && encendida) {
+        if (!dia && encendida && (primera||segunda)) {
             modelShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
             modelShader.setVec3("spotLight.position", camera.Position);
             modelShader.setVec3("spotLight.direction", camera.Front);
@@ -369,78 +370,76 @@ int main()
             modelShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
             modelShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
             modelShader.setFloat("spotLight.constant", 1.0f);
-            modelShader.setFloat("spotLight.linear", 0.09);
-            modelShader.setFloat("spotLight.quadratic", 0.032);
+            modelShader.setFloat("spotLight.linear", 0.07);
+            modelShader.setFloat("spotLight.quadratic", 0.017);
             modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(14.0f)));
-            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(22.0f)));
+            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(18.0f)));
         }
-        else if (!encendida && !dia ){
+        else if (!dia) {
             modelShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
+            modelShader.setVec3("spotLight.position", camera.Position);
+            modelShader.setVec3("spotLight.direction", camera.Front);
+            modelShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+            modelShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+            modelShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
+            modelShader.setFloat("spotLight.constant", 3.0f);
+            modelShader.setFloat("spotLight.linear", 3.0);
+            modelShader.setFloat("spotLight.quadratic", 9.02);
+            modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(14.0f)));
+            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+        }
+        else {
             modelShader.setVec3("spotLight.position", camera.Position); // No es necesario si solo desactivas la luz
             modelShader.setVec3("spotLight.direction", camera.Front); // No es necesario si solo desactivas la luz
-            modelShader.setVec3("spotLight.ambient", glm::vec3(0.0f));
+            modelShader.setVec3("spotLight.ambient", glm::vec3(0.1f));
             modelShader.setVec3("spotLight.diffuse", glm::vec3(1.0f));
             modelShader.setVec3("spotLight.specular", glm::vec3(1.0f));
             modelShader.setFloat("spotLight.constant", 1.0f);
-            modelShader.setFloat("spotLight.linear", 1.0f);
-            modelShader.setFloat("spotLight.quadratic", 1.0f);
-            modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(360.0f))); // Angulo m�ximo posible
-            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(360.0f))); // Angulo m�ximo posible
-
-        }
-        else {
-            modelShader.setVec3("dirLight.ambient", 0.4f, 0.4f, 0.4f);
-            modelShader.setVec3("spotLight.position", camera.Position); // No es necesario si solo desactivas la luz
-            modelShader.setVec3("spotLight.direction", camera.Front); // No es necesario si solo desactivas la luz
-            modelShader.setVec3("spotLight.ambient", glm::vec3(0.0f));
-            modelShader.setVec3("spotLight.diffuse", glm::vec3(1.0f));
-            modelShader.setVec3("spotLight.specular", glm::vec3(1.0f));
-            modelShader.setFloat("spotLight.constant", 0.8f);
             modelShader.setFloat("spotLight.linear", 0.0f);
             modelShader.setFloat("spotLight.quadratic", 0.0f);
-            modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(360.0f))); // Angulo m�ximo posible
-            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(360.0f))); // Angulo m�ximo posible
+            modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(180.0f))); // Angulo m�ximo posible
+            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(180.0f))); // Angulo m�ximo posible
 
         }
+        ////////////////////____________________main_Characters______________
         // tesla
         model = glm::mat4(1.0f);
-
-
         model = glm::translate(model, glm::vec3(posicionX, 0.0f, posicionZ));
         model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 0.1f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.015f, 0.015f, 0.015f));
+        model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
         modelShader.setMat4("model", model);
         ourModel.Draw(modelShader);
 
-
+  
 
         //-------------NICK-------------------
 
-        //Edificio rojo
+               //Edificio rojo
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(28.0f, 0.0f, 30.0f));
         //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         edificio_rojo.Draw(modelShader);
-        
+
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(40.0f, 0.0f, 30.0f));
         //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         edificio_rojo.Draw(modelShader);
-        
+
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(28.0f, 0.0f, 42.0f));
         //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         edificio_rojo.Draw(modelShader);
-        
+
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(40.0f, 0.0f, 42.0f));
         //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         edificio_rojo.Draw(modelShader);
-       
+
+
         //Edificio russian
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 45.0f));
@@ -465,7 +464,8 @@ int main()
         BMW.Draw(modelShader);
 
 
-        //------------------------------------------------------
+        //-------------------------------
+
 
 
         // ----------------CRISTIAN-----------------------------
@@ -477,7 +477,7 @@ int main()
         model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         edificio_dos_torres.Draw(modelShader);
-        
+
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(39.8f, 0.0f, -40.0f));
         model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
@@ -485,7 +485,7 @@ int main()
         model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         edificio_dos_torres.Draw(modelShader);
-        
+
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(32.8f, 0.0f, -40.0f));
         model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
@@ -504,13 +504,13 @@ int main()
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         hospital.Draw(modelShader);
-        
+
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(2.0f, 0.0f, -33.0f));
         model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         hospital.Draw(modelShader);
-        
+
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(-4.0f, 0.0f, -42.0f));
         model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
@@ -587,13 +587,14 @@ int main()
         recta.Draw(modelShader);
 
         // ----------------------EMILIO------------------------
-        // DINOCOMCQUEEN
+           // DINOCOMCQUEEN
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(16.0f, 0.5f, -10.0f));
-        model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+        model = glm::translate(model, glm::vec3(0.0f, 0.3f, 0.0f));
+
+        model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
         modelShader.setMat4("model", model);
         dinocomcqueen.Draw(modelShader);
-        
+
         // PRIMER BLOQUE EMILIO
 
         model = glm::mat4(1.0f);
@@ -613,7 +614,7 @@ int main()
         model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         building.Draw(modelShader);
-        
+
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(-40.0f, 0.0f, -10.0f));
         model = glm::scale(model, glm::vec3(85.0f, 85.0f, 85.0f));
@@ -621,7 +622,7 @@ int main()
         model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         building.Draw(modelShader);
-        
+
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(-25.0f, 0.0f, -5.0f));
         model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
@@ -629,7 +630,7 @@ int main()
         model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         casanick.Draw(modelShader);
-        
+
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(-25.0f, 0.0f, 10.0f));
         model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
@@ -646,7 +647,7 @@ int main()
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         hall.Draw(modelShader);
-        
+
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(-38.0f, 0.0f, 34.0f));
         model = glm::scale(model, glm::vec3(0.45f, 0.45f, 0.45f));
@@ -655,26 +656,122 @@ int main()
         modelShader.setMat4("model", model);
         hall.Draw(modelShader);
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////
-        lightCubeShader.use();
-        lightCubeShader.setMat4("projection", projection);
-        lightCubeShader.setMat4("view", view);
 
-        // we now draw as many light bulbs as we have point lights.
-        glBindVertexArray(lightCubeVAO);
-        for (unsigned int i = 0; i < 6; i++)
-        {
+
+        //-------------------ALEJANDRO---------------------------------------
+        for (int i = 0; i < 4; ++i) {
+
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
             model = glm::mat4(1.0f);
-            model = glm::translate(model, pointLightPositions[i]);
-            model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
+            model = glm::translate(model, glm::vec3(-13.0f, 1.777f, -14.0f + i * 8.6f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
             lightCubeShader.setMat4("model", model);
             glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f, 0.0f, -14.0f + i * 8.6f));
+            model = glm::scale(model, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model);
+            poste.Draw(modelShader);
         }
 
-        // Matriz de modelo
+        for (int i = 1; i < 4; ++i) {
+
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f + i * 8.6, 1.777f, -14.0f + 3 * 8.6f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f + i * 8.6, 0.0f, -14.0f + 3 * 8.6f));
+            model = glm::scale(model, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model);
+            poste.Draw(modelShader);
+        }
+
+        for (int i = 1; i < 4; ++i) {
+
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f + 3 * 8.6, 1.777f, -14.0f + i * 8.6f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f + 3 * 8.6, 0.0f, -14.0f + i * 8.6f));
+            model = glm::scale(model, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model);
+            poste.Draw(modelShader);
+        }
+
+        for (int i = 1; i < 4; ++i) {
+
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f + i * 8.6, 1.777f, -14.0f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f + i * 8.6, 0.0f, -14.0f));
+            model = glm::scale(model, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model);
+            poste.Draw(modelShader);
+        }
+
+        //PORSCHE
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(15.0f, 0.235f, 0.0f));
+        model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+        modelShader.setMat4("model", model);
+        porsche.Draw(modelShader);
 
 
-        // Intercambiar buffers y sondear eventos de IO
+
+        //MERCEDES
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(posicionX2, 0.4f, posicionZ2));
+        model = glm::rotate(model, glm::radians(rotacion2 ), glm::vec3(0.0f, 0.1f, 0.0f));
+      
+        modelShader.setMat4("model", model);
+        mercedes.Draw(modelShader);
+
+        //toyota
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(19.0f, 0.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+        modelShader.setMat4("model", model);
+        toyota.Draw(modelShader);
+
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -687,25 +784,25 @@ int main()
 
 bool colision(float x, float z) {
     bool colision = true;
-    if (x >= 49.5f || x <= -49.5f || z >= 49.5f || z <= -49.5f) {
-        colision = false;
+    if (x >= 49.9999f || x <= -49.9999f || z >= 49.9999f || z <= -49.9999f) {
+        return false;
     }
-    
+
     //cuadra 1
     if (x >= 35.11f && x <= 41.38f && z >= 37.19f && z <= 43.39f) {
         colision = false;
     }
-    if (x >= 23.10 && x <= 29.35 && z >= 37.19f && z <= 43.39f ) {
+    if (x >= 23.10 && x <= 29.35 && z >= 37.19f && z <= 43.39f) {
         colision = false;
     }
     if (x >= 35.11f && x <= 41.38f && z >= 25.23f && z <= 31.36f) {
         colision = false;
     }
-    if (x >= 23.19f && x <= 29.35  && z >= 25.17f && z <= 31.36f) {
+    if (x >= 23.19f && x <= 29.35 && z >= 25.17f && z <= 31.36f) {
         colision = false;
     }
 
-	//cuadra 2
+    //cuadra 2
     if (x >= 2.14f && x <= 10.88f && z >= 25.89f && z <= 31.87f) {
         colision = false;
     }
@@ -713,43 +810,89 @@ bool colision(float x, float z) {
         colision = false;
     }
 
-    if (x >= -10.33f && x <= 14.15f  && z >= 40.23f && z <= 45.92f) {
+    if (x >= -10.33f && x <= 14.15f && z >= 40.23f && z <= 45.92f) {
         colision = false;
     }
     if (x >= 5.8612f && x <= 10.9836 && z >= 20.7951 && z <= 22.7744) {
         colision = false;
     }
+        if (x >= -35.67f && x <= -22.68f && z >= 2.6f && z <= 11.45f) {
+            return false;
 
-    return colision;
-}
+
+        }
+        //CRISTIAN 
+        //------------Bloque 1--------------
+        if (x >= 32.045f && x <= 48.0f && z >= -13.78 && z <= -6.68f) {
+            return false;
+        }
+        if (x >= 32.7602f && x <= 48.0f && z >= -6.68f && z <= -3.50224f) {
+            return false;
+        }
+        if (x >= 35.1383f && x <= 48.0f && z >= -3.51f && z <= -1.13928f) {
+            return false;
+        }
+        //--------- edificio chino----------
+        if (x >= 32.32f && x <= 48.0f && z >= -1.15928f && z <= 11.4712f) {
+            return false;
+        }
+        //------------Bloque 4--------------
+        if (x >= 30.7968 && x <= 37.8851f && z >= -43.3505 && z <= -31.6602f) {
+            return false;
+        }
+        if (x >= 37.8465f && x <= 44.8209f && z >= -43.3505 && z <= -31.6602f) {
+            return false;
+        }
+        if (x >= 44.8018f && x <= 49.6287f && z >= -43.3505 && z <= -31.6602f) {
+            return false;
+        }
+
+        if (z >= 3.46f && z <= 9.86f && x >= -45.5f && x <= -38.73f) {
+            return false;
+        }
+
+
+        if (z >= -9.78f && z <= -3.61f && x >= -43.31f && x <= -36.53f) {
+            return false;
+        }
+
+
+        if (z >= -12.17f && z <= -3.74f && x >= -35.48f && x <= -23.22f) {
+            return false;
+        }
+
+        return colision;
+    }
 
 // Funcion control de marchas
 float controlVelocidad(int marcha) {
-        
+
     float velocidad = 0.0f;
-        
-        switch (marcha) {
-            case 1:
-				velocidad = 0.05f;
-                break;
-            case 2:
-				velocidad = 0.1f;
-                break;
-            case 3:
-				velocidad = 0.15f;
-                break;
-            case 4:
-                velocidad = 0.20f;
-                break;
-            case 5:
-                velocidad = 0.25f;
-                break;
-            default:
-                velocidad = 0.0f;
-                break;
-        }
-		return velocidad;
+
+    switch (marcha) {
+    case 1:
+        velocidad = 0.05f;
+        break;
+    case 2:
+        velocidad = 0.1f;
+        break;
+    case 3:
+        velocidad = 0.15f;
+        break;
+    case 4:
+        velocidad = 0.20f;
+        break;
+    case 5:
+        velocidad = 0.25f;
+        break;
+    default:
+        velocidad = 0.0f;
+        break;
     }
+    return velocidad;
+}
+
+
 
 
 // Funcion para procesar con físicas la velocidad de marcha
@@ -828,7 +971,6 @@ void processInput(GLFWwindow* window)
 
     float rotacionEnRadianes = glm::radians(rotacion);
 
-    
     // Movimiento
  // Movimiento
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
@@ -842,7 +984,7 @@ void processInput(GLFWwindow* window)
 
         float posX = posicionX;
         float posZ = posicionZ;
-        
+
         posicionX += velocidad * cos(rotacionEnRadianes);
         posicionZ += -velocidad * sin(rotacionEnRadianes);
         if (!colision(posicionX, posicionZ)) {
@@ -854,7 +996,7 @@ void processInput(GLFWwindow* window)
 
         float posX = posicionX;
         float posZ = posicionZ;
-        
+
 
         aceleracion = 0.0f;
         float fuerzaRozamiento = 0.002f + frenado;
@@ -866,7 +1008,7 @@ void processInput(GLFWwindow* window)
             }
             else
             {
-				if (velocidad < ( - fuerzaRozamiento))
+                if (velocidad < (-fuerzaRozamiento))
                 {
                     velocidad = velocidad + fuerzaRozamiento;
                 }
@@ -874,9 +1016,9 @@ void processInput(GLFWwindow* window)
                 {
                     velocidad = 0.0f;
                 }
-               
+
             }
-            
+
 
             posicionX += velocidad * cos(rotacionEnRadianes);
             posicionZ += -velocidad * sin(rotacionEnRadianes);
@@ -887,21 +1029,18 @@ void processInput(GLFWwindow* window)
         }
         else
         {
-            if (velocidad>-0.1f)
+            if (velocidad > -0.1f)
             {
                 velocidad = velocidad - fuerzaRozamiento;
-				//velocidad = velocidad * (- 1.0f);
-			}
-			else
-			{
-				velocidad = -0.1f;
-			}
+                //velocidad = velocidad * (- 1.0f);
+            }
+            else
+            {
+                velocidad = -0.1f;
+            }
             posicionX += velocidad * cos(rotacionEnRadianes);
             posicionZ += -velocidad * sin(rotacionEnRadianes);
         }
-
-        
-
 
 
     }
@@ -910,19 +1049,19 @@ void processInput(GLFWwindow* window)
     //FRENO
     if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
         frenado = 0.002f;
-	}
-	else {
-		frenado = 0.0f;
-	}
+    }
+    else {
+        frenado = 0.0f;
+    }
 
-	//Retroceder
+    //Retroceder
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
         retrocediendo = true;
         tiempo = 0.0f;
         velocidadaxima = 0.1f;
         aceleracion = 0.1f;
-      		
+
 
         float posX = posicionX;
         float posZ = posicionZ;
@@ -933,11 +1072,10 @@ void processInput(GLFWwindow* window)
             posicionX = posX;
             posicionZ = posZ;
         }
-	}
-	else {
-		retrocediendo = false;
-	}
-    
+    }
+    else {
+        retrocediendo = false;
+    }
 
 
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
@@ -976,6 +1114,83 @@ void processInput(GLFWwindow* window)
 
     // Actualiza la rotación en radianes
     rotacionEnRadianes = glm::radians(rotacion);
+    //////////////////////////////////////////////////////////////////////////////
+    // 
+    // 
+      float rotacion2EnRadianes = glm::radians(rotacion2);
+    // Movimiento para el segundo punto
+    if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
+    {
+        float posX2 = posicionX2;
+        float posZ2 = posicionZ2;
+
+        posicionX2 += velocidad * cos(rotacion2EnRadianes);
+        posicionZ2 += -velocidad * sin(rotacion2EnRadianes);
+        if (!colision(posicionX2, posicionZ2)) {
+            posicionX2 = posX2;
+            posicionZ2 = posZ2;
+        }
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
+    {
+        float posX2 = posicionX2;
+        float posZ2 = posicionZ2;
+
+        posicionX2 -= velocidad * 0.25f * cos(rotacion2EnRadianes);
+        posicionZ2 += velocidad * 0.25f * sin(rotacion2EnRadianes);
+
+        if (!colision(posicionX2, posicionZ2)) {
+            posicionX2 = posX2;
+            posicionZ2 = posZ2;
+        }
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
+    {
+        float newX2 = posicionX2 + velocidad * cos(rotacion2EnRadianes);
+        float newZ2 = posicionZ2 - velocidad * sin(rotacion2EnRadianes);
+
+        if (colision(newX2, newZ2)) {
+            rotacion2 += 30.0f * velocidad;
+        }
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
+    {
+        float newX2 = posicionX2 + velocidad * cos(rotacion2EnRadianes);
+        float newZ2 = posicionZ2 - velocidad * sin(rotacion2EnRadianes);
+
+        if (colision(newX2, newZ2)) {
+            rotacion2 -= 30.0f * velocidad;
+        }
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
+    {
+        float newX2 = posicionX2 - velocidad * 0.5f * cos(rotacion2EnRadianes);
+        float newZ2 = posicionZ2 + velocidad * 0.5f * sin(rotacion2EnRadianes);
+
+        if (colision(newX2, newZ2)) {
+            rotacion2 += 30.0f * 0.5f * velocidad;
+        }
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
+    {
+        float newX2 = posicionX2 - velocidad * 0.5f * cos(rotacion2EnRadianes);
+        float newZ2 = posicionZ2 + velocidad * 0.5f * sin(rotacion2EnRadianes);
+
+        if (colision(newX2, newZ2)) {
+            rotacion2 -= 30.0f * 0.5f * velocidad;
+        }
+    }
+
+    // Actualiza la rotación en radianes
+    rotacion2EnRadianes = glm::radians(rotacion2);
+
+    // Actualiza la rotación en radianes
+    
 
     //Cambia entre el modo día y noche cada vez que se presiona la tecla P
     if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
@@ -991,22 +1206,6 @@ void processInput(GLFWwindow* window)
         diaKeyPressed = false; // Resetea el estado cuando la tecla es liberada
     }
 
-    // En el ciclo de renderizado
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-    {
-        if (!Kshow) // Solo cambia el estado si la tecla estaba previamente no presionada
-        {
-            show = !show;
-            Kshow = true;
-        }
-    }
-    else
-    {
-        Kshow = false; // Resetea el estado cuando la tecla es liberada
-    }
-
-
-
     if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
     {
         if (!encendidaKeyPressed) // Solo cambia el estado si la tecla estaba previamente no presionada
@@ -1021,16 +1220,56 @@ void processInput(GLFWwindow* window)
     }
 
 
+    // En el ciclo de renderizado
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS && !primeraKeyPressed)
+    {
+        show = !show;
+        Kshow = true;
+    }
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_RELEASE)
+    {
+        Kshow = false;
+    }
 
+
+
+
+    // Activar `primera` y desactivar `segunda` con la tecla `G`
     if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS && !primeraKeyPressed)
     {
         primera = !primera;
+        segunda = false; // Desactiva `segunda` cuando `primera` se activa
         primeraKeyPressed = true;
     }
     if (glfwGetKey(window, GLFW_KEY_G) == GLFW_RELEASE)
     {
         primeraKeyPressed = false;
     }
+
+    // Activar `segunda` y desactivar `primera` con la tecla `H`
+    if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS && !segundaKeyPressed)
+    {
+        segunda = !segunda;
+        primera = false; // Desactiva `primera` cuando `segunda` se activa
+        segundaKeyPressed = true;
+    }
+    if (glfwGetKey(window, GLFW_KEY_H) == GLFW_RELEASE)
+    {
+        segundaKeyPressed = false;
+    }
+
+    // Desactivar ambas con la tecla `Y`
+    if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS && !desactivarKeyPressed)
+    {
+        primera = false;
+        segunda = false;
+        desactivarKeyPressed = true;
+    }
+    if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_RELEASE)
+    {
+        desactivarKeyPressed = false;
+    }
+
 
 
 }
