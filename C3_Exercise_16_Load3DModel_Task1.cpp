@@ -14,6 +14,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <learnopengl/stb_image.h>
 
+
 //comentario
 // Prototipos de funciones
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -157,27 +158,112 @@ int main()
     };
     glm::vec3 pointLightPositions[] = {
         glm::vec3(12.79f, 2.0f, 3.25f),
-        glm::vec3(12.79f,  2.0f, 11.92f),
+        //glm::vec3(12.79f,  2.0f, 11.92f),
         glm::vec3(12.79f,   2.0f, -5.51f),
-        glm::vec3(12.79f,   2.0f, -13.99f),
+        //glm::vec3(12.79f,   2.0f, -13.99f),
 
-        glm::vec3(4.15f,   2.0f, -14.0f),
-        glm::vec3(-4.46f,   2.0f, -14.0f),
-        glm::vec3(-12.98f,   2.0f, -14.0f),
-        glm::vec3(-13.0f,   2.0f, -5.38f),
+        //glm::vec3(4.15f,   2.0f, -14.0f),
+        //glm::vec3(-4.46f,   2.0f, -14.0f),
+        //glm::vec3(-12.98f,   2.0f, -14.0f),
+        //glm::vec3(-13.0f,   2.0f, -5.38f),
 
-         glm::vec3(-13.0f,   2.0f, 3.28f),
-          glm::vec3(-13.0f,   2.0f, 11.8f),
-           glm::vec3(-4.35f,   2.0f, 11.8f),
-           glm::vec3(4.27f,   2.0f, 11.8f),
+         //glm::vec3(-13.0f,   2.0f, 3.28f),
+         //glm::vec3(-13.0f,   2.0f, 11.8f),
+           //glm::vec3(-4.35f,   2.0f, 11.8f),
+           //glm::vec3(4.27f,   2.0f, 11.8f),
 
               glm::vec3(2.58f,   2.0f, -3.53f),
            glm::vec3(1.5f,   2.0f, -4.9f),
              glm::vec3(-2.98f,   2.0f, 0.53f),
            glm::vec3(-1.38f,   2.0f, 2.26f),
-           //16
+           //4
+    glm::vec3(-13.0000f, 1.7770f, -14.0000f),
+    glm::vec3(-13.0000f, 1.7770f, -28.0000f),
+    glm::vec3(-23.0000f, 1.7770f, -28.0000f),
+    glm::vec3(-23.0000f, 1.7770f, -14.0000f),
+    glm::vec3(-23.0000f, 1.7770f, 25.8000f),
+    glm::vec3(-13.0000f, 1.7770f, 25.8000f),
+    glm::vec3(23.0000f, 1.7770f, 25.8000f),
+    glm::vec3(23.0000f, 1.7770f, -14.0000f),
+    glm::vec3(23.0000f, 1.7770f, -28.0000f),
+    glm::vec3(-13.0000f, 1.7770f, -5.4000f),
+    glm::vec3(-4.4000f, 1.7770f, -28.0000f),
+    glm::vec3(-31.6000f, 1.7770f, -28.0000f),
+    glm::vec3(-31.6000f, 1.7770f, -14.0000f),
+    glm::vec3(-31.6000f, 1.7770f, 25.8000f),
+    glm::vec3(-4.4000f, 1.7770f, 25.8000f),
+    glm::vec3(31.6000f, 1.7770f, 25.8000f),
+    glm::vec3(23.0000f, 1.7770f, -5.4000f),
+    glm::vec3(31.6000f, 1.7770f, -28.0000f),
+    glm::vec3(-13.0000f, 1.7770f, 3.2000f),
+    glm::vec3(4.2000f, 1.7770f, -28.0000f),
+    glm::vec3(-40.2000f, 1.7770f, -28.0000f),
+    glm::vec3(-40.2000f, 1.7770f, -14.0000f),
+    glm::vec3(-40.2000f, 1.7770f, 25.8000f),
+    glm::vec3(4.2000f, 1.7770f, 25.8000f),
+    glm::vec3(40.2000f, 1.7770f, 25.8000f),
+    glm::vec3(23.0000f, 1.7770f, 3.2000f),
+    glm::vec3(40.2000f, 1.7770f, -28.0000f),
+    glm::vec3(-13.0000f, 1.7770f, 11.8000f),
+    glm::vec3(12.8000f, 1.7770f, -28.0000f),
+    glm::vec3(-48.8000f, 1.7770f, -28.0000f),
+    glm::vec3(-48.8000f, 1.7770f, -14.0000f),
+    glm::vec3(-48.8000f, 1.7770f, 25.8000f),
+    glm::vec3(12.8000f, 1.7770f, 25.8000f),
+    glm::vec3(48.8000f, 1.7770f, 25.8000f),
+    glm::vec3(23.0000f, 1.7770f, 11.8000f),
+    glm::vec3(48.8000f, 1.7770f, -28.0000f),
+    glm::vec3(-4.4000f, 1.7770f, 11.8000f),
+    glm::vec3(12.8000f, 1.7770f, -5.4000f),
+    glm::vec3(-4.4000f, 1.7770f, -14.0000f),
+    glm::vec3(-13.0000f, 1.7770f, -36.6000f),
+    glm::vec3(-23.0000f, 1.7770f, -36.6000f),
+    glm::vec3(-23.0000f, 1.7770f, -5.4000f),
+    glm::vec3(-31.6000f, 1.7770f, 11.8000f),
+    glm::vec3(-23.0000f, 1.7770f, 34.4000f),
+    glm::vec3(-13.0000f, 1.7770f, 34.4000f),
+    glm::vec3(12.8000f, 1.7770f, 34.4000f),
+    glm::vec3(23.0000f, 1.7770f, 34.4000f),
+    glm::vec3(31.6000f, 1.7770f, 11.8000f),
+    glm::vec3(31.6000f, 1.7770f, -14.0000f),
+    glm::vec3(23.0000f, 1.7770f, -36.6000f),
+    glm::vec3(12.8000f, 1.7770f, -36.6000f),
+    glm::vec3(4.2000f, 1.7770f, 11.8000f),
+    glm::vec3(12.8000f, 1.7770f, 3.2000f),
+    glm::vec3(4.2000f, 1.7770f, -14.0000f),
+    glm::vec3(-13.0000f, 1.7770f, -45.2000f),
+    glm::vec3(-23.0000f, 1.7770f, -45.2000f),
+    glm::vec3(-23.0000f, 1.7770f, 3.2000f),
+    glm::vec3(-40.2000f, 1.7770f, 11.8000f),
+    glm::vec3(-23.0000f, 1.7770f, 43.0000f),
+    glm::vec3(-13.0000f, 1.7770f, 43.0000f),
+    glm::vec3(12.8000f, 1.7770f, 43.0000f),
+    glm::vec3(23.0000f, 1.7770f, 43.0000f),
+    glm::vec3(40.2000f, 1.7770f, 11.8000f),
+    glm::vec3(40.2000f, 1.7770f, -14.0000f),
+    glm::vec3(23.0000f, 1.7770f, -45.2000f),
+    glm::vec3(12.8000f, 1.7770f, -45.2000f),
+    glm::vec3(12.8000f, 1.7770f, 11.8000f),
+    glm::vec3(12.8000f, 1.7770f, 11.8000f),
+    glm::vec3(12.8000f, 1.7770f, -14.0000f),
+    glm::vec3(-13.0000f, 1.7770f, -53.8000f),
+    glm::vec3(-23.0000f, 1.7770f, -53.8000f),
+    glm::vec3(-23.0000f, 1.7770f, 11.8000f),
+    glm::vec3(-48.8000f, 1.7770f, 11.8000f),
+    glm::vec3(-23.0000f, 1.7770f, 51.6000f),
+    glm::vec3(-13.0000f, 1.7770f, 51.6000f),
+    glm::vec3(12.8000f, 1.7770f, 51.6000f),
+    glm::vec3(23.0000f, 1.7770f, 51.6000f),
+    glm::vec3(48.8000f, 1.7770f, 11.8000f),
+    glm::vec3(48.8000f, 1.7770f, -14.0000f),
+    glm::vec3(23.0000f, 1.7770f, -53.8000f),
+    glm::vec3(12.8000f, 1.7770f, -53.8000f),
+
 
     };
+
+
+    //-13.0f + i * 8.6, 1.777f, -14.0f
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     unsigned int VBO, cubeVAO;
@@ -249,7 +335,7 @@ int main()
     Model poste("model/poste/poste.obj");
 
     Model porsche("model/porsche/porsche.obj");
-   Model mercedes("model/mercedes/mercedes.obj");
+    Model mercedes("model/mercedes/mercedes.obj");
     Model toyota("model/toyota/toyota.obj");
 
     // Ciclo de renderizado
@@ -330,7 +416,8 @@ int main()
         modelShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
 
         // Configuración de luces puntuales usando un bucle
-        for (int i = 0; i < 16; i++) {
+        
+        for (int i = 0; i < 85; i++) {
             modelShader.setVec3("pointLights[" + std::to_string(i) + "].position", pointLightPositions[i]);
             modelShader.setVec3("pointLights[" + std::to_string(i) + "].ambient", 0.05f, 0.05f, 0.05f);
             modelShader.setVec3("pointLights[" + std::to_string(i) + "].diffuse", 0.8f, 0.8f, 0.8f);
@@ -339,7 +426,7 @@ int main()
             modelShader.setFloat("pointLights[" + std::to_string(i) + "].linear", 0.3f);
             modelShader.setFloat("pointLights[" + std::to_string(i) + "].quadratic", 0.15f);
         }
-
+        
 
         if (!dia && encendida && primera) {
             modelShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
@@ -644,6 +731,8 @@ int main()
             glBindVertexArray(lightCubeVAO);
             model = glm::mat4(1.0f);
             model = glm::translate(model, glm::vec3(-13.0f, 1.777f, -14.0f + i * 8.6f));
+
+
             model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
             lightCubeShader.setMat4("model", model);
             glDrawArrays(GL_TRIANGLES, 0, 36);
