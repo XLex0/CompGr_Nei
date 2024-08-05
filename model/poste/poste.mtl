@@ -1,0 +1,13 @@
+# Blender 4.2.0 MTL File: 'None'
+# www.blender.org
+
+newmtl T_lamp_post_2_1001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd T_lamp_post_2_1001_baseColor.jpeg
+map_Ke T_lamp_post_2_1001_emissive.jpeg
+map_Bump -bm 1.000000 T_lamp_post_2_1001_normal.png
