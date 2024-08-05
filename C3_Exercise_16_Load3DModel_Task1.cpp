@@ -43,13 +43,26 @@ float posicionZ = 0.0f;
 float rotacion = 0.0f;
 
 
+// Segundo punto
+float posicionX2 = 0.0f;
+float posicionZ2 = 0.0f;
+float rotacion2 = 0.0f;
+
+
 // Velocidad de la cámara
 float cameraSpeed = 5.0f; // Aumentar la velocidad de la cámara
 
 bool dia = true;
 bool diaKeyPressed = false;
+
 bool primera = false;
 bool primeraKeyPressed = false;
+
+bool segunda = false;
+bool segundaKeyPressed= false;
+
+bool desactivarKeyPressed = false;
+
 bool encendida = false;
 bool encendidaKeyPressed = false;
 bool show = false;
@@ -248,7 +261,7 @@ int main()
     Model poste("model/poste/poste.obj");
 
     Model porsche("model/porsche/porsche.obj");
-   Model mercedes("model/mercedes/mercedes.obj");
+    Model mercedes("model/mercedes/mercedes.obj");
     Model toyota("model/toyota/toyota.obj");
 
 
@@ -273,13 +286,25 @@ int main()
 
         if (primera) {
             glm::vec3 modelPosition = glm::vec3(posicionX, 0.2f, posicionZ);
-            glm::vec3 offset = glm::vec3(0.0f, 0.8f, 0.0f);
+            glm::vec3 offset = glm::vec3(0.0f, 0.6f, 0.0f);
 
             camera.Position = modelPosition + offset;
 
-            glm::vec3 direction(0.0f, -0.1f, 0.0f);
+            glm::vec3 direction(0.0f, -0.2f, 0.0f);
             direction.x = cos(glm::radians(rotacion));
             direction.z = -sin(glm::radians(rotacion));
+            direction.y = -0.1f; // Mantener la direcci�n en el plano horizontal
+            camera.Front = glm::normalize(direction);
+        }
+        else if (segunda) {
+            glm::vec3 modelPosition = glm::vec3(posicionX2, 0.2f, posicionZ2);
+            glm::vec3 offset = glm::vec3(0.0f, 0.7f, 0.0f);
+
+            camera.Position = modelPosition + offset;
+
+            glm::vec3 direction(0.0f, -0.2f, 0.0f);
+            direction.x = cos(glm::radians(rotacion2));
+            direction.z = -sin(glm::radians(rotacion2));
             direction.y = -0.1f; // Mantener la direcci�n en el plano horizontal
             camera.Front = glm::normalize(direction);
         }
@@ -342,7 +367,7 @@ int main()
         }
 
 
-        if (!dia && encendida && primera) {
+        if (!dia && encendida && (primera||segunda)) {
             modelShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
             modelShader.setVec3("spotLight.position", camera.Position);
             modelShader.setVec3("spotLight.direction", camera.Front);
@@ -350,10 +375,10 @@ int main()
             modelShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
             modelShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
             modelShader.setFloat("spotLight.constant", 1.0f);
-            modelShader.setFloat("spotLight.linear", 0.02);
-            modelShader.setFloat("spotLight.quadratic", 0.02);
+            modelShader.setFloat("spotLight.linear", 0.07);
+            modelShader.setFloat("spotLight.quadratic", 0.017);
             modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(14.0f)));
-            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(18.0f)));
         }
         else if (!dia) {
             modelShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
@@ -367,7 +392,8 @@ int main()
             modelShader.setFloat("spotLight.quadratic", 9.02);
             modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(14.0f)));
             modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
-        }else {
+        }
+        else {
             modelShader.setVec3("spotLight.position", camera.Position); // No es necesario si solo desactivas la luz
             modelShader.setVec3("spotLight.direction", camera.Front); // No es necesario si solo desactivas la luz
             modelShader.setVec3("spotLight.ambient", glm::vec3(0.1f));
@@ -380,6 +406,7 @@ int main()
             modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(180.0f))); // Angulo m�ximo posible
 
         }
+        ////////////////////____________________main_Characters______________
         // tesla
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(posicionX, 0.0f, posicionZ));
@@ -388,7 +415,7 @@ int main()
         modelShader.setMat4("model", model);
         ourModel.Draw(modelShader);
 
-
+  
 
         //-------------NICK-------------------
 
@@ -442,7 +469,7 @@ int main()
         BMW.Draw(modelShader);
 
 
-		//-------------------------------
+        //-------------------------------
 
 
 
@@ -565,10 +592,11 @@ int main()
         recta.Draw(modelShader);
 
         // ----------------------EMILIO------------------------
-      // DINOCOMCQUEEN
+           // DINOCOMCQUEEN
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(16.0f, 0.5f, -10.0f));
-        model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+        model = glm::translate(model, glm::vec3(0.0f, 0.3f, 0.0f));
+
+        model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
         modelShader.setMat4("model", model);
         dinocomcqueen.Draw(modelShader);
 
@@ -632,7 +660,7 @@ int main()
         model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         hall.Draw(modelShader);
-       
+
 
 
         //-------------------ALEJANDRO---------------------------------------
@@ -667,13 +695,13 @@ int main()
             // we now draw as many light bulbs as we have point lights.
             glBindVertexArray(lightCubeVAO);
             model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(-13.0f+i*8.6, 1.777f, -14.0f + 3 * 8.6f));
+            model = glm::translate(model, glm::vec3(-13.0f + i * 8.6, 1.777f, -14.0f + 3 * 8.6f));
             model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
             lightCubeShader.setMat4("model", model);
             glDrawArrays(GL_TRIANGLES, 0, 36);
 
             glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(-13.0f+i*8.6, 0.0f, -14.0f + 3 * 8.6f));
+            model = glm::translate(model, glm::vec3(-13.0f + i * 8.6, 0.0f, -14.0f + 3 * 8.6f));
             model = glm::scale(model, glm::vec3(0.002f, 0.002f, 0.002f));
             modelShader.use();
             modelShader.setMat4("model", model);
@@ -717,30 +745,27 @@ int main()
             glDrawArrays(GL_TRIANGLES, 0, 36);
 
             glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(-13.0f + i *8.6, 0.0f, -14.0f));
+            model = glm::translate(model, glm::vec3(-13.0f + i * 8.6, 0.0f, -14.0f));
             model = glm::scale(model, glm::vec3(0.002f, 0.002f, 0.002f));
             modelShader.use();
             modelShader.setMat4("model", model);
             poste.Draw(modelShader);
         }
 
-
-
-
-
         //PORSCHE
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(15.0f, 0.235f, 0.0f));
         model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
         modelShader.setMat4("model", model);
-       porsche.Draw(modelShader);
+        porsche.Draw(modelShader);
 
 
 
         //MERCEDES
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(17.0f, 0.4f, 0.0f));
-        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::translate(model, glm::vec3(posicionX2, 0.4f, posicionZ2));
+        model = glm::rotate(model, glm::radians(rotacion2 ), glm::vec3(0.0f, 0.1f, 0.0f));
+      
         modelShader.setMat4("model", model);
         mercedes.Draw(modelShader);
 
@@ -749,15 +774,8 @@ int main()
         model = glm::translate(model, glm::vec3(19.0f, 0.0f, 0.0f));
         model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
         modelShader.setMat4("model", model);
-       toyota.Draw(modelShader);
+        toyota.Draw(modelShader);
 
-
-
-
-
-
-
-    
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -771,10 +789,49 @@ int main()
 
 bool colision(float x, float z) {
     bool colision = true;
-    if (x >= 49.63f || x <= -49.6f || z >= 49.6f || z <= -49.16f) {
+    if (x >= 49.9999f || x <= -49.9999f || z >= 49.9999f || z <= -49.9999f) {
         return false;
     }
     if (x >= -35.67f && x <= -22.68f && z >= 2.6f && z <= 11.45f) {
+        return false;
+    }
+    //CRISTIAN 
+    //------------Bloque 1--------------
+    if (x >= 32.045f && x <= 48.0f && z >= -13.78 && z <= -6.68f) {
+        return false;
+    }
+    if (x >= 32.7602f && x <= 48.0f && z >= -6.68f && z <= -3.50224f) {
+        return false;
+    }
+    if (x >= 35.1383f && x <= 48.0f && z >= -3.51f && z <= -1.13928f) {
+        return false;
+    }
+    //--------- edificio chino----------
+    if (x >= 32.32f && x <= 48.0f && z >= -1.15928f && z <= 11.4712f) {
+        return false;
+    }
+    //------------Bloque 4--------------
+    if (x >= 30.7968 && x <= 37.8851f && z >= -43.3505 && z <= -31.6602f) {
+        return false;
+    }
+    if (x >= 37.8465f && x <= 44.8209f && z >= -43.3505 && z <= -31.6602f) {
+        return false;
+    }
+    if (x >= 44.8018f && x <= 49.6287f && z >= -43.3505 && z <= -31.6602f) {
+        return false;
+    }
+
+    if (z >= 3.46f && z <= 9.86f && x >= -45.5f && x <= -38.73f) {
+        return false;
+    }
+
+
+    if (z >= -9.78f && z <= -3.61f && x >= -43.31f && x <= -36.53f) {
+        return false;
+    }
+
+
+    if (z >= -12.17f && z <= -3.74f && x >= -35.48f && x <= -23.22f) {
         return false;
     }
 
@@ -982,7 +1039,80 @@ void processInput(GLFWwindow* window)
             rotacion -= 30.0f * 0.5f * velocidad;
         }
     }
+    //////////////////////////////////////////////////////////////////////////////
+    // 
+    // 
+      float rotacion2EnRadianes = glm::radians(rotacion2);
+    // Movimiento para el segundo punto
+    if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
+    {
+        float posX2 = posicionX2;
+        float posZ2 = posicionZ2;
 
+        posicionX2 += velocidad * cos(rotacion2EnRadianes);
+        posicionZ2 += -velocidad * sin(rotacion2EnRadianes);
+        if (!colision(posicionX2, posicionZ2)) {
+            posicionX2 = posX2;
+            posicionZ2 = posZ2;
+        }
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
+    {
+        float posX2 = posicionX2;
+        float posZ2 = posicionZ2;
+
+        posicionX2 -= velocidad * 0.25f * cos(rotacion2EnRadianes);
+        posicionZ2 += velocidad * 0.25f * sin(rotacion2EnRadianes);
+
+        if (!colision(posicionX2, posicionZ2)) {
+            posicionX2 = posX2;
+            posicionZ2 = posZ2;
+        }
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
+    {
+        float newX2 = posicionX2 + velocidad * cos(rotacion2EnRadianes);
+        float newZ2 = posicionZ2 - velocidad * sin(rotacion2EnRadianes);
+
+        if (colision(newX2, newZ2)) {
+            rotacion2 += 30.0f * velocidad;
+        }
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
+    {
+        float newX2 = posicionX2 + velocidad * cos(rotacion2EnRadianes);
+        float newZ2 = posicionZ2 - velocidad * sin(rotacion2EnRadianes);
+
+        if (colision(newX2, newZ2)) {
+            rotacion2 -= 30.0f * velocidad;
+        }
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
+    {
+        float newX2 = posicionX2 - velocidad * 0.5f * cos(rotacion2EnRadianes);
+        float newZ2 = posicionZ2 + velocidad * 0.5f * sin(rotacion2EnRadianes);
+
+        if (colision(newX2, newZ2)) {
+            rotacion2 += 30.0f * 0.5f * velocidad;
+        }
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
+    {
+        float newX2 = posicionX2 - velocidad * 0.5f * cos(rotacion2EnRadianes);
+        float newZ2 = posicionZ2 + velocidad * 0.5f * sin(rotacion2EnRadianes);
+
+        if (colision(newX2, newZ2)) {
+            rotacion2 -= 30.0f * 0.5f * velocidad;
+        }
+    }
+
+    // Actualiza la rotación en radianes
+    rotacion2EnRadianes = glm::radians(rotacion2);
 
     // Actualiza la rotación en radianes
     rotacionEnRadianes = glm::radians(rotacion);
@@ -1001,6 +1131,20 @@ void processInput(GLFWwindow* window)
         diaKeyPressed = false; // Resetea el estado cuando la tecla es liberada
     }
 
+    if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
+    {
+        if (!encendidaKeyPressed) // Solo cambia el estado si la tecla estaba previamente no presionada
+        {
+            encendida = !encendida;
+            encendidaKeyPressed = true;
+        }
+    }
+    else
+    {
+        encendidaKeyPressed = false; // Resetea el estado cuando la tecla es liberada
+    }
+
+
     // En el ciclo de renderizado
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS && !primeraKeyPressed)
     {
@@ -1015,16 +1159,42 @@ void processInput(GLFWwindow* window)
 
 
 
-
+    // Activar `primera` y desactivar `segunda` con la tecla `G`
     if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS && !primeraKeyPressed)
     {
         primera = !primera;
+        segunda = false; // Desactiva `segunda` cuando `primera` se activa
         primeraKeyPressed = true;
     }
     if (glfwGetKey(window, GLFW_KEY_G) == GLFW_RELEASE)
     {
         primeraKeyPressed = false;
     }
+
+    // Activar `segunda` y desactivar `primera` con la tecla `H`
+    if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS && !segundaKeyPressed)
+    {
+        segunda = !segunda;
+        primera = false; // Desactiva `primera` cuando `segunda` se activa
+        segundaKeyPressed = true;
+    }
+    if (glfwGetKey(window, GLFW_KEY_H) == GLFW_RELEASE)
+    {
+        segundaKeyPressed = false;
+    }
+
+    // Desactivar ambas con la tecla `Y`
+    if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS && !desactivarKeyPressed)
+    {
+        primera = false;
+        segunda = false;
+        desactivarKeyPressed = true;
+    }
+    if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_RELEASE)
+    {
+        desactivarKeyPressed = false;
+    }
+
 
 
 }
