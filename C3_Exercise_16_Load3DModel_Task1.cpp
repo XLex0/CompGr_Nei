@@ -37,7 +37,7 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 //Velocidad-> cambiar este valor en caso de querer mover el auto mas rapido
-float velocidad = 0.01f;
+float velocidad = 0.05f;
 float posicionX = 0.0f;
 float posicionZ = 0.0f;
 float rotacion = 0.0f;
@@ -769,11 +769,15 @@ int main()
     return 0;
 }
 
-bool colision(float x, float y) {
+bool colision(float x, float z) {
     bool colision = true;
-    if (x >= -1.63f && x <= 1.19f && y >= 23.3f && y <= 27.16f) {
-        colision = false;
+    if (x >= 49.63f || x <= -49.6f || z >= 49.6f || z <= -49.16f) {
+        return false;
     }
+    if (x >= -35.67f && x <= -22.68f && z >= 2.6f && z <= 11.45f) {
+        return false;
+    }
+
     return colision;
 }
 
