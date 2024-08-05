@@ -37,10 +37,12 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 //Velocidad-> cambiar este valor en caso de querer mover el auto mas rapido
-float velocidad = 0.01f;
-float posicionX = 0.0f;
-float posicionZ = 0.0f;
+
+float velocidad = 0.0f;
+float posicionX = 25.0f;
+float posicionZ = 16.0f;
 float rotacion = 0.0f;
+//float aceleracion = 0.00005;
 
 
 // Velocidad de la cámara
@@ -214,19 +216,27 @@ int main()
     ///////////////////////////////////////////////////////
     // NICK
 
-	Model edificio_rojo("model/edificio_rojo/edificio_rojo.obj");
+    Model edificio_rojo("model/edificio_rojo/edificio_rojo.obj");
     Model shield("model/shield/shieldok.obj");
-	Model russian("model/russian/russian.obj");
-	Model BMW("model/BMW/BMW.obj");
+    Model russian("model/russian/russian.obj");
+    Model BMW("model/BMW/BMW.obj");
 
-    
+    // EMILIO
+    Model building("model/building/building.obj");
+    Model building02("model/building02/building02.obj");
+    Model casanick("model/casanick/casanick.obj");
+    Model hall("model/speer_hall/speer_hall.obj");
+    Model dinocomcqueen("model/dinocomcqueen/dinocomcqueen.obj");
+
+
+    //ALEJANDRO
+
     //Alejandro
     Model poste("model/poste/poste.obj");
     Model audi("model/audi/audi.obj");
     Model porsche("model/porsche/porsche.obj");
     Model mercedes("model/mercedes/mercedes.obj");
     Model toyota("model/toyota/toyota.obj");
-    
 
     // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
@@ -248,15 +258,15 @@ int main()
         }
 
         if (primera) {
-            glm::vec3 modelPosition = glm::vec3(posicionX, 0.0f, posicionZ);
+            glm::vec3 modelPosition = glm::vec3(posicionX, 0.2f, posicionZ);
             glm::vec3 offset = glm::vec3(0.0f, 0.8f, 0.0f);
 
             camera.Position = modelPosition + offset;
 
-            glm::vec3 direction(0.0f, 0.0f, 0.0f);
+            glm::vec3 direction(0.0f, -0.1f, 0.0f);
             direction.x = cos(glm::radians(rotacion));
             direction.z = -sin(glm::radians(rotacion));
-            direction.y = -0.1f; // Mantener la direcci�n en el plano horizontal
+            direction.y = -0.1f; // Mantener la direccion en el plano horizontal
             camera.Front = glm::normalize(direction);
         }
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.001f, 10000000.0f);
@@ -302,9 +312,8 @@ int main()
 
 
         modelShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-        modelShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
-        modelShader.setVec3("dirLight.diffuse", 0.01f, 0.01f, 0.01f);
-        modelShader.setVec3("dirLight.specular", 0.05f, 0.05f, 0.05f);
+        modelShader.setVec3("dirLight.diffuse", 0.1f, 0.1f, 0.1f);
+        modelShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
 
         // point light 1
         modelShader.setVec3("pointLights[0].position", pointLightPositions[0]);
@@ -362,112 +371,120 @@ int main()
 
 
 
-        if (!dia) {
+        if (!dia && encendida) {
+            modelShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
             modelShader.setVec3("spotLight.position", camera.Position);
             modelShader.setVec3("spotLight.direction", camera.Front);
             modelShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
             modelShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
             modelShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
             modelShader.setFloat("spotLight.constant", 1.0f);
-            modelShader.setFloat("spotLight.linear", 0.02);
-            modelShader.setFloat("spotLight.quadratic", 0.02);
+            modelShader.setFloat("spotLight.linear", 0.09);
+            modelShader.setFloat("spotLight.quadratic", 0.032);
             modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(14.0f)));
-            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(22.0f)));
         }
-        else {
+        else if (!encendida && !dia ){
+            modelShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
             modelShader.setVec3("spotLight.position", camera.Position); // No es necesario si solo desactivas la luz
             modelShader.setVec3("spotLight.direction", camera.Front); // No es necesario si solo desactivas la luz
-            modelShader.setVec3("spotLight.ambient", glm::vec3(0.1f));
+            modelShader.setVec3("spotLight.ambient", glm::vec3(0.0f));
             modelShader.setVec3("spotLight.diffuse", glm::vec3(1.0f));
             modelShader.setVec3("spotLight.specular", glm::vec3(1.0f));
             modelShader.setFloat("spotLight.constant", 1.0f);
-            modelShader.setFloat("spotLight.linear", 0.09f);
+            modelShader.setFloat("spotLight.linear", 1.0f);
+            modelShader.setFloat("spotLight.quadratic", 1.0f);
+            modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(360.0f))); // Angulo m�ximo posible
+            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(360.0f))); // Angulo m�ximo posible
+
+        }
+        else {
+            modelShader.setVec3("dirLight.ambient", 0.4f, 0.4f, 0.4f);
+            modelShader.setVec3("spotLight.position", camera.Position); // No es necesario si solo desactivas la luz
+            modelShader.setVec3("spotLight.direction", camera.Front); // No es necesario si solo desactivas la luz
+            modelShader.setVec3("spotLight.ambient", glm::vec3(0.0f));
+            modelShader.setVec3("spotLight.diffuse", glm::vec3(1.0f));
+            modelShader.setVec3("spotLight.specular", glm::vec3(1.0f));
+            modelShader.setFloat("spotLight.constant", 0.8f);
+            modelShader.setFloat("spotLight.linear", 0.0f);
             modelShader.setFloat("spotLight.quadratic", 0.0f);
-            modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(180.0f))); // Angulo m�ximo posible
-            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(180.0f))); // Angulo m�ximo posible
+            modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(360.0f))); // Angulo m�ximo posible
+            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(360.0f))); // Angulo m�ximo posible
 
         }
         // tesla
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(-40.0f, 0.0f, -40.0f));
+
+
+        model = glm::translate(model, glm::vec3(posicionX, 0.0f, posicionZ));
         model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 0.1f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
+        model = glm::scale(model, glm::vec3(0.015f, 0.015f, 0.015f));
         modelShader.setMat4("model", model);
         ourModel.Draw(modelShader);
 
 
 
-		//-------------NICK-------------------
+        //-------------NICK-------------------
 
+        //Edificio rojo
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(30.0f, 0.0f, 30.0f));
+        model = glm::translate(model, glm::vec3(28.0f, 0.0f, 30.0f));
         //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         edificio_rojo.Draw(modelShader);
-
-        //calle 2
+        
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(30.0f, 0.0f, 10.0f));
+        model = glm::translate(model, glm::vec3(40.0f, 0.0f, 30.0f));
         //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         edificio_rojo.Draw(modelShader);
-
-        //calle 2
+        
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(20.0f, 0.0f, 10.0f));
+        model = glm::translate(model, glm::vec3(28.0f, 0.0f, 42.0f));
         //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         edificio_rojo.Draw(modelShader);
-
-		//shield
+        
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(10.0f, 0.0f, 30.0f));
+        model = glm::translate(model, glm::vec3(40.0f, 0.0f, 42.0f));
+        //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+        modelShader.setMat4("model", model);
+        edificio_rojo.Draw(modelShader);
+       
+        //Edificio russian
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 45.0f));
+        model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        russian.Draw(modelShader);
+
+
+        //shield
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 30.0f));
         model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
         modelShader.setMat4("model", model);
         shield.Draw(modelShader);
 
-        //russian
+        //BMW
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(-20.0f, 0.0f, 30.0f));
-        model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4));
-		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::translate(model, glm::vec3(10.0f, 0.0f, 20.0f));
+        //model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4));
         modelShader.setMat4("model", model);
-        russian.Draw(modelShader);
-        //
-
-		//BMW
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(10.0f, 0.0f, 25.0f));
-       //model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4));
-                modelShader.setMat4("model", model);
         BMW.Draw(modelShader);
 
 
-		//-------------NICK-------------------
+        //------------------------------------------------------
 
-       
-
-
-        /////////////////////
-        ////dinomcqueen
-        //model = glm::mat4(1.0f);
-        //model = glm::translate(model, glm::vec3(0.0, 0.1f, 24.0f));
-
-        //model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-        //modelShader.setMat4("model", model);
-        //dinoModel.Draw(modelShader);
+        //----------------ALEJANDRO-------------------
 
 
-        //ALEJANDRO
-        //
-        // FUENTES DE LUZ
-        ////////////////////////////////////////////////////////////////////////////////////////////////
-        
-        
-        
-        //POSTES
+        //POSTES ALREDEDOR PARQUE
         for (int i = 0; i < 4; ++i) {
 
+
+            //PARTE IZQUIERDA PARQUE
             lightCubeShader.use();
             lightCubeShader.setMat4("projection", projection);
             lightCubeShader.setMat4("view", view);
@@ -486,9 +503,33 @@ int main()
             modelShader.use();
             modelShader.setMat4("model", model);
             poste.Draw(modelShader);
-        }
 
-        for (int i = 1; i < 4; ++i) {
+
+
+            //PARTE SUR CALLE NORTE
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f + i * 8.6, 1.777f, -28.0f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model2 = glm::mat4(1.0f);
+            model2 = glm::translate(model2, glm::vec3(-13.0f + i * 8.6, 0.0f, -28.0f));
+            model2 = glm::scale(model2, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model2);
+            poste.Draw(modelShader);
+
+
+
+
+            //PARTE SUR CALLE NOROESTE
 
             lightCubeShader.use();
             lightCubeShader.setMat4("projection", projection);
@@ -497,20 +538,179 @@ int main()
             // we now draw as many light bulbs as we have point lights.
             glBindVertexArray(lightCubeVAO);
             model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(-13.0f+i*8.6, 1.777f, -14.0f + 3 * 8.6f));
+            model = glm::translate(model, glm::vec3(-23.0f + i * -8.6, 1.777f, -28.0f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model5 = glm::mat4(1.0f);
+            model5 = glm::translate(model5, glm::vec3(-23.0f + i * -8.6, 0.0f, -28.0f));
+            model5 = glm::scale(model5, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model5);
+            poste.Draw(modelShader);
+
+
+
+            //PARTE NORTE CALLE OESTE
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-23.0f + i * -8.6, 1.777f, -14.0f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model3 = glm::mat4(1.0f);
+            model3 = glm::translate(model3, glm::vec3(-23.0f + i * -8.6, 0.0f, -14.0f));
+            model3 = glm::scale(model3, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model3);
+            poste.Draw(modelShader);
+
+            //PARTE NORTE CALLE SUROESTE
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-23.0f + i * -8.6, 1.777f, 25.8f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model4 = glm::mat4(1.0f);
+            model4 = glm::translate(model4, glm::vec3(-23.0f + i * -8.6, 0.0f, 25.8f));
+            model4 = glm::scale(model4, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model4);
+            poste.Draw(modelShader);
+
+
+
+            //PARTE NORTE CALLE SUR
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f + i * 8.6, 1.777f, 25.8f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model6 = glm::mat4(1.0f);
+            model6 = glm::translate(model6, glm::vec3(-13.0f + i * 8.6, 0.0f, 25.8f));
+            model6 = glm::scale(model6, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model6);
+            poste.Draw(modelShader);
+
+
+            //PARTE NORTE CALLE SURESTE
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(23.0f + i * 8.6, 1.777f, 25.8f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model7 = glm::mat4(1.0f);
+            model7 = glm::translate(model7, glm::vec3(23.0f + i * 8.6, 0.0f, 25.8f));
+            model7 = glm::scale(model7, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model7);
+            poste.Draw(modelShader);
+
+
+
+            //PARTE IZQUIERDA CALLE ESTE
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(23.0f, 1.777f, -14.0f + i * 8.6f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model8 = glm::mat4(1.0f);
+            model8 = glm::translate(model8, glm::vec3(23.0f, 0.0f, -14.0f + i * 8.6f));
+            model8 = glm::scale(model8, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model8);
+            poste.Draw(modelShader);
+
+
+            
+            //PARTE SUR CALLE NORESTE
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(23.0f + i * 8.6, 1.777f, -28.0f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model14 = glm::mat4(1.0f);
+            model14 = glm::translate(model14, glm::vec3(23.0f + i * 8.6, 0.0f, -28.0f));
+            model14 = glm::scale(model14, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model14);
+            poste.Draw(modelShader);
+
+
+
+        }
+
+
+
+        for (int i = 1; i < 4; ++i) {
+
+            //PARTE SUR PARQUE
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f + i * 8.6, 1.777f, -14.0f + 3 * 8.6f));
             model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
             lightCubeShader.setMat4("model", model);
             glDrawArrays(GL_TRIANGLES, 0, 36);
 
             glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(-13.0f+i*8.6, 0.0f, -14.0f + 3 * 8.6f));
+            model = glm::translate(model, glm::vec3(-13.0f + i * 8.6, 0.0f, -14.0f + 3 * 8.6f));
             model = glm::scale(model, glm::vec3(0.002f, 0.002f, 0.002f));
             modelShader.use();
             modelShader.setMat4("model", model);
             poste.Draw(modelShader);
-        }
 
-        for (int i = 1; i < 4; ++i) {
+            
+
+
+            //PARTE DERECHA PARQUE
 
             lightCubeShader.use();
             lightCubeShader.setMat4("projection", projection);
@@ -524,15 +724,15 @@ int main()
             lightCubeShader.setMat4("model", model);
             glDrawArrays(GL_TRIANGLES, 0, 36);
 
-            glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(-13.0f + 3 * 8.6, 0.0f, -14.0f + i * 8.6f));
-            model = glm::scale(model, glm::vec3(0.002f, 0.002f, 0.002f));
+            glm::mat4 model2 = glm::mat4(1.0f);
+            model2 = glm::translate(model2, glm::vec3(-13.0f + 3 * 8.6, 0.0f, -14.0f + i * 8.6f));
+            model2 = glm::scale(model2, glm::vec3(0.002f, 0.002f, 0.002f));
             modelShader.use();
-            modelShader.setMat4("model", model);
+            modelShader.setMat4("model", model2);
             poste.Draw(modelShader);
-        }
 
-        for (int i = 1; i < 4; ++i) {
+
+            //PARTE NORTE PARQUE
 
             lightCubeShader.use();
             lightCubeShader.setMat4("projection", projection);
@@ -546,58 +746,317 @@ int main()
             lightCubeShader.setMat4("model", model);
             glDrawArrays(GL_TRIANGLES, 0, 36);
 
-            glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(-13.0f + i *8.6, 0.0f, -14.0f));
-            model = glm::scale(model, glm::vec3(0.002f, 0.002f, 0.002f));
+            glm::mat4 model3 = glm::mat4(1.0f);
+            model3 = glm::translate(model3, glm::vec3(-13.0f + i * 8.6, 0.0f, -14.0f));
+            model3 = glm::scale(model3, glm::vec3(0.002f, 0.002f, 0.002f));
             modelShader.use();
-            modelShader.setMat4("model", model);
+            modelShader.setMat4("model", model3);
             poste.Draw(modelShader);
+
+
+            //PARTE IZQUIERDA CALLE NORTE
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f, 1.777f, -28.0f + i * -8.6f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model4 = glm::mat4(1.0f);
+            model4 = glm::translate(model4, glm::vec3(-13.0f, 0.0f, -28.0f + i * -8.6f));
+            model4 = glm::scale(model4, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model4);
+            poste.Draw(modelShader);
+
+            
+
+            
+            //PARTE DERECHA CALLE NOROESTE
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-23.0f, 1.777f, -28.0f + i * -8.6f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model6 = glm::mat4(1.0f);
+            model6 = glm::translate(model6, glm::vec3(-23.0f, 0.0f, -28.0f + i * -8.6f));
+            model6 = glm::scale(model6, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model6);
+            poste.Draw(modelShader);
+
+
+            //PARTE DERECHA CALLE OESTE
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-23.0f, 1.777f, -14.0f + i * 8.6f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model7 = glm::mat4(1.0f);
+            model7 = glm::translate(model7, glm::vec3(-23.0f, 0.0f, -14.0f + i * 8.6f));
+            model7 = glm::scale(model7, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model7);
+            poste.Draw(modelShader);
+
+
+            //PARTE SUR CALLE OESTE
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-23.0f + i * -8.6, 1.777f, -14.0f + 3 * 8.6f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model8 = glm::mat4(1.0f);
+            model8 = glm::translate(model8, glm::vec3(-23.0f + i * -8.6, 0.0f, -14.0f + 3 * 8.6f));
+            model8 = glm::scale(model8, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model8);
+            poste.Draw(modelShader);
+
+
+
+            //PARTE DERECHA CALLE SUR
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-23.0f, 1.777f, 25.8f + i * 8.6f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model9 = glm::mat4(1.0f);
+            model9 = glm::translate(model9, glm::vec3(-23.0f, 0.0f, 25.8f + i * 8.6f));
+            model9 = glm::scale(model9, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model9);
+            poste.Draw(modelShader);
+
+
+
+            //PARTE IZQUIERDA CALLE SUR
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f, 1.777f, 25.8f + i * 8.6f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model10 = glm::mat4(1.0f);
+            model10 = glm::translate(model10, glm::vec3(-13.0f, 0.0f, 25.8f + i * 8.6f));
+            model10 = glm::scale(model10, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model10);
+            poste.Draw(modelShader);
+
+
+
+            //PARTE DERECHA CALLE SUR
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f + 3 * 8.6, 1.777f, 25.8f + i * 8.6f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model11 = glm::mat4(1.0f);
+            model11 = glm::translate(model11, glm::vec3(-13.0f + 3 * 8.6, 0.0f, 25.8f + i * 8.6f));
+            model11 = glm::scale(model11, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model11);
+            poste.Draw(modelShader);
+
+
+            //PARTE IZQUIERDA CALLE SURESTE
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(23.0f, 1.777f, 25.8f + i * 8.6f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model12 = glm::mat4(1.0f);
+            model12 = glm::translate(model12, glm::vec3(23.0f, 0.0f, 25.8f + i * 8.6f));
+            model12 = glm::scale(model12, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model12);
+            poste.Draw(modelShader);
+
+
+
+
+            //PARTE SUR CALLE ESTE
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(23.0f + i * 8.6, 1.777f, -14.0f + 3 * 8.6f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model13 = glm::mat4(1.0f);
+            model13 = glm::translate(model13, glm::vec3(23.0f + i * 8.6, 0.0f, -14.0f + 3 * 8.6f));
+            model13 = glm::scale(model13, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model13);
+            poste.Draw(modelShader);
+
+
+            //PARTE NORTE CALLE ESTE
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(23.0f + i * 8.6, 1.777f, -14.0f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model14 = glm::mat4(1.0f);
+            model14 = glm::translate(model14, glm::vec3(23.0f + i * 8.6, 0.0f, -14.0f));
+            model14 = glm::scale(model14, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model14);
+            poste.Draw(modelShader);
+
+
+
+            //PARTE IZQUIERDA CALLE NORESTE
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(23.0f, 1.777f, -28.0f + i * -8.6f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model15 = glm::mat4(1.0f);
+            model15 = glm::translate(model15, glm::vec3(23.0f, 0.0f, -28.0f + i * -8.6f));
+            model15 = glm::scale(model15, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model15);
+            poste.Draw(modelShader);
+
+
+
+            //PARTE DERECHA CALLE NORTE
+            lightCubeShader.use();
+            lightCubeShader.setMat4("projection", projection);
+            lightCubeShader.setMat4("view", view);
+
+            // we now draw as many light bulbs as we have point lights.
+            glBindVertexArray(lightCubeVAO);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(-13.0f + 3 * 8.6, 1.777f, -28.0f + i * -8.6f));
+            model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+
+            glm::mat4 model16 = glm::mat4(1.0f);
+            model16 = glm::translate(model16, glm::vec3(-13.0f + 3 * 8.6, 0.0f, -28.0f + i * -8.6f));
+            model16 = glm::scale(model16, glm::vec3(0.002f, 0.002f, 0.002f));
+            modelShader.use();
+            modelShader.setMat4("model", model16);
+            poste.Draw(modelShader);
+
         }
 
 
-
-        
-    
-            //PORSCHE
-            model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(15.0f, 0.235f, 0.0f));
-            model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
-            modelShader.setMat4("model", model);
-            porsche.Draw(modelShader);
-            
-            
-    
-            //MERCEDES
-            model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(17.0f, 0.4f, 0.0f));
-            model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-            modelShader.setMat4("model", model);
-            mercedes.Draw(modelShader);
-            
-     
-            //AUDI
-            model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(25.0f, 0.6f, -19.5f));
-            model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-            model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-            modelShader.setMat4("model", model);
-            audi.Draw(modelShader);
-
-            
-            //toyota
-            model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(19.0f, 0.0f, 0.0f));
-            model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-            modelShader.setMat4("model", model);
-            toyota.Draw(modelShader);
-            
+        //PORSCHE
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(15.0f, 0.235f, 0.0f));
+        model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+        modelShader.setMat4("model", model);
+        porsche.Draw(modelShader);
 
 
-        
-        
+
+        //MERCEDES
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(17.0f, 0.4f, 0.0f));
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        mercedes.Draw(modelShader);
+
+
+        //AUDI
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(25.0f, 0.6f, -19.5f));
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+        modelShader.setMat4("model", model);
+        audi.Draw(modelShader);
+
+
+        //TOYOTA
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(19.0f, 0.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+        modelShader.setMat4("model", model);
+        toyota.Draw(modelShader);
+
+
+
+
+
 
         // ----------------CRISTIAN-----------------------------
-        //**EDIFICIOS** = BLOQUE 1
+       // **EDIFICIOS** = BLOQUE 1
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(46.8f, 0.0f, -40.0f));
         model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
@@ -613,7 +1072,7 @@ int main()
         model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         edificio_dos_torres.Draw(modelShader);
-
+        
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(32.8f, 0.0f, -40.0f));
         model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
@@ -626,21 +1085,21 @@ int main()
 
         // **HOSPITAL** = BLOQUE 2
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(7.0f, 0.0f, -42.0f));
+        model = glm::translate(model, glm::vec3(6.0f, 0.0f, -42.0f));
         model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         // Rotación 90 grados en el eje X (y) -> a la izquierda
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         hospital.Draw(modelShader);
-
+        
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(2.0f, 0.0f, -33.0f));
         model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         hospital.Draw(modelShader);
-
+        
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(-3.0f, 0.0f, -42.0f));
+        model = glm::translate(model, glm::vec3(-4.0f, 0.0f, -42.0f));
         model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         // Rotación 90 grados en el eje X (y) -> a la izquierda
         model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -662,19 +1121,19 @@ int main()
 
         //**BLOQUE 4** -> EDFIICIOS
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(48.0f, 0.0f, -4.0f));
+        model = glm::translate(model, glm::vec3(48.0f, 0.0f, -2.0f));
         model = glm::scale(model, glm::vec3(3.5f, 3.0f, 3.5f));
         modelShader.setMat4("model", model);
         edificios.Draw(modelShader);
 
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(40.0f, 0.0f, -4.0f));
+        model = glm::translate(model, glm::vec3(40.0f, 0.0f, -2.0f));
         model = glm::scale(model, glm::vec3(3.5f, 3.0f, 3.5f));
         modelShader.setMat4("model", model);
         edificios.Draw(modelShader);
 
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(41.0f, 0.0f, 3.0f));
+        model = glm::translate(model, glm::vec3(41.0f, 0.0f, 4.5f));
         model = glm::scale(model, glm::vec3(0.09f, 0.075f, 0.09f));
         modelShader.setMat4("model", model);
         edificio_chino.Draw(modelShader);
@@ -688,7 +1147,7 @@ int main()
         model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         recta.Draw(modelShader);
-        
+
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(-33.0f, 0.0f, -25.0f));
         model = glm::scale(model, glm::vec3(0.3f, 0.1f, 0.6f));
@@ -714,7 +1173,75 @@ int main()
         modelShader.setMat4("model", model);
         recta.Draw(modelShader);
 
-        // --------------------------------------------------
+        // ----------------------EMILIO------------------------
+        // DINOCOMCQUEEN
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(16.0f, 0.5f, -10.0f));
+        model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+        modelShader.setMat4("model", model);
+        dinocomcqueen.Draw(modelShader);
+        
+        // PRIMER BLOQUE EMILIO
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-35.0f, 0.0f, -42.0f));
+        model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        building02.Draw(modelShader);
+
+        // SEGUNDO BLOQUE EMILIO
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-42.0f, 0.0f, 10.0f));
+        model = glm::scale(model, glm::vec3(85.0f, 85.0f, 85.0f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        building.Draw(modelShader);
+        
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-40.0f, 0.0f, -10.0f));
+        model = glm::scale(model, glm::vec3(85.0f, 85.0f, 85.0f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        building.Draw(modelShader);
+        
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-25.0f, 0.0f, -5.0f));
+        model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        casanick.Draw(modelShader);
+        
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-25.0f, 0.0f, 10.0f));
+        model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        casanick.Draw(modelShader);
+
+        // TERCER BLOQUE EMILIO
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-30.0f, 0.0f, 39.5f));
+        model = glm::scale(model, glm::vec3(0.45f, 0.45f, 0.45f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        hall.Draw(modelShader);
+        
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-38.0f, 0.0f, 34.0f));
+        model = glm::scale(model, glm::vec3(0.45f, 0.45f, 0.45f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        hall.Draw(modelShader);
+
 
         // Matriz de modelo
 
@@ -730,15 +1257,66 @@ int main()
     return 0;
 }
 
-bool colision(float x, float y) {
+bool colision(float x, float z) {
     bool colision = true;
-    if (x >= -1.63f && x <= 1.19f && y >= 23.3f && y <= 27.16f) {
+    if (x >= 49.5f || x <= -49.5f || z >= 49.5f || z <= -49.5f) {
         colision = false;
     }
     return colision;
 }
 
+// Funcion control de marchas
+float controlVelocidad(int marcha) {
+        
+    float velocidad = 0.0f;
+        
+        switch (marcha) {
+            case 1:
+				velocidad = 0.05f;
+                break;
+            case 2:
+				velocidad = 0.1f;
+                break;
+            case 3:
+				velocidad = 0.15f;
+                break;
+            case 4:
+                velocidad = 0.20f;
+                break;
+            case 5:
+                velocidad = 0.25f;
+                break;
+            default:
+                velocidad = 0.0f;
+                break;
+        }
+		return velocidad;
+    }
 
+
+// Funcion para procesar con físicas la velocidad de marcha
+float fisicasVelocidad(float velocidadInicial, float tiempo, float velocidadMaxima, float aceleracion) {
+	float velocidadFinal = 0.0f;
+    tiempo += deltaTime; // deltaTime es el tiempo transcurrido desde el último fotograma
+	velocidadFinal = velocidadInicial + (aceleracion * tiempo); //fórmula de la velocidad final
+
+	// Si la velocidad final es mayor a la velocidad máxima, se asigna la velocidad máxima
+	if (velocidadFinal > velocidadMaxima) {
+		velocidadFinal = velocidadMaxima;
+	}
+
+	return velocidadFinal;
+}
+
+//variables
+int marcha = 0;
+
+float aceleracion = 0.0f;
+float velocidadaxima = 0.0f;
+float tiempo = 0.0f;
+float frenado = 0.0f;
+float fuerzaDeSalida = 0.0f;
+// Funcion para procesar con físicas la velocidad de marcha
 void processInput(GLFWwindow* window)
 {
     float rotacionR = glm::radians(rotacion);
@@ -754,77 +1332,172 @@ void processInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.ProcessKeyboard(RIGHT, deltaTime * cameraSpeed);
 
+
+    //MARCHAS
+	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
+		marcha = 1;
+		velocidadaxima = 0.05f;
+		fuerzaDeSalida = 1.0f;
+	}
+    if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
+        marcha = 2;
+        velocidadaxima = 0.1f;
+		fuerzaDeSalida = 0.5f;
+    }
+    if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
+        marcha = 3;
+        velocidadaxima = 0.15f;
+		fuerzaDeSalida = 0.001f;
+    }
+    if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
+        marcha = 4;
+        velocidadaxima = 0.20f;
+		fuerzaDeSalida = 0.0f;
+    }
+    if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
+        marcha = 5;
+        velocidadaxima = 0.25;
+		fuerzaDeSalida = 0.0f;
+    }
+
+	aceleracion = controlVelocidad(marcha);
+
+	//std::cout << "velocidad: " << velocidad << std::endl;
+    //
+
+
     float rotacionEnRadianes = glm::radians(rotacion);
 
+    
     // Movimiento
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
+        tiempo = 0.0f;
+        velocidad = fisicasVelocidad(velocidad, tiempo, velocidadaxima, aceleracion);
+        if (velocidad < 0.05f)
+        {
+            velocidad = velocidad * fuerzaDeSalida;
+        }
+
         float posX = posicionX;
         float posZ = posicionZ;
 
         posicionX += velocidad * cos(rotacionEnRadianes);
         posicionZ += -velocidad * sin(rotacionEnRadianes);
+        if (velocidad < 0.05f) {
+            velocidad += aceleracion;
+        }
         if (!colision(posicionX, posicionZ)) {
             posicionX = posX;
             posicionZ = posZ;
+            velocidad = 0.0;
         }
     }
+    else {
+		aceleracion = 0.0f;
+		float fuerzaRozamiento = 0.002f + frenado;
+        if (velocidad > 0)
+        {
+            velocidad = velocidad - fuerzaRozamiento;
+        }
+        else
+        {
+			velocidad = 0.0f;
+        }
+		
+        
+        posicionX += velocidad * cos(rotacionEnRadianes);
+        posicionZ += -velocidad * sin(rotacionEnRadianes);
+    }
+
 
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-
+		frenado = 0.002f;
         float posX = posicionX;
         float posZ = posicionZ;
 
-        posicionX -= velocidad * 0.25f * cos(rotacionEnRadianes);
-        posicionZ += velocidad * 0.25f * sin(rotacionEnRadianes);
-
+        posicionX += velocidad * cos(rotacionEnRadianes);
+        posicionZ += -velocidad * sin(rotacionEnRadianes);
+        if (velocidad > -0.015f) {
+            velocidad -= aceleracion*4;
+        }
         if (!colision(posicionX, posicionZ)) {
             posicionX = posX;
             posicionZ = posZ;
+            velocidad = 0.0;
         }
+
+    }
+    if (glfwGetKey(window, GLFW_KEY_UP) != GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) != GLFW_PRESS)
+    {
+        float posX = posicionX;
+        float posZ = posicionZ;
+     
+        posicionX += velocidad * cos(rotacionEnRadianes);
+        posicionZ += -velocidad * sin(rotacionEnRadianes);
+
+        if (velocidad > 0.0f) {
+            velocidad -= aceleracion / 5.0f;
+            if (velocidad < 0.0f) velocidad = 0.0f;
+        }
+        else if (velocidad < 0.0f) {
+            velocidad += aceleracion ;
+            if (velocidad > 0.0f) velocidad = 0.0f;
+        }
+
+        // Verificación de colisión y ajuste de posición
+        if (!colision(posicionX, posicionZ)) {
+            posicionX = posX;
+            posicionZ = posZ;
+            velocidad = 0.0;
+        }
+	}
+    else {
+		frenado = 0.0f;
     }
 
 
 
 
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && velocidad >0.01)
     {
         float newX = posicionX + velocidad * cos(rotacionEnRadianes);
         float newZ = posicionZ - velocidad * sin(rotacionEnRadianes);
 
         if (colision(newX, newZ)) {
-            rotacion += 30.0f * velocidad;
+            rotacion += 5.0f * velocidad;
         }
     }
 
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && velocidad >0.01)
     {
         float newX = posicionX + velocidad * cos(rotacionEnRadianes);
         float newZ = posicionZ - velocidad * sin(rotacionEnRadianes);
 
         if (colision(newX, newZ)) {
-            rotacion -= 30.0f * velocidad;
+            rotacion -= 5.0f * velocidad;
         }
     }
 
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && velocidad<0)
     {
         float newX = posicionX - velocidad * 0.5f * cos(rotacionEnRadianes);
         float newZ = posicionZ + velocidad * 0.5f * sin(rotacionEnRadianes);
 
         if (colision(newX, newZ)) {
-            rotacion += 30.0f * 0.5f * velocidad;
+            rotacion += 10.0f * 0.5f * velocidad;
         }
     }
 
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && velocidad<0)
     {
         float newX = posicionX - velocidad * 0.5f * cos(rotacionEnRadianes);
         float newZ = posicionZ + velocidad * 0.5f * sin(rotacionEnRadianes);
 
         if (colision(newX, newZ)) {
-            rotacion -= 30.0f * 0.5f * velocidad;
+            rotacion -= 10.0f * 0.5f * velocidad;
         }
     }
 
@@ -848,17 +1521,33 @@ void processInput(GLFWwindow* window)
     }
 
     // En el ciclo de renderizado
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS && !primeraKeyPressed)
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
     {
-        show = !show;
-        Kshow = true;
+        if (!Kshow) // Solo cambia el estado si la tecla estaba previamente no presionada
+        {
+            show = !show;
+            Kshow = true;
+        }
     }
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_RELEASE)
+    else
     {
-        Kshow = false;
+        Kshow = false; // Resetea el estado cuando la tecla es liberada
     }
 
 
+
+    if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
+    {
+        if (!encendidaKeyPressed) // Solo cambia el estado si la tecla estaba previamente no presionada
+        {
+            encendida = !encendida;
+            encendidaKeyPressed = true;
+        }
+    }
+    else
+    {
+        encendidaKeyPressed = false; // Resetea el estado cuando la tecla es liberada
+    }
 
 
 
