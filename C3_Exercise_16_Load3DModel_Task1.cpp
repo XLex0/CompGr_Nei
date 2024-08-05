@@ -788,11 +788,7 @@ void processInput(GLFWwindow* window)
         velocidadaxima = 0.25;
 		fuerzaDeSalida = 0.0f;
     }
-    if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS) {
-        marcha = 6;
-        velocidadaxima = 0.30;
-        fuerzaDeSalida = 1.0f;
-    }
+    
 
 	aceleracion = controlVelocidad(marcha);
 
@@ -869,7 +865,7 @@ void processInput(GLFWwindow* window)
 
 
     //FRENO
-    if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS) {
+    if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
         frenado = 0.002f;
 	}
 	else {
@@ -883,9 +879,7 @@ void processInput(GLFWwindow* window)
         tiempo = 0.0f;
         velocidadaxima = 0.1f;
         aceleracion = 0.1f;
-        //velocidad = fisicasVelocidad(velocidad, tiempo, velocidadaxima, aceleracion);
-        
-		
+      		
 
         float posX = posicionX;
         float posZ = posicionZ;
