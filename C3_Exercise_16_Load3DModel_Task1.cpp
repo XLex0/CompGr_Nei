@@ -248,7 +248,7 @@ int main()
     Model poste("model/poste/poste.obj");
 
     Model porsche("model/porsche/porsche.obj");
-   Model mercedes("model/mercedes/mercedes.obj");
+    Model mercedes("model/mercedes/mercedes.obj");
     Model toyota("model/toyota/toyota.obj");
 
 
@@ -367,7 +367,8 @@ int main()
             modelShader.setFloat("spotLight.quadratic", 9.02);
             modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(14.0f)));
             modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
-        }else {
+        }
+        else {
             modelShader.setVec3("spotLight.position", camera.Position); // No es necesario si solo desactivas la luz
             modelShader.setVec3("spotLight.direction", camera.Front); // No es necesario si solo desactivas la luz
             modelShader.setVec3("spotLight.ambient", glm::vec3(0.1f));
@@ -442,7 +443,7 @@ int main()
         BMW.Draw(modelShader);
 
 
-		//-------------------------------
+        //-------------------------------
 
 
 
@@ -632,7 +633,7 @@ int main()
         model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         hall.Draw(modelShader);
-       
+
 
 
         //-------------------ALEJANDRO---------------------------------------
@@ -667,13 +668,13 @@ int main()
             // we now draw as many light bulbs as we have point lights.
             glBindVertexArray(lightCubeVAO);
             model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(-13.0f+i*8.6, 1.777f, -14.0f + 3 * 8.6f));
+            model = glm::translate(model, glm::vec3(-13.0f + i * 8.6, 1.777f, -14.0f + 3 * 8.6f));
             model = glm::scale(model, glm::vec3(0.0428f)); // Make it a smaller cube
             lightCubeShader.setMat4("model", model);
             glDrawArrays(GL_TRIANGLES, 0, 36);
 
             glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(-13.0f+i*8.6, 0.0f, -14.0f + 3 * 8.6f));
+            model = glm::translate(model, glm::vec3(-13.0f + i * 8.6, 0.0f, -14.0f + 3 * 8.6f));
             model = glm::scale(model, glm::vec3(0.002f, 0.002f, 0.002f));
             modelShader.use();
             modelShader.setMat4("model", model);
@@ -717,23 +718,19 @@ int main()
             glDrawArrays(GL_TRIANGLES, 0, 36);
 
             glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(-13.0f + i *8.6, 0.0f, -14.0f));
+            model = glm::translate(model, glm::vec3(-13.0f + i * 8.6, 0.0f, -14.0f));
             model = glm::scale(model, glm::vec3(0.002f, 0.002f, 0.002f));
             modelShader.use();
             modelShader.setMat4("model", model);
             poste.Draw(modelShader);
         }
 
-
-
-
-
         //PORSCHE
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(15.0f, 0.235f, 0.0f));
         model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
         modelShader.setMat4("model", model);
-       porsche.Draw(modelShader);
+        porsche.Draw(modelShader);
 
 
 
@@ -749,15 +746,8 @@ int main()
         model = glm::translate(model, glm::vec3(19.0f, 0.0f, 0.0f));
         model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
         modelShader.setMat4("model", model);
-       toyota.Draw(modelShader);
+        toyota.Draw(modelShader);
 
-
-
-
-
-
-
-    
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -771,13 +761,37 @@ int main()
 
 bool colision(float x, float z) {
     bool colision = true;
-    if (x >= 49.63f || x <= -49.6f || z >= 49.6f || z <= -49.16f) {
+    if (x >= 49.9999f || x <= -49.9999f || z >= 49.9999f || z <= -49.9999f) {
         return false;
     }
     if (x >= -35.67f && x <= -22.68f && z >= 2.6f && z <= 11.45f) {
         return false;
     }
-
+    //CRISTIAN 
+    //------------Bloque 1--------------
+    if (x >= 32.045f && x <= 48.0f && z >= -13.78 && z <= -6.68f) {
+        return false;
+    }
+    if (x >= 32.7602f && x <= 48.0f && z >= -6.68f && z <= -3.50224f) {
+        return false;
+    }
+    if (x >= 35.1383f && x <= 48.0f && z >= -3.51f && z <= -1.13928f) {
+        return false;
+    }
+    //--------- edificio chino----------
+    if (x >= 32.32f && x <= 48.0f && z >= -1.15928f && z <= 11.4712f) {
+        return false;
+    }
+    //------------Bloque 4--------------
+    if (x >= 30.7968 && x <= 37.8851f && z >= -43.3505 && z <= -31.6602f) {
+        return false;
+    }
+    if (x >= 37.8465f && x <= 44.8209f && z >= -43.3505 && z <= -31.6602f) {
+        return false;
+    }
+    if (x >= 44.8018f && x <= 49.6287f && z >= -43.3505 && z <= -31.6602f) {
+        return false;
+    }
     return colision;
 }
 
