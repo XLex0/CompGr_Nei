@@ -1368,6 +1368,13 @@ bool colision(float x, float z) {
     }
 
 
+    //ALEJANDRO
+
+    if (x >= -50.00f && x <= -23.3836f && z >= 27.4583f && z <= 50.00f) {
+        return false;
+    }
+
+
     if (z >= -12.17f && z <= -3.74f && x >= -35.48f && x <= -23.22f) {
         return false;
     }
@@ -1400,7 +1407,6 @@ bool colision(float x, float z) {
         colision = false;
     }
 
-    return colision;
 }
 
 // Funcion control de marchas
