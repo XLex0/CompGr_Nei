@@ -49,8 +49,8 @@ float aceleracion = 0.0005;
 // segundo punto
 float velocidad2 = 0.0f;
 float velocidadMAX2 = 0.0f;
-float posicionX2 = -15.0f;
-float posicionZ2 = 43.0f;
+float posicionX2 = -29.0f;
+float posicionZ2 = 16.0f;
 float rotacion2 = 0.0f;
 float aceleracion2 = 0.0005f;
 
@@ -355,7 +355,7 @@ int main()
     Model porsche("model/porsche/porsche.obj");
     Model mercedes("model/mercedes/mercedes.obj");
     Model toyota("model/toyota/toyota.obj");
-
+    //21
     // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
     {
@@ -446,15 +446,27 @@ int main()
         modelShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
 
         // Configuración de luces puntuales usando un bucle
-        
-        for (int i = 0; i < 85; i++) {
-            modelShader.setVec3("pointLights[" + std::to_string(i) + "].position", pointLightPositions[i]);
-            modelShader.setVec3("pointLights[" + std::to_string(i) + "].ambient", 0.05f, 0.05f, 0.05f);
-            modelShader.setVec3("pointLights[" + std::to_string(i) + "].diffuse", 0.8f, 0.8f, 0.8f);
-            modelShader.setVec3("pointLights[" + std::to_string(i) + "].specular", 1.0f, 1.0f, 1.0f);
-            modelShader.setFloat("pointLights[" + std::to_string(i) + "].constant", 1.0f);
-            modelShader.setFloat("pointLights[" + std::to_string(i) + "].linear", 0.3f);
-            modelShader.setFloat("pointLights[" + std::to_string(i) + "].quadratic", 0.15f);
+        if (!dia) {
+            for (int i = 0; i < 85; i++) {
+                modelShader.setVec3("pointLights[" + std::to_string(i) + "].position", pointLightPositions[i]);
+                modelShader.setVec3("pointLights[" + std::to_string(i) + "].ambient", 0.05f, 0.05f, 0.05f);
+                modelShader.setVec3("pointLights[" + std::to_string(i) + "].diffuse", 0.8f, 0.8f, 0.8f);
+                modelShader.setVec3("pointLights[" + std::to_string(i) + "].specular", 1.0f, 1.0f, 1.0f);
+                modelShader.setFloat("pointLights[" + std::to_string(i) + "].constant", 1.0f);
+                modelShader.setFloat("pointLights[" + std::to_string(i) + "].linear", 0.3f);
+                modelShader.setFloat("pointLights[" + std::to_string(i) + "].quadratic", 0.15f);
+            }
+        }
+        else {
+            for (int i = 0; i < 85; i++) {
+                modelShader.setVec3("pointLights[" + std::to_string(i) + "].position", pointLightPositions[i]);
+                modelShader.setVec3("pointLights[" + std::to_string(i) + "].ambient", 0.05f, 0.05f, 0.05f);
+                modelShader.setVec3("pointLights[" + std::to_string(i) + "].diffuse", 0.8f, 0.8f, 0.8f);
+                modelShader.setVec3("pointLights[" + std::to_string(i) + "].specular", 1.0f, 1.0f, 1.0f);
+                modelShader.setFloat("pointLights[" + std::to_string(i) + "].constant", 1.0f);
+                modelShader.setFloat("pointLights[" + std::to_string(i) + "].linear", 9.3f);
+                modelShader.setFloat("pointLights[" + std::to_string(i) + "].quadratic", 9.15f);
+            }
         }
         
 
@@ -482,7 +494,7 @@ int main()
             modelShader.setFloat("spotLight.linear", 3.0);
             modelShader.setFloat("spotLight.quadratic", 9.02);
             modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(14.0f)));
-            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(100.0f)));
         }
         else {
             modelShader.setVec3("spotLight.position", camera.Position); // No es necesario si solo desactivas la luz
@@ -682,7 +694,7 @@ int main()
         // ----------------------EMILIO------------------------
            // DINOCOMCQUEEN
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.3f, 0.0f));
+        model = glm::translate(model, glm::vec3(0.0f, 0.3f, 3.0f));
 
         model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
         modelShader.setMat4("model", model);
