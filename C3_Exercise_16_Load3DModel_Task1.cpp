@@ -690,6 +690,34 @@ bool colision(float x, float z) {
     if (x >= 49.5f || x <= -49.5f || z >= 49.5f || z <= -49.5f) {
         colision = false;
     }
+
+    //cuadra 1
+    if (x >= 35.11f || x <= 41.38f || z >= 37.19f || z <= 43.39f) {
+        colision = false;
+    }
+    if (x >= 23.10 || x <= 29.35 || z >= 37.19f || z <= 43.39f ) {
+        colision = false;
+    }
+    if (x >= 35.11f || x <= 41.38f || z >= 25.23f || z <= 31.36f) {
+        colision = false;
+    }
+    if (x >= 29.35f || x <= 23.19f || z >= 25.17f || z <= 31.36f) {
+        colision = false;
+    }
+
+	//cuadra 2
+    if (x >= 10.88f || x <= 2.14f || z >= 25.89f || z <= 31.87f) {
+        colision = false;
+    }
+    if (x >= -0.83f || x <= -7.26f || z >= 25.89f || z <= 31.87f) {
+        colision = false;
+    }
+
+    if (x >= 14.15f || x <= -10.33f || z >= 40.23f || z <= 45.92f) {
+        colision = false;
+    }
+
+
     return colision;
 }
 
@@ -792,7 +820,7 @@ void processInput(GLFWwindow* window)
 
 	aceleracion = controlVelocidad(marcha);
 
-	std::cout << "velocidad: " << velocidad << std::endl;
+	//std::cout << "velocidad: " << velocidad << std::endl;
     //
 
 
