@@ -38,17 +38,21 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 //Velocidad-> cambiar este valor en caso de querer mover el auto mas rapido
-float velocidad = 0.05f;
-float posicionX = 0.0f;
-float posicionZ = 0.0f;
+float velocidad = 0.0f;
+float velocidadMAX = 0.0f;
+float posicionX = -29.0f;
+float posicionZ = 21.0f;
 float rotacion = 0.0f;
+float aceleracion = 0.0005;
 //float aceleracion = 0.00005;
 
-
-// Segundo punto
-float posicionX2 = 0.0f;
-float posicionZ2 = 0.0f;
+// segundo punto
+float velocidad2 = 0.0f;
+float velocidadMAX2 = 0.0f;
+float posicionX2 = -15.0f;
+float posicionZ2 = 43.0f;
 float rotacion2 = 0.0f;
+float aceleracion2 = 0.0005f;
 
 
 // Velocidad de la cámara
@@ -67,6 +71,7 @@ bool desactivarKeyPressed = false;
 
 bool encendida = false;
 bool encendidaKeyPressed = false;
+
 bool show = false;
 bool Kshow = false;
 
@@ -1366,65 +1371,85 @@ bool colision(float x, float z) {
     if (z >= -12.17f && z <= -3.74f && x >= -35.48f && x <= -23.22f) {
         return false;
     }
+    //cuadra 1
+    if (x >= 35.11f && x <= 41.38f && z >= 37.19f && z <= 43.39f) {
+        colision = false;
+    }
+    if (x >= 23.10 && x <= 29.35 && z >= 37.19f && z <= 43.39f) {
+        colision = false;
+    }
+    if (x >= 35.11f && x <= 41.38f && z >= 25.23f && z <= 31.36f) {
+        colision = false;
+    }
+    if (x >= 23.19f && x <= 29.35 && z >= 25.17f && z <= 31.36f) {
+        colision = false;
+    }
+
+    //cuadra 2
+    if (x >= 2.14f && x <= 10.88f && z >= 25.89f && z <= 31.87f) {
+        colision = false;
+    }
+    if (x >= -7.26f && x <= -0.86f && z >= 25.89f && z <= 31.87f) {
+        colision = false;
+    }
+
+    if (x >= -10.33f && x <= 14.15f && z >= 40.23f && z <= 45.92f) {
+        colision = false;
+    }
+    if (x >= 5.8612f && x <= 10.9836 && z >= 20.7951 && z <= 22.7744) {
+        colision = false;
+    }
 
     return colision;
 }
 
 // Funcion control de marchas
 float controlVelocidad(int marcha) {
-        
+
     float velocidad = 0.0f;
-        
-        switch (marcha) {
-            case 1:
-				velocidad = 0.05f;
-                break;
-            case 2:
-				velocidad = 0.1f;
-                break;
-            case 3:
-				velocidad = 0.15f;
-                break;
-            case 4:
-                velocidad = 0.20f;
-                break;
-            case 5:
-                velocidad = 0.25f;
-                break;
-            default:
-                velocidad = 0.0f;
-                break;
-        }
-		return velocidad;
+
+    switch (marcha) {
+    case 1:
+        velocidad = 0.05f;
+        break;
+    case 2:
+        velocidad = 0.1f;
+        break;
+    case 3:
+        velocidad = 0.15f;
+        break;
+    case 4:
+        velocidad = 0.20f;
+        break;
+    case 5:
+        velocidad = 0.25f;
+        break;
+    default:
+        velocidad = 0.0f;
+        break;
     }
-
-
-// Funcion para procesar con físicas la velocidad de marcha
-float fisicasVelocidad(float velocidadInicial, float tiempo, float velocidadMaxima, float aceleracion) {
-	float velocidadFinal = 0.0f;
-    tiempo += deltaTime; // deltaTime es el tiempo transcurrido desde el último fotograma
-	velocidadFinal = velocidadInicial + (aceleracion * tiempo); //fórmula de la velocidad final
-
-	// Si la velocidad final es mayor a la velocidad máxima, se asigna la velocidad máxima
-	if (velocidadFinal > velocidadMaxima) {
-		velocidadFinal = velocidadMaxima;
-	}
-
-	return velocidadFinal;
+    return velocidad;
 }
 
-//variables
-int marcha = 0;
+/*
+float fisicasVelocidad(float velocidadInicial, float tiempo, float velocidadMaxima, float aceleracion) {
+    float velocidadFinal = 0.0f;
+    tiempo += deltaTime; // deltaTime es el tiempo transcurrido desde el último fotograma
+    velocidadFinal = velocidadInicial + (aceleracion * tiempo); //fórmula de la velocidad final
 
-float aceleracion = 0.0f;
-float velocidadaxima = 0.0f;
-float tiempo = 0.0f;
-float frenado = 0.0f;
-float fuerzaDeSalida = 0.0f;
-// Funcion para procesar con físicas la velocidad de marcha
+    // Si la velocidad final es mayor a la velocidad máxima, se asigna la velocidad máxima
+    if (velocidadFinal > velocidadMaxima) {
+        velocidadFinal = velocidadMaxima;
+    }
+
+    return velocidadFinal;
+}
+*/
+
+
 void processInput(GLFWwindow* window)
 {
-    float rotacionR = glm::radians(rotacion);
+
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
@@ -1437,44 +1462,148 @@ void processInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.ProcessKeyboard(RIGHT, deltaTime * cameraSpeed);
 
-
     //MARCHAS
-	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
-		marcha = 1;
-		velocidadaxima = 0.05f;
-		fuerzaDeSalida = 1.0f;
-	}
-    if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
-        marcha = 2;
-        velocidadaxima = 0.1f;
-		fuerzaDeSalida = 0.5f;
-    }
-    if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
-        marcha = 3;
-        velocidadaxima = 0.15f;
-		fuerzaDeSalida = 0.001f;
-    }
-    if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
-        marcha = 4;
-        velocidadaxima = 0.20f;
-		fuerzaDeSalida = 0.0f;
-    }
-    if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
-        marcha = 5;
-        velocidadaxima = 0.25;
-		fuerzaDeSalida = 0.0f;
-    }
 
-	aceleracion = controlVelocidad(marcha);
+    if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
 
-	//std::cout << "velocidad: " << velocidad << std::endl;
-    //
+        velocidadMAX = 0.08f;
+
+    }
+    if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS && velocidad >0.035f) {
+
+        velocidadMAX = 0.14f;
+    }
+    if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS && velocidad > 0.07f) {
+
+        velocidadMAX = 0.20f;
+    }
+    if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS && velocidad > 0.11f) {
+
+        velocidadMAX = 0.28f;
+    }
 
 
     float rotacionEnRadianes = glm::radians(rotacion);
 
-    
-    // Movimiento
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+        float posX = posicionX;
+        float posZ = posicionZ;
+
+        // Aumenta la velocidad si es menor que la velocidad máxima
+        if (velocidad < velocidadMAX) {
+            velocidad += aceleracion;
+            if (velocidad > velocidadMAX) {
+                velocidad = velocidadMAX;
+            }
+        }
+        // Desacelera la velocidad si es mayor que la velocidad máxima
+        else if (velocidad > velocidadMAX) {
+            velocidad -= aceleracion;
+            if (velocidad < velocidadMAX) {
+                velocidad = velocidadMAX;
+            }
+        }
+
+        posicionX += velocidad * cos(rotacionEnRadianes);
+        posicionZ += -velocidad * sin(rotacionEnRadianes);
+
+        if (!colision(posicionX, posicionZ)) {
+            posicionX = posX;
+            posicionZ = posZ;
+            velocidad = 0.0;
+        }
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    {
+
+        float posX = posicionX;
+        float posZ = posicionZ;
+
+        posicionX += velocidad * cos(rotacionEnRadianes);
+        posicionZ += -velocidad * sin(rotacionEnRadianes);
+        if (velocidad > -0.05f) {
+            velocidad -= aceleracion * 4;
+        }
+        if (!colision(posicionX, posicionZ)) {
+            posicionX = posX;
+            posicionZ = posZ;
+            velocidad = 0.0;
+        }
+
+    }
+    if (glfwGetKey(window, GLFW_KEY_UP) != GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) != GLFW_PRESS)
+    {
+        float posX = posicionX;
+        float posZ = posicionZ;
+
+        posicionX += velocidad * cos(rotacionEnRadianes);
+        posicionZ += -velocidad * sin(rotacionEnRadianes);
+
+        if (velocidad > 0.0f) {
+            velocidad -= aceleracion / 5.0f;
+            if (velocidad < 0.0f) velocidad = 0.0f;
+        }
+        else if (velocidad < 0.0f) {
+            velocidad += aceleracion;
+            if (velocidad > 0.0f) velocidad = 0.0f;
+        }
+
+ 
+        if (!colision(posicionX, posicionZ)) {
+            posicionX = posX;
+            posicionZ = posZ;
+            velocidad = 0.0;
+        }
+    }
+
+
+
+
+
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && velocidad > 0.01)
+    {
+        float newX = posicionX + velocidad * cos(rotacionEnRadianes);
+        float newZ = posicionZ - velocidad * sin(rotacionEnRadianes);
+
+        if (colision(newX, newZ)) {
+            rotacion += 5.0f * velocidad;
+        }
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && velocidad > 0.01)
+    {
+        float newX = posicionX + velocidad * cos(rotacionEnRadianes);
+        float newZ = posicionZ - velocidad * sin(rotacionEnRadianes);
+
+        if (colision(newX, newZ)) {
+            rotacion -= 5.0f * velocidad;
+        }
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && velocidad < 0)
+    {
+        float newX = posicionX - velocidad * 0.5f * cos(rotacionEnRadianes);
+        float newZ = posicionZ + velocidad * 0.5f * sin(rotacionEnRadianes);
+
+        if (colision(newX, newZ)) {
+            rotacion += 20.0f * 0.5f * velocidad;
+        }
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && velocidad < 0)
+    {
+        float newX = posicionX - velocidad * 0.5f * cos(rotacionEnRadianes);
+        float newZ = posicionZ + velocidad * 0.5f * sin(rotacionEnRadianes);
+
+        if (colision(newX, newZ)) {
+            rotacion -= 20.0f * 0.5f * velocidad;
+        }
+    }
+    rotacionEnRadianes = glm::radians(rotacion);
+
+    /*
+    float rotacionEnRadianes = glm::radians(rotacion);
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
         tiempo = 0.0f;
@@ -1489,200 +1618,270 @@ void processInput(GLFWwindow* window)
 
         posicionX += velocidad * cos(rotacionEnRadianes);
         posicionZ += -velocidad * sin(rotacionEnRadianes);
-        if (velocidad < 0.05f) {
-            velocidad += aceleracion;
-        }
         if (!colision(posicionX, posicionZ)) {
             posicionX = posX;
             posicionZ = posZ;
-            velocidad = 0.0;
         }
     }
     else {
-		aceleracion = 0.0f;
-		float fuerzaRozamiento = 0.002f + frenado;
-        if (velocidad > 0)
+
+        float posX = posicionX;
+        float posZ = posicionZ;
+
+
+        aceleracion = 0.0f;
+        float fuerzaRozamiento = 0.002f + frenado;
+        if (!retrocediendo)
         {
-            velocidad = velocidad - fuerzaRozamiento;
+            if (velocidad > 0)
+            {
+                velocidad = velocidad - fuerzaRozamiento;
+            }
+            else
+            {
+                if (velocidad < (-fuerzaRozamiento))
+                {
+                    velocidad = velocidad + fuerzaRozamiento;
+                }
+                else
+                {
+                    velocidad = 0.0f;
+                }
+
+            }
+
+
+            posicionX += velocidad * cos(rotacionEnRadianes);
+            posicionZ += -velocidad * sin(rotacionEnRadianes);
+            if (!colision(posicionX, posicionZ)) {
+                posicionX = posX;
+                posicionZ = posZ;
+            }
         }
         else
         {
-			velocidad = 0.0f;
+            if (velocidad > -0.1f)
+            {
+                velocidad = velocidad - fuerzaRozamiento;
+                //velocidad = velocidad * (- 1.0f);
+            }
+            else
+            {
+                velocidad = -0.1f;
+            }
+            posicionX += velocidad * cos(rotacionEnRadianes);
+            posicionZ += -velocidad * sin(rotacionEnRadianes);
         }
-		
-        
-        posicionX += velocidad * cos(rotacionEnRadianes);
-        posicionZ += -velocidad * sin(rotacionEnRadianes);
+
+
+
+
+
     }
 
 
+    //FRENO
+    if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
+        frenado = 0.002f;
+    }
+    else {
+        frenado = 0.0f;
+    }
+
+    //Retroceder
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-		frenado = 0.002f;
+        retrocediendo = true;
+        tiempo = 0.0f;
+        velocidadaxima = 0.1f;
+        aceleracion = 0.1f;
+
+
         float posX = posicionX;
         float posZ = posicionZ;
 
-        posicionX += velocidad * cos(rotacionEnRadianes);
-        posicionZ += -velocidad * sin(rotacionEnRadianes);
-        if (velocidad > -0.015f) {
-            velocidad -= aceleracion*4;
-        }
+        //posicionX -= velocidad  * cos(rotacionEnRadianes);
+        //posicionZ += velocidad  * sin(rotacionEnRadianes);
         if (!colision(posicionX, posicionZ)) {
             posicionX = posX;
             posicionZ = posZ;
-            velocidad = 0.0;
         }
-
     }
-    if (glfwGetKey(window, GLFW_KEY_UP) != GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) != GLFW_PRESS)
-    {
-        float posX = posicionX;
-        float posZ = posicionZ;
-     
-        posicionX += velocidad * cos(rotacionEnRadianes);
-        posicionZ += -velocidad * sin(rotacionEnRadianes);
-
-        if (velocidad > 0.0f) {
-            velocidad -= aceleracion / 5.0f;
-            if (velocidad < 0.0f) velocidad = 0.0f;
-        }
-        else if (velocidad < 0.0f) {
-            velocidad += aceleracion ;
-            if (velocidad > 0.0f) velocidad = 0.0f;
-        }
-
-        // Verificación de colisión y ajuste de posición
-        if (!colision(posicionX, posicionZ)) {
-            posicionX = posX;
-            posicionZ = posZ;
-            velocidad = 0.0;
-        }
-	}
     else {
-		frenado = 0.0f;
+        retrocediendo = false;
     }
 
 
 
-
-
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && velocidad >0.01)
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
         float newX = posicionX + velocidad * cos(rotacionEnRadianes);
         float newZ = posicionZ - velocidad * sin(rotacionEnRadianes);
-
         if (colision(newX, newZ)) {
-            rotacion += 5.0f * velocidad;
+            rotacion += 10.0f * velocidad;
         }
     }
-
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && velocidad >0.01)
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
         float newX = posicionX + velocidad * cos(rotacionEnRadianes);
         float newZ = posicionZ - velocidad * sin(rotacionEnRadianes);
-
         if (colision(newX, newZ)) {
-            rotacion -= 5.0f * velocidad;
+            rotacion -= 10.0f * velocidad;
         }
     }
-
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && velocidad<0)
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
         float newX = posicionX - velocidad * 0.5f * cos(rotacionEnRadianes);
         float newZ = posicionZ + velocidad * 0.5f * sin(rotacionEnRadianes);
-
         if (colision(newX, newZ)) {
             rotacion += 10.0f * 0.5f * velocidad;
         }
     }
-
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && velocidad<0)
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
         float newX = posicionX - velocidad * 0.5f * cos(rotacionEnRadianes);
         float newZ = posicionZ + velocidad * 0.5f * sin(rotacionEnRadianes);
-
         if (colision(newX, newZ)) {
             rotacion -= 10.0f * 0.5f * velocidad;
         }
     }
-    //////////////////////////////////////////////////////////////////////////////
-    // 
-    // 
-      float rotacion2EnRadianes = glm::radians(rotacion2);
-    // Movimiento para el segundo punto
-    if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
-    {
-        float posX2 = posicionX2;
-        float posZ2 = posicionZ2;
 
-        posicionX2 += velocidad * cos(rotacion2EnRadianes);
-        posicionZ2 += -velocidad * sin(rotacion2EnRadianes);
-        if (!colision(posicionX2, posicionZ2)) {
-            posicionX2 = posX2;
-            posicionZ2 = posZ2;
-        }
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
-    {
-        float posX2 = posicionX2;
-        float posZ2 = posicionZ2;
-
-        posicionX2 -= velocidad * 0.25f * cos(rotacion2EnRadianes);
-        posicionZ2 += velocidad * 0.25f * sin(rotacion2EnRadianes);
-
-        if (!colision(posicionX2, posicionZ2)) {
-            posicionX2 = posX2;
-            posicionZ2 = posZ2;
-        }
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
-    {
-        float newX2 = posicionX2 + velocidad * cos(rotacion2EnRadianes);
-        float newZ2 = posicionZ2 - velocidad * sin(rotacion2EnRadianes);
-
-        if (colision(newX2, newZ2)) {
-            rotacion2 += 30.0f * velocidad;
-        }
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
-    {
-        float newX2 = posicionX2 + velocidad * cos(rotacion2EnRadianes);
-        float newZ2 = posicionZ2 - velocidad * sin(rotacion2EnRadianes);
-
-        if (colision(newX2, newZ2)) {
-            rotacion2 -= 30.0f * velocidad;
-        }
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
-    {
-        float newX2 = posicionX2 - velocidad * 0.5f * cos(rotacion2EnRadianes);
-        float newZ2 = posicionZ2 + velocidad * 0.5f * sin(rotacion2EnRadianes);
-
-        if (colision(newX2, newZ2)) {
-            rotacion2 += 30.0f * 0.5f * velocidad;
-        }
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
-    {
-        float newX2 = posicionX2 - velocidad * 0.5f * cos(rotacion2EnRadianes);
-        float newZ2 = posicionZ2 + velocidad * 0.5f * sin(rotacion2EnRadianes);
-
-        if (colision(newX2, newZ2)) {
-            rotacion2 -= 30.0f * 0.5f * velocidad;
-        }
-    }
 
     // Actualiza la rotación en radianes
+    */
+
+    
+    float rotacion2EnRadianes = glm::radians(rotacion2);
+    
+    if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS) {
+        velocidadMAX2 = 0.08f;
+    }
+    if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS && velocidad2 > 0.05f) {
+        velocidadMAX2 = 0.14f;
+    }
+    if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS && velocidad2 > 0.1f) {
+        velocidadMAX2 = 0.20f;
+    }
+    if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS && velocidad2 > 0.15f) {
+        velocidadMAX2 = 0.28f;
+    }
+
+    // Movimiento hacia adelante para el segundo punto (tecla I)
+    if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) {
+        float posX2 = posicionX2;
+        float posZ2 = posicionZ2;
+
+        // Aumenta la velocidad si es menor que la velocidad máxima
+        if (velocidad2 < velocidadMAX2) {
+            velocidad2 += aceleracion2;
+            if (velocidad2 > velocidadMAX2) {
+                velocidad2 = velocidadMAX2;
+            }
+        }
+        // Desacelera la velocidad si es mayor que la velocidad máxima
+        else if (velocidad2 > velocidadMAX2) {
+            velocidad2 -= aceleracion2;
+            if (velocidad2 < velocidadMAX2) {
+                velocidad2 = velocidadMAX2;
+            }
+        }
+
+        posicionX2 += velocidad2 * cos(rotacion2EnRadianes);
+        posicionZ2 += -velocidad2 * sin(rotacion2EnRadianes);
+
+        if (!colision(posicionX2, posicionZ2)) {
+            posicionX2 = posX2;
+            posicionZ2 = posZ2;
+            velocidad2 = 0.0f;
+        }
+    }
+
+    // Movimiento hacia atrás para el segundo punto (tecla K)
+    if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) {
+        float posX2 = posicionX2;
+        float posZ2 = posicionZ2;
+
+        // Mueve hacia atrás
+        if (velocidad2 > -0.05f) {
+            velocidad2 -= aceleracion2 * 4;
+        }
+
+        posicionX2 += velocidad2 * cos(rotacion2EnRadianes);
+        posicionZ2 += -velocidad2 * sin(rotacion2EnRadianes);
+
+        if (!colision(posicionX2, posicionZ2)) {
+            posicionX2 = posX2;
+            posicionZ2 = posZ2;
+            velocidad2 = 0.0f;
+        }
+    }
+
+    // Desaceleración cuando no se presionan las teclas I o K
+    if (glfwGetKey(window, GLFW_KEY_I) != GLFW_PRESS && glfwGetKey(window, GLFW_KEY_K) != GLFW_PRESS) {
+        float posX2 = posicionX2;
+        float posZ2 = posicionZ2;
+
+        posicionX2 += velocidad2 * cos(rotacion2EnRadianes);
+        posicionZ2 += -velocidad2 * sin(rotacion2EnRadianes);
+
+        if (velocidad2 > 0.0f) {
+            velocidad2 -= aceleracion2 / 5.0f;
+            if (velocidad2 < 0.0f) velocidad2 = 0.0f;
+        }
+        else if (velocidad2 < 0.0f) {
+            velocidad2 += aceleracion2;
+            if (velocidad2 > 0.0f) velocidad2 = 0.0f;
+        }
+
+        if (!colision(posicionX2, posicionZ2)) {
+            posicionX2 = posX2;
+            posicionZ2 = posZ2;
+            velocidad2 = 0.0f;
+        }
+    }
+
+    // Movimiento hacia la izquierda para el segundo punto (tecla J)
+    if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS && velocidad2 > 0.01f) {
+        float newX2 = posicionX2 + velocidad2 * cos(rotacion2EnRadianes);
+        float newZ2 = posicionZ2 - velocidad2 * sin(rotacion2EnRadianes);
+
+        if (colision(newX2, newZ2)) {
+            rotacion2 += 5.0f * velocidad2;
+        }
+    }
+
+    // Movimiento hacia la derecha para el segundo punto (tecla L)
+    if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && velocidad2 > 0.01f) {
+        float newX2 = posicionX2 + velocidad2 * cos(rotacion2EnRadianes);
+        float newZ2 = posicionZ2 - velocidad2 * sin(rotacion2EnRadianes);
+
+        if (colision(newX2, newZ2)) {
+            rotacion2 -= 5.0f * velocidad2;
+        }
+    }
+
+    // Movimiento hacia la izquierda cuando velocidad < 0 (tecla J)
+    if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS && velocidad2 < 0.0f) {
+        float newX2 = posicionX2 - velocidad2 * 0.5f * cos(rotacion2EnRadianes);
+        float newZ2 = posicionZ2 + velocidad2 * 0.5f * sin(rotacion2EnRadianes);
+
+        if (colision(newX2, newZ2)) {
+            rotacion2 += 20.0f * 0.5f * velocidad2;
+        }
+    }
+
+    // Movimiento hacia la derecha cuando velocidad < 0 (tecla L)
+    if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && velocidad2 < 0.0f) {
+        float newX2 = posicionX2 - velocidad2 * 0.5f * cos(rotacion2EnRadianes);
+        float newZ2 = posicionZ2 + velocidad2 * 0.5f * sin(rotacion2EnRadianes);
+
+        if (colision(newX2, newZ2)) {
+            rotacion2 -= 20.0f * 0.5f * velocidad2;
+        }
+    }
+
+    // Actualiza la rotación en radianes para el segundo punto
     rotacion2EnRadianes = glm::radians(rotacion2);
-
-
-    // Actualiza la rotación en radianes
-    rotacionEnRadianes = glm::radians(rotacion);
 
     //Cambia entre el modo día y noche cada vez que se presiona la tecla P
     if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
