@@ -1326,12 +1326,10 @@ int main()
 
 bool colision(float x, float z) {
     bool colision = true;
-    if (x >= 49.9999f || x <= -49.9999f || z >= 49.9999f || z <= -49.9999f) {
+    if (x >= 46.9999f || x <= -46.9999f || z >= 46.9999f || z <= -46.9999f) {
         return false;
     }
-    if (x >= -35.67f && x <= -22.68f && z >= 2.6f && z <= 11.45f) {
-        return false;
-    }
+  
     //CRISTIAN 
     //------------Bloque 1--------------
     if (x >= 32.045f && x <= 48.0f && z >= -13.78 && z <= -6.68f) {
