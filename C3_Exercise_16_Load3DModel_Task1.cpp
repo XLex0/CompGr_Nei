@@ -37,10 +37,9 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 //Velocidad-> cambiar este valor en caso de querer mover el auto mas rapido
-
-float velocidad = 0.0f;
-float posicionX = 25.0f;
-float posicionZ = 16.0f;
+float velocidad = 0.05f;
+float posicionX = 0.0f;
+float posicionZ = 0.0f;
 float rotacion = 0.0f;
 //float aceleracion = 0.00005;
 
@@ -157,12 +156,27 @@ int main()
         -0.5f,  0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f
     };
     glm::vec3 pointLightPositions[] = {
-        glm::vec3(-2.0f,  2.0f, -5.0f),
-        glm::vec3(-1.0f,  2.0f, -5.0f),
-        glm::vec3(0.0f,   2.0f, -5.0f),
-        glm::vec3(1.0f,   2.0f, -5.0f),
-        glm::vec3(2.0f,   2.0f, -5.0f),
-        glm::vec3(3.0f,   2.0f, -5.0f)
+        glm::vec3(12.79f, 2.0f, 3.25f),
+        glm::vec3(12.79f,  2.0f, 11.92f),
+        glm::vec3(12.79f,   2.0f, -5.51f),
+        glm::vec3(12.79f,   2.0f, -13.99f),
+
+        glm::vec3(4.15f,   2.0f, -14.0f),
+        glm::vec3(-4.46f,   2.0f, -14.0f),
+        glm::vec3(-12.98f,   2.0f, -14.0f),
+        glm::vec3(-13.0f,   2.0f, -5.38f),
+
+         glm::vec3(-13.0f,   2.0f, 3.28f),
+          glm::vec3(-13.0f,   2.0f, 11.8f),
+           glm::vec3(-4.35f,   2.0f, 11.8f),
+           glm::vec3(4.27f,   2.0f, 11.8f),
+
+              glm::vec3(2.58f,   2.0f, -3.53f),
+           glm::vec3(1.5f,   2.0f, -4.9f),
+             glm::vec3(-2.98f,   2.0f, 0.53f),
+           glm::vec3(-1.38f,   2.0f, 2.26f),
+           //16
+
     };
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -213,6 +227,7 @@ int main()
     Model edificio_chino("model/edificio_chino/edificio_chino.obj");
     Model recta("model/calle/recta.obj");
 
+
     ///////////////////////////////////////////////////////
     // NICK
 
@@ -229,13 +244,12 @@ int main()
     Model dinocomcqueen("model/dinocomcqueen/dinocomcqueen.obj");
 
 
-    //ALEJANDRO
 
     //Alejandro
     Model poste("model/poste/poste.obj");
-    Model audi("model/audi/audi.obj");
+
     Model porsche("model/porsche/porsche.obj");
-    Model mercedes("model/mercedes/mercedes.obj");
+   Model mercedes("model/mercedes/mercedes.obj");
     Model toyota("model/toyota/toyota.obj");
 
     // Ciclo de renderizado
@@ -310,68 +324,24 @@ int main()
         modelShader.setMat4("projection", projection);
         modelShader.setMat4("view", view);
 
-
+        modelShader.setVec3("dirLight.ambient", 0.3f, 0.3f, 0.3f);
         modelShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
         modelShader.setVec3("dirLight.diffuse", 0.1f, 0.1f, 0.1f);
         modelShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
 
-        // point light 1
-        modelShader.setVec3("pointLights[0].position", pointLightPositions[0]);
-        modelShader.setVec3("pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
-        modelShader.setVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
-        modelShader.setVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
-        modelShader.setFloat("pointLights[0].constant", 1.0f);
-        modelShader.setFloat("pointLights[0].linear", 0.3f);    // Valor ajustado
-        modelShader.setFloat("pointLights[0].quadratic", 0.15f); // Valor ajustado
-
-        // point light 2
-        modelShader.setVec3("pointLights[1].position", pointLightPositions[1]);
-        modelShader.setVec3("pointLights[1].ambient", 0.05f, 0.05f, 0.05f);
-        modelShader.setVec3("pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
-        modelShader.setVec3("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
-        modelShader.setFloat("pointLights[1].constant", 1.0f);
-        modelShader.setFloat("pointLights[1].linear", 0.3f);    // Valor ajustado
-        modelShader.setFloat("pointLights[1].quadratic", 0.15f); // Valor ajustado
-
-        // point light 3
-        modelShader.setVec3("pointLights[2].position", pointLightPositions[2]);
-        modelShader.setVec3("pointLights[2].ambient", 0.05f, 0.05f, 0.05f);
-        modelShader.setVec3("pointLights[2].diffuse", 0.8f, 0.8f, 0.8f);
-        modelShader.setVec3("pointLights[2].specular", 1.0f, 1.0f, 1.0f);
-        modelShader.setFloat("pointLights[2].constant", 1.0f);
-        modelShader.setFloat("pointLights[2].linear", 0.3f);    // Valor ajustado
-        modelShader.setFloat("pointLights[2].quadratic", 0.15f); // Valor ajustado
-
-        // point light 4
-        modelShader.setVec3("pointLights[3].position", pointLightPositions[3]);
-        modelShader.setVec3("pointLights[3].ambient", 0.05f, 0.05f, 0.05f);
-        modelShader.setVec3("pointLights[3].diffuse", 0.8f, 0.8f, 0.8f);
-        modelShader.setVec3("pointLights[3].specular", 1.0f, 1.0f, 1.0f);
-        modelShader.setFloat("pointLights[3].constant", 1.0f);
-        modelShader.setFloat("pointLights[3].linear", 0.3f);    // Valor ajustado
-        modelShader.setFloat("pointLights[3].quadratic", 0.15f); // Valor ajustado
-
-        // point light 5
-        modelShader.setVec3("pointLights[4].position", pointLightPositions[4]);
-        modelShader.setVec3("pointLights[4].ambient", 0.05f, 0.05f, 0.05f);
-        modelShader.setVec3("pointLights[4].diffuse", 0.8f, 0.8f, 0.8f);
-        modelShader.setVec3("pointLights[4].specular", 1.0f, 1.0f, 1.0f);
-        modelShader.setFloat("pointLights[4].constant", 1.0f);
-        modelShader.setFloat("pointLights[4].linear", 0.3f);    // Valor ajustado
-        modelShader.setFloat("pointLights[4].quadratic", 0.15f); // Valor ajustado
-
-        // point light 6
-        modelShader.setVec3("pointLights[5].position", pointLightPositions[5]);
-        modelShader.setVec3("pointLights[5].ambient", 0.05f, 0.05f, 0.05f);
-        modelShader.setVec3("pointLights[5].diffuse", 0.8f, 0.8f, 0.8f);
-        modelShader.setVec3("pointLights[5].specular", 1.0f, 1.0f, 1.0f);
-        modelShader.setFloat("pointLights[5].constant", 1.0f);
-        modelShader.setFloat("pointLights[5].linear", 0.3f);    // Valor ajustado
-        modelShader.setFloat("pointLights[5].quadratic", 0.15f); // Valor ajustado
+        // Configuración de luces puntuales usando un bucle
+        for (int i = 0; i < 16; i++) {
+            modelShader.setVec3("pointLights[" + std::to_string(i) + "].position", pointLightPositions[i]);
+            modelShader.setVec3("pointLights[" + std::to_string(i) + "].ambient", 0.05f, 0.05f, 0.05f);
+            modelShader.setVec3("pointLights[" + std::to_string(i) + "].diffuse", 0.8f, 0.8f, 0.8f);
+            modelShader.setVec3("pointLights[" + std::to_string(i) + "].specular", 1.0f, 1.0f, 1.0f);
+            modelShader.setFloat("pointLights[" + std::to_string(i) + "].constant", 1.0f);
+            modelShader.setFloat("pointLights[" + std::to_string(i) + "].linear", 0.3f);
+            modelShader.setFloat("pointLights[" + std::to_string(i) + "].quadratic", 0.15f);
+        }
 
 
-
-        if (!dia && encendida) {
+        if (!dia && encendida && primera) {
             modelShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
             modelShader.setVec3("spotLight.position", camera.Position);
             modelShader.setVec3("spotLight.direction", camera.Front);
@@ -384,28 +354,25 @@ int main()
             modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(14.0f)));
             modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(22.0f)));
         }
-        else if (!encendida && !dia ){
+        else if (!dia) {
             modelShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
+            modelShader.setVec3("spotLight.position", camera.Position);
+            modelShader.setVec3("spotLight.direction", camera.Front);
+            modelShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+            modelShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+            modelShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
+            modelShader.setFloat("spotLight.constant", 3.0f);
+            modelShader.setFloat("spotLight.linear", 3.0);
+            modelShader.setFloat("spotLight.quadratic", 9.02);
+            modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(14.0f)));
+            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+        }else {
             modelShader.setVec3("spotLight.position", camera.Position); // No es necesario si solo desactivas la luz
             modelShader.setVec3("spotLight.direction", camera.Front); // No es necesario si solo desactivas la luz
             modelShader.setVec3("spotLight.ambient", glm::vec3(0.0f));
             modelShader.setVec3("spotLight.diffuse", glm::vec3(1.0f));
             modelShader.setVec3("spotLight.specular", glm::vec3(1.0f));
             modelShader.setFloat("spotLight.constant", 1.0f);
-            modelShader.setFloat("spotLight.linear", 1.0f);
-            modelShader.setFloat("spotLight.quadratic", 1.0f);
-            modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(360.0f))); // Angulo m�ximo posible
-            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(360.0f))); // Angulo m�ximo posible
-
-        }
-        else {
-            modelShader.setVec3("dirLight.ambient", 0.4f, 0.4f, 0.4f);
-            modelShader.setVec3("spotLight.position", camera.Position); // No es necesario si solo desactivas la luz
-            modelShader.setVec3("spotLight.direction", camera.Front); // No es necesario si solo desactivas la luz
-            modelShader.setVec3("spotLight.ambient", glm::vec3(0.0f));
-            modelShader.setVec3("spotLight.diffuse", glm::vec3(1.0f));
-            modelShader.setVec3("spotLight.specular", glm::vec3(1.0f));
-            modelShader.setFloat("spotLight.constant", 0.8f);
             modelShader.setFloat("spotLight.linear", 0.0f);
             modelShader.setFloat("spotLight.quadratic", 0.0f);
             modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(360.0f))); // Angulo m�ximo posible
@@ -414,8 +381,6 @@ int main()
         }
         // tesla
         model = glm::mat4(1.0f);
-
-
         model = glm::translate(model, glm::vec3(posicionX, 0.0f, posicionZ));
         model = glm::rotate(model, glm::radians(rotacion), glm::vec3(0.0f, 0.1f, 0.0f));
         model = glm::scale(model, glm::vec3(0.015f, 0.015f, 0.015f));
@@ -426,31 +391,29 @@ int main()
 
         //-------------NICK-------------------
 
-        //Edificio rojo
+               //Edificio rojo
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(28.0f, 0.0f, 30.0f));
         //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         edificio_rojo.Draw(modelShader);
-        
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(40.0f, 0.0f, 30.0f));
         //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         edificio_rojo.Draw(modelShader);
-        
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(28.0f, 0.0f, 42.0f));
         //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         edificio_rojo.Draw(modelShader);
-        
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(40.0f, 0.0f, 42.0f));
         //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
         modelShader.setMat4("model", model);
         edificio_rojo.Draw(modelShader);
-       
+
+
         //Edificio russian
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 45.0f));
@@ -475,12 +438,200 @@ int main()
         BMW.Draw(modelShader);
 
 
-        //------------------------------------------------------
-
-        //----------------ALEJANDRO-------------------
+		//-------------------------------
 
 
-        //POSTES ALREDEDOR PARQUE
+
+        // ----------------CRISTIAN-----------------------------
+       // **EDIFICIOS** = BLOQUE 1
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(46.8f, 0.0f, -40.0f));
+        model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        edificio_dos_torres.Draw(modelShader);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(39.8f, 0.0f, -40.0f));
+        model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        edificio_dos_torres.Draw(modelShader);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(32.8f, 0.0f, -40.0f));
+        model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        edificio_dos_torres.Draw(modelShader);
+
+        //--------------------------------------------------------
+
+        // **HOSPITAL** = BLOQUE 2
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(6.0f, 0.0f, -42.0f));
+        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        hospital.Draw(modelShader);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(2.0f, 0.0f, -33.0f));
+        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+        modelShader.setMat4("model", model);
+        hospital.Draw(modelShader);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-4.0f, 0.0f, -42.0f));
+        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        hospital.Draw(modelShader);
+
+        //-------------------------------------------------
+        // **BLOQUE 5 ** -> PARQUE CENTRO 
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.5f));
+        model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.85f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        parque.Draw(modelShader);
+
+        // --------------------------------------------------
+
+        //**BLOQUE 4** -> EDFIICIOS
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(48.0f, 0.0f, -2.0f));
+        model = glm::scale(model, glm::vec3(3.5f, 3.0f, 3.5f));
+        modelShader.setMat4("model", model);
+        edificios.Draw(modelShader);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(40.0f, 0.0f, -2.0f));
+        model = glm::scale(model, glm::vec3(3.5f, 3.0f, 3.5f));
+        modelShader.setMat4("model", model);
+        edificios.Draw(modelShader);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(41.0f, 0.0f, 4.5f));
+        model = glm::scale(model, glm::vec3(0.09f, 0.075f, 0.09f));
+        modelShader.setMat4("model", model);
+        edificio_chino.Draw(modelShader);
+
+        //--------------------------------------------------------
+        //**********************CALLES****************************
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(3.0f, 0.0f, -25.0f));
+        model = glm::scale(model, glm::vec3(0.3f, 0.1f, 0.6f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        recta.Draw(modelShader);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-33.0f, 0.0f, -25.0f));
+        model = glm::scale(model, glm::vec3(0.3f, 0.1f, 0.6f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        recta.Draw(modelShader);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.015f, -1.0f));
+        model = glm::scale(model, glm::vec3(0.6f, 0.1f, 0.4f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        recta.Draw(modelShader);
+
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.015f, 38.5f));
+        model = glm::scale(model, glm::vec3(0.6f, 0.1f, 0.4f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        recta.Draw(modelShader);
+
+        // ----------------------EMILIO------------------------
+      // DINOCOMCQUEEN
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(16.0f, 0.5f, -10.0f));
+        model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+        modelShader.setMat4("model", model);
+        dinocomcqueen.Draw(modelShader);
+
+        // PRIMER BLOQUE EMILIO
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-35.0f, 0.0f, -42.0f));
+        model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        building02.Draw(modelShader);
+
+        // SEGUNDO BLOQUE EMILIO
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-42.0f, 0.0f, 10.0f));
+        model = glm::scale(model, glm::vec3(85.0f, 85.0f, 85.0f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        building.Draw(modelShader);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-40.0f, 0.0f, -10.0f));
+        model = glm::scale(model, glm::vec3(85.0f, 85.0f, 85.0f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        building.Draw(modelShader);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-25.0f, 0.0f, -5.0f));
+        model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        casanick.Draw(modelShader);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-25.0f, 0.0f, 10.0f));
+        model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        casanick.Draw(modelShader);
+
+        // TERCER BLOQUE EMILIO
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-30.0f, 0.0f, 39.5f));
+        model = glm::scale(model, glm::vec3(0.45f, 0.45f, 0.45f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        hall.Draw(modelShader);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-38.0f, 0.0f, 34.0f));
+        model = glm::scale(model, glm::vec3(0.45f, 0.45f, 0.45f));
+        // Rotación 90 grados en el eje X (y) -> a la izquierda
+        model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        modelShader.setMat4("model", model);
+        hall.Draw(modelShader);
+       
+
+
+        //-------------------ALEJANDRO---------------------------------------
         for (int i = 0; i < 4; ++i) {
 
 
@@ -1017,12 +1168,15 @@ int main()
         }
 
 
+
+
+
         //PORSCHE
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(15.0f, 0.235f, 0.0f));
         model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
         modelShader.setMat4("model", model);
-        porsche.Draw(modelShader);
+       porsche.Draw(modelShader);
 
 
 
@@ -1033,220 +1187,21 @@ int main()
         modelShader.setMat4("model", model);
         mercedes.Draw(modelShader);
 
-
-        //AUDI
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(25.0f, 0.6f, -19.5f));
-        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-        modelShader.setMat4("model", model);
-        audi.Draw(modelShader);
-
-
-        //TOYOTA
+        //toyota
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(19.0f, 0.0f, 0.0f));
         model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
         modelShader.setMat4("model", model);
-        toyota.Draw(modelShader);
+       toyota.Draw(modelShader);
 
 
 
 
 
 
-        // ----------------CRISTIAN-----------------------------
-       // **EDIFICIOS** = BLOQUE 1
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(46.8f, 0.0f, -40.0f));
-        model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
-        // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        modelShader.setMat4("model", model);
-        edificio_dos_torres.Draw(modelShader);
-        
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(39.8f, 0.0f, -40.0f));
-        model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
-        // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        modelShader.setMat4("model", model);
-        edificio_dos_torres.Draw(modelShader);
-        
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(32.8f, 0.0f, -40.0f));
-        model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
-        // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        modelShader.setMat4("model", model);
-        edificio_dos_torres.Draw(modelShader);
 
-        //--------------------------------------------------------
+    
 
-        // **HOSPITAL** = BLOQUE 2
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(6.0f, 0.0f, -42.0f));
-        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-        // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        modelShader.setMat4("model", model);
-        hospital.Draw(modelShader);
-        
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(2.0f, 0.0f, -33.0f));
-        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-        modelShader.setMat4("model", model);
-        hospital.Draw(modelShader);
-        
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(-4.0f, 0.0f, -42.0f));
-        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-        // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        modelShader.setMat4("model", model);
-        hospital.Draw(modelShader);
-
-        //-------------------------------------------------
-        // **BLOQUE 5 ** -> PARQUE CENTRO 
-
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.5f));
-        model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.85f));
-        // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        modelShader.setMat4("model", model);
-        parque.Draw(modelShader);
-
-        // --------------------------------------------------
-
-        //**BLOQUE 4** -> EDFIICIOS
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(48.0f, 0.0f, -2.0f));
-        model = glm::scale(model, glm::vec3(3.5f, 3.0f, 3.5f));
-        modelShader.setMat4("model", model);
-        edificios.Draw(modelShader);
-
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(40.0f, 0.0f, -2.0f));
-        model = glm::scale(model, glm::vec3(3.5f, 3.0f, 3.5f));
-        modelShader.setMat4("model", model);
-        edificios.Draw(modelShader);
-
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(41.0f, 0.0f, 4.5f));
-        model = glm::scale(model, glm::vec3(0.09f, 0.075f, 0.09f));
-        modelShader.setMat4("model", model);
-        edificio_chino.Draw(modelShader);
-
-        //--------------------------------------------------------
-        //**********************CALLES****************************
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(3.0f, 0.0f, -25.0f));
-        model = glm::scale(model, glm::vec3(0.3f, 0.1f, 0.6f));
-        // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        modelShader.setMat4("model", model);
-        recta.Draw(modelShader);
-
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(-33.0f, 0.0f, -25.0f));
-        model = glm::scale(model, glm::vec3(0.3f, 0.1f, 0.6f));
-        // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        modelShader.setMat4("model", model);
-        recta.Draw(modelShader);
-
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.015f, -1.0f));
-        model = glm::scale(model, glm::vec3(0.6f, 0.1f, 0.4f));
-        // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        modelShader.setMat4("model", model);
-        recta.Draw(modelShader);
-
-
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.015f, 38.5f));
-        model = glm::scale(model, glm::vec3(0.6f, 0.1f, 0.4f));
-        // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        modelShader.setMat4("model", model);
-        recta.Draw(modelShader);
-
-        // ----------------------EMILIO------------------------
-        // DINOCOMCQUEEN
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(16.0f, 0.5f, -10.0f));
-        model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
-        modelShader.setMat4("model", model);
-        dinocomcqueen.Draw(modelShader);
-        
-        // PRIMER BLOQUE EMILIO
-
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(-35.0f, 0.0f, -42.0f));
-        model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
-        // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        modelShader.setMat4("model", model);
-        building02.Draw(modelShader);
-
-        // SEGUNDO BLOQUE EMILIO
-
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(-42.0f, 0.0f, 10.0f));
-        model = glm::scale(model, glm::vec3(85.0f, 85.0f, 85.0f));
-        // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        modelShader.setMat4("model", model);
-        building.Draw(modelShader);
-        
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(-40.0f, 0.0f, -10.0f));
-        model = glm::scale(model, glm::vec3(85.0f, 85.0f, 85.0f));
-        // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        modelShader.setMat4("model", model);
-        building.Draw(modelShader);
-        
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(-25.0f, 0.0f, -5.0f));
-        model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
-        // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        modelShader.setMat4("model", model);
-        casanick.Draw(modelShader);
-        
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(-25.0f, 0.0f, 10.0f));
-        model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
-        // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        modelShader.setMat4("model", model);
-        casanick.Draw(modelShader);
-
-        // TERCER BLOQUE EMILIO
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(-30.0f, 0.0f, 39.5f));
-        model = glm::scale(model, glm::vec3(0.45f, 0.45f, 0.45f));
-        // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        modelShader.setMat4("model", model);
-        hall.Draw(modelShader);
-        
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(-38.0f, 0.0f, 34.0f));
-        model = glm::scale(model, glm::vec3(0.45f, 0.45f, 0.45f));
-        // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        modelShader.setMat4("model", model);
-        hall.Draw(modelShader);
-
-
-        // Matriz de modelo
-
-
-        // Intercambiar buffers y sondear eventos de IO
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -1259,9 +1214,13 @@ int main()
 
 bool colision(float x, float z) {
     bool colision = true;
-    if (x >= 49.5f || x <= -49.5f || z >= 49.5f || z <= -49.5f) {
-        colision = false;
+    if (x >= 49.63f || x <= -49.6f || z >= 49.6f || z <= -49.16f) {
+        return false;
     }
+    if (x >= -35.67f && x <= -22.68f && z >= 2.6f && z <= 11.45f) {
+        return false;
+    }
+
     return colision;
 }
 
