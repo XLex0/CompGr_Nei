@@ -688,13 +688,12 @@ int main()
         modelShader.setMat4("model", model);
         dinocomcqueen.Draw(modelShader);
 
-        // PRIMER BLOQUE EMILIO
-
+        // CORRECCIÓN PRIMER BLOQUE EMILIO
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(-35.0f, 0.0f, -42.0f));
+        model = glm::translate(model, glm::vec3(-38.0f, 0.0f, -38.0f));
         model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
         // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(112.5f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         building02.Draw(modelShader);
 
@@ -1368,45 +1367,56 @@ bool colision(float x, float z) {
     }
 
 
-    //ALEJANDRO
-
-    if (x >= -50.00f && x <= -23.3836f && z >= 27.4583f && z <= 50.00f) {
-        return false;
-    }
-
+    
 
     if (z >= -12.17f && z <= -3.74f && x >= -35.48f && x <= -23.22f) {
         return false;
     }
     //cuadra 1
     if (x >= 35.11f && x <= 41.38f && z >= 37.19f && z <= 43.39f) {
-        colision = false;
+        return false;
     }
     if (x >= 23.10 && x <= 29.35 && z >= 37.19f && z <= 43.39f) {
-        colision = false;
+        return false;
     }
     if (x >= 35.11f && x <= 41.38f && z >= 25.23f && z <= 31.36f) {
-        colision = false;
+        return false;
     }
     if (x >= 23.19f && x <= 29.35 && z >= 25.17f && z <= 31.36f) {
-        colision = false;
+        return false;
     }
 
     //cuadra 2
     if (x >= 2.14f && x <= 10.88f && z >= 25.89f && z <= 31.87f) {
-        colision = false;
+        return false;
     }
-    if (x >= -7.26f && x <= -0.86f && z >= 25.89f && z <= 31.87f) {
-        colision = false;
+    if (x >= - 10.21f && x <= -3.69f && z >= 26.51f && z <= 32.44f) {
+        return false;
     }
 
     if (x >= -10.33f && x <= 14.15f && z >= 40.23f && z <= 45.92f) {
-        colision = false;
+        return false;
     }
     if (x >= 5.8612f && x <= 10.9836 && z >= 20.7951 && z <= 22.7744) {
-        colision = false;
+        return false;
     }
 
+    //ALEJANDRO
+
+    if (x >= -50.00f && x <= -23.3836f && z >= 27.4583f && z <= 50.00f) {
+        return false;
+    }
+
+    //COLISION PARQUE
+    if (x >= -13.80f && x <= 13.9f && z >= -15.49f && z <= 12.47f) {
+        return false;
+    }
+
+    //COLISION EMILIO
+    if (z >= -45.00f && z <= -28.22f && x >= -45.00f && x <= -26.22f) {
+        return false;
+    }
+    //
 }
 
 // Funcion control de marchas
