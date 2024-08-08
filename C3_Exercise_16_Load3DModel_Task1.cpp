@@ -49,8 +49,8 @@ float aceleracion = 0.0005;
 // segundo punto
 float velocidad2 = 0.0f;
 float velocidadMAX2 = 0.0f;
-float posicionX2 = -15.0f;
-float posicionZ2 = 43.0f;
+float posicionX2 = -29.0f;
+float posicionZ2 = 16.0f;
 float rotacion2 = 0.0f;
 float aceleracion2 = 0.0005f;
 
@@ -355,7 +355,7 @@ int main()
     Model porsche("model/porsche/porsche.obj");
     Model mercedes("model/mercedes/mercedes.obj");
     Model toyota("model/toyota/toyota.obj");
-
+    //21
     // Ciclo de renderizado
     while (!glfwWindowShouldClose(window))
     {
@@ -446,15 +446,27 @@ int main()
         modelShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
 
         // Configuración de luces puntuales usando un bucle
-        
-        for (int i = 0; i < 85; i++) {
-            modelShader.setVec3("pointLights[" + std::to_string(i) + "].position", pointLightPositions[i]);
-            modelShader.setVec3("pointLights[" + std::to_string(i) + "].ambient", 0.05f, 0.05f, 0.05f);
-            modelShader.setVec3("pointLights[" + std::to_string(i) + "].diffuse", 0.8f, 0.8f, 0.8f);
-            modelShader.setVec3("pointLights[" + std::to_string(i) + "].specular", 1.0f, 1.0f, 1.0f);
-            modelShader.setFloat("pointLights[" + std::to_string(i) + "].constant", 1.0f);
-            modelShader.setFloat("pointLights[" + std::to_string(i) + "].linear", 0.3f);
-            modelShader.setFloat("pointLights[" + std::to_string(i) + "].quadratic", 0.15f);
+        if (!dia) {
+            for (int i = 0; i < 85; i++) {
+                modelShader.setVec3("pointLights[" + std::to_string(i) + "].position", pointLightPositions[i]);
+                modelShader.setVec3("pointLights[" + std::to_string(i) + "].ambient", 0.05f, 0.05f, 0.05f);
+                modelShader.setVec3("pointLights[" + std::to_string(i) + "].diffuse", 0.8f, 0.8f, 0.8f);
+                modelShader.setVec3("pointLights[" + std::to_string(i) + "].specular", 1.0f, 1.0f, 1.0f);
+                modelShader.setFloat("pointLights[" + std::to_string(i) + "].constant", 1.0f);
+                modelShader.setFloat("pointLights[" + std::to_string(i) + "].linear", 0.3f);
+                modelShader.setFloat("pointLights[" + std::to_string(i) + "].quadratic", 0.15f);
+            }
+        }
+        else {
+            for (int i = 0; i < 85; i++) {
+                modelShader.setVec3("pointLights[" + std::to_string(i) + "].position", pointLightPositions[i]);
+                modelShader.setVec3("pointLights[" + std::to_string(i) + "].ambient", 0.05f, 0.05f, 0.05f);
+                modelShader.setVec3("pointLights[" + std::to_string(i) + "].diffuse", 0.8f, 0.8f, 0.8f);
+                modelShader.setVec3("pointLights[" + std::to_string(i) + "].specular", 1.0f, 1.0f, 1.0f);
+                modelShader.setFloat("pointLights[" + std::to_string(i) + "].constant", 1.0f);
+                modelShader.setFloat("pointLights[" + std::to_string(i) + "].linear", 9.3f);
+                modelShader.setFloat("pointLights[" + std::to_string(i) + "].quadratic", 9.15f);
+            }
         }
         
 
@@ -482,7 +494,7 @@ int main()
             modelShader.setFloat("spotLight.linear", 3.0);
             modelShader.setFloat("spotLight.quadratic", 9.02);
             modelShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(14.0f)));
-            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+            modelShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(100.0f)));
         }
         else {
             modelShader.setVec3("spotLight.position", camera.Position); // No es necesario si solo desactivas la luz
@@ -682,19 +694,18 @@ int main()
         // ----------------------EMILIO------------------------
            // DINOCOMCQUEEN
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.3f, 0.0f));
+        model = glm::translate(model, glm::vec3(0.0f, 0.3f, 3.0f));
 
         model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
         modelShader.setMat4("model", model);
         dinocomcqueen.Draw(modelShader);
 
-        // PRIMER BLOQUE EMILIO
-
+        // CORRECCIÓN PRIMER BLOQUE EMILIO
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(-35.0f, 0.0f, -42.0f));
+        model = glm::translate(model, glm::vec3(-38.0f, 0.0f, -38.0f));
         model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
         // Rotación 90 grados en el eje X (y) -> a la izquierda
-        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(112.5f), glm::vec3(0.0f, 1.0f, 0.0f));
         modelShader.setMat4("model", model);
         building02.Draw(modelShader);
 
@@ -1366,39 +1377,56 @@ bool colision(float x, float z) {
     }
 
 
+    
+
     if (z >= -12.17f && z <= -3.74f && x >= -35.48f && x <= -23.22f) {
         return false;
     }
     //cuadra 1
     if (x >= 35.11f && x <= 41.38f && z >= 37.19f && z <= 43.39f) {
-        colision = false;
+        return false;
     }
     if (x >= 23.10 && x <= 29.35 && z >= 37.19f && z <= 43.39f) {
-        colision = false;
+        return false;
     }
     if (x >= 35.11f && x <= 41.38f && z >= 25.23f && z <= 31.36f) {
-        colision = false;
+        return false;
     }
     if (x >= 23.19f && x <= 29.35 && z >= 25.17f && z <= 31.36f) {
-        colision = false;
+        return false;
     }
 
     //cuadra 2
     if (x >= 2.14f && x <= 10.88f && z >= 25.89f && z <= 31.87f) {
-        colision = false;
+        return false;
     }
-    if (x >= -7.26f && x <= -0.86f && z >= 25.89f && z <= 31.87f) {
-        colision = false;
+    if (x >= - 10.21f && x <= -3.69f && z >= 26.51f && z <= 32.44f) {
+        return false;
     }
 
     if (x >= -10.33f && x <= 14.15f && z >= 40.23f && z <= 45.92f) {
-        colision = false;
+        return false;
     }
     if (x >= 5.8612f && x <= 10.9836 && z >= 20.7951 && z <= 22.7744) {
-        colision = false;
+        return false;
     }
 
-    return colision;
+    //ALEJANDRO
+
+    if (x >= -50.00f && x <= -23.3836f && z >= 27.4583f && z <= 50.00f) {
+        return false;
+    }
+
+    //COLISION PARQUE
+    if (x >= -13.80f && x <= 13.9f && z >= -15.49f && z <= 12.47f) {
+        return false;
+    }
+
+    //COLISION EMILIO
+    if (z >= -45.00f && z <= -28.22f && x >= -45.00f && x <= -26.22f) {
+        return false;
+    }
+    //
 }
 
 // Funcion control de marchas
